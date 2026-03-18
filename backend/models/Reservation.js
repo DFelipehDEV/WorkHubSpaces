@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const reservationSchema = new mongoose.Schema({
+    reservedBy: mongoose.ObjectId,
     spaceId: mongoose.ObjectId,
     active: Boolean,
     startDate: Date,
