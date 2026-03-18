@@ -1,8 +1,10 @@
-const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
 
-const Space = new Schema({
+const spaceSchema = new mongoose.Schema({
     description: String,
     capacity: Number,
     pricePerHour: Number,
     images: [String]
-})
+});
+
+module.exports = mongoose.model('Space', spaceSchema);

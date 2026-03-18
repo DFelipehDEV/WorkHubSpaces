@@ -1,9 +1,17 @@
-const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
 
-const Reservation = new Schema({
-    spaceId: ObjectId,
+const reservationSchema = new mongoose.Schema({
+    spaceId: mongoose.ObjectId,
+    active: Boolean,
     startDate: Date,
     endDate: Date,
-    status: Number,
+    status: {
+        type: Number,
+        required: true,
+        enum: [0, 1, 2, 3] // 0 - Pendente, 1 - Cancelada, 2 - Confirmada, 3 - Concluida
+    },
     obs: String,
+    extraServices: [mongoose.ObjectId]
 });
+
+module.exports = mongoose.model('Reservation', reservationSchema);
