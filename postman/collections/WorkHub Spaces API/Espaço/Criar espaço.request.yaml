@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{BASEURL}}/spaces"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"description\": \"Espaço publico\",\r
+
+    \    \"capacity\": 120,\r
+
+    \    \"pricePerHour\": 5,\r
+
+    \    \"images\": null\r
+
+    }"
+order: 1000

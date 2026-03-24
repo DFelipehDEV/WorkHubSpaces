@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{BASEURL}}/users"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Diogo Monteiro\",\r
+
+    \    \"password\": \"diogo123456\",\r
+
+    \    \"email\": \"thediogopcm@gmail.com\",\r
+
+    \    \"contact\": \"+351 912647703\",\r
+
+    \    \"address\": \"Rua de Sendes 231\",\r
+
+    \    \"nif\": 2345676,\r
+
+    \    \"activity\": \"Desempregado\",\r
+
+    \    \"company\": \"Desempregados Company\"\r
+
+    }"
+order: 2000
