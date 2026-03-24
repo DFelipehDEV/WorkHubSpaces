@@ -1,8 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 exports.signIn = async (req, res) => {
     try {
-        await User.create({
+        const user = await User.create({
             role: "69aaab200457e0ba9d55fd1d",
             name: req.body.name,
             password: await bcrypt.hash(req.body.password, 8),
@@ -14,8 +15,9 @@ exports.signIn = async (req, res) => {
             company: req.body.company,
             suspended: false,
         });
-        //TODO: criar e returnar jwt
-        res.status(201).send("User created");
+
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        res.status(201).json({ message: "User created", token });
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -25,7 +27,7 @@ exports.login = async (req, res) => {
     try {
         const user = await User.findOne({
             email: req.body.email,
-        }).orFail().exec();
+        }).exec();
 
         if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
             return res.status(500).send("User doesn't exist or the passord or/and the email are wrong");
@@ -35,10 +37,12 @@ exports.login = async (req, res) => {
             return res.status(500).send("User is suspended");
         }
 
-        //TODO: enviar token jwt
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
         res.status(200).json({
             message: "Success",
             name: user.name,
+            token
         });
     } catch (err) {
         res.status(500).send(err.message);
