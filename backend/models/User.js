@@ -15,9 +15,18 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
-    contact: String,
-    address: String,
-    nif: Number,
+    contact: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
+    nif: {
+        type: String,
+        required: true,
+    },
     activity: String,
     company: String,
     suspended: Boolean,
