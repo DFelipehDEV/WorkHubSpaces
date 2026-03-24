@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const router = express();
+const app = express();
 const urlencodedParser = bodyParser.urlencoded();
 
 mongoose.connect(process.env.ATLAS_CONNECTION);
 
 const UserController = require('./controllers/UserController');
-router.get('/users/:id', UserController.getId);
+app.get('/users/:id', UserController.getId);
 
 const AuthController = require('./controllers/AuthController');
-router.post('/signin', urlencodedParser, AuthController.signIn);
-router.post('/login', urlencodedParser, AuthController.login);
+app.post('/signin', urlencodedParser, AuthController.signIn);
+app.post('/login', urlencodedParser, AuthController.login);
 
 const ReservationController = require('./controllers/ReservationController');
-router.get('/reservations/:id', ReservationController.getId);
-router.post('/reservations', urlencodedParser, ReservationController.create);
+app.get('/reservations/:id', ReservationController.getId);
+app.post('/reservations', urlencodedParser, ReservationController.create);
 
 const SpaceController = require("./controllers/SpaceController");
-router.post('/spaces', urlencodedParser, SpaceController.create);
+app.post('/spaces', urlencodedParser, SpaceController.create);
 
-router.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`)
+app.listen(process.env.PORT, () => {
+  console.log(`http://localhost:${process.env.PORT}`)
 });
