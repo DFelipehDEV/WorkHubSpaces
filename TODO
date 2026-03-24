@@ -1,0 +1,41 @@
+PUBLIC ROUTES:
+search space by name, capacity and by date intervals
+sort space by price, popularity, capacity and date
+
+list available extra services
+
+password reset (request & reset)
+
+CLIENT ROUTES:
+create reservation
+get own reservation history
+cancel own reservation
+
+ADMIN ROUTES:
+create new spaces (done, missing admin middleware)
+edit space info
+change space price
+change space capacity
+activate/deactivate spaces
+
+create extra service
+edit extra service info/price
+activate/deactivate/delete extra service
+
+list all registered users
+get client reservation history
+suspend users
+
+cancel reservations
+confirm/approve reservation
+change reservation date
+
+calendary
+
+OTHER:
+space type and equipment list to Space model
+notifications
+admin role
+admin middleware
+upload images to space (cdn)
+pagination
