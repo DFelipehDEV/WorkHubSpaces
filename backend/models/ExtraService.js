@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const extraServiceSchema = new Schema({
+const extraServiceSchema = new mongoose.Schema({
     // type: Number, // Impressoes/Coffee Break/Equipamento audiovisual/cacifo temporario
     name: String,
     description: String,
