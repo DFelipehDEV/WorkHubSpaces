@@ -20,7 +20,6 @@ create extra service
 edit extra service info/price
 activate/deactivate/delete extra service
 
-list all registered users
 get client reservation history
 suspend users
 
