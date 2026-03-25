@@ -11,7 +11,7 @@ body:
 
     \    \"pricePerHour\": 5,\r
 
-    \    \"images\": null\r
+    \    \"images\": []\r
 
     }"
 order: 1000

@@ -19,6 +19,7 @@ app.post('/reservations', express.json(), authMiddleware, ReservationController.
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
+app.put('/spaces/update/:id', express.json(), adminMiddleware, SpaceController.update);
 
 app.listen(process.env.PORT, () => {
     try {

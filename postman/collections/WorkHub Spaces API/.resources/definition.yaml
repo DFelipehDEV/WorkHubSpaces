@@ -1,3 +1,9 @@
 $kind: collection
 variables:
   BASEURL: ""
+auth:
+  - id: 361717a8-9fa6-48e0-a2f5-be4d54fbfad3
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YmE3ODM3NmU3N2IzZThiZWE3Y2JjMSIsInJvbGUiOiI2OWMzYjQ5YjZiMWY2YmFiN2U1ZTcxZTYiLCJpYXQiOjE3NzQ0MzM3OTQsImV4cCI6MTc3NDUyMDE5NH0.imxUENFDwd_dQIRhujkscxjN57w_wF98egdeNikOXFI
