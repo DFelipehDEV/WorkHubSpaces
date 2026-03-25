@@ -6,7 +6,7 @@ exports.getId = async (req, res) => {
 
 exports.create = async (req, res) => {
     res.send(await Reservation.create({
-        reservedBy: req.body.reservedBy,
+        reservedBy: req.user.id,
         spaceId: req.body.spaceId,
         active: req.body.active,
         startDate: req.body.startDate,
