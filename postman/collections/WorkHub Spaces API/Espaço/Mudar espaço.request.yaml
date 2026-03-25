@@ -1,4 +1,5 @@
 $kind: http-request
+name: Mudar espaço
 url: "{{BASEURL}}/spaces/update/:id"
 method: PUT
 pathVariables:
@@ -6,6 +7,8 @@ pathVariables:
 body:
   type: json
   content: "{\r
+
+    \    \"available\": false,\r
 
     \    \"description\": \"Espaço privado\",\r
 

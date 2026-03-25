@@ -12,7 +12,6 @@ get own reservation history
 cancel own reservation
 
 ADMIN ROUTES:
-edit space info
 change space price
 change space capacity
 activate/deactivate spaces

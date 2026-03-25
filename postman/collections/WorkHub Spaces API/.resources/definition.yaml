@@ -2,7 +2,7 @@ $kind: collection
 variables:
   BASEURL: ""
 auth:
-  - id: 361717a8-9fa6-48e0-a2f5-be4d54fbfad3
+  - id: 9ed52271-e416-4d7e-be88-18f8ba1b2c7c
     type: bearer
     name: bearer auth
     credentials:
