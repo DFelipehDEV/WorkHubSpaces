@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 exports.signIn = async (req, res) => {
     try {
         const user = await User.create({
-            role: "69aaab200457e0ba9d55fd1d",
+            role: process.env.DB_CLIENT_ROLE_ID,
             name: req.body.name,
             password: await bcrypt.hash(req.body.password, 8),
             email: req.body.email,

@@ -3,7 +3,8 @@ const express = require('express');
 
 const app = express();
 
-const authMiddleware = require('./middlewares/Auth');
+const authMiddleware = require('./middlewares/AuthMiddleware');
+const adminMiddleware = require('./middlewares/AdminMiddleware');
 
 const UserController = require('./controllers/UserController');
 app.get('/users/:id', authMiddleware, UserController.getId);
@@ -17,7 +18,7 @@ app.get('/reservations/:id', authMiddleware, ReservationController.getId);
 app.post('/reservations', express.json(), authMiddleware, ReservationController.create);
 
 const SpaceController = require("./controllers/SpaceController");
-app.post('/spaces', express.json(), authMiddleware, SpaceController.create);
+app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
 
 app.listen(process.env.PORT, () => {
     try {
