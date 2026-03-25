@@ -3,19 +3,19 @@ const express = require('express');
 
 const app = express();
 
-const authMiddleware = require('./middlewares/AuthMiddleware');
+const userMiddleware = require('./middlewares/UserMiddleware');
 const adminMiddleware = require('./middlewares/AdminMiddleware');
 
 const UserController = require('./controllers/UserController');
-app.get('/users/:id', authMiddleware, UserController.getId);
+app.get('/users/:id', userMiddleware, UserController.getId);
 
 const AuthController = require('./controllers/AuthController');
 app.post('/signin', express.json(), AuthController.signIn);
 app.post('/login', express.json(), AuthController.login);
 
 const ReservationController = require('./controllers/ReservationController');
-app.get('/reservations/:id', authMiddleware, ReservationController.getId);
-app.post('/reservations', express.json(), authMiddleware, ReservationController.create);
+app.get('/reservations/:id', userMiddleware, ReservationController.getId);
+app.post('/reservations', express.json(), userMiddleware, ReservationController.create);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
