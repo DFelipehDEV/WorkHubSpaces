@@ -19,7 +19,6 @@ app.get('/reservations/:id', userMiddleware, ReservationController.getId);
 app.post('/reservations', express.json(), userMiddleware, ReservationController.create);
 
 const SpaceController = require("./controllers/SpaceController");
-const AdminMiddleware = require('./middlewares/AdminMiddleware');
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
 app.put('/spaces/update/:id', express.json(), adminMiddleware, SpaceController.update);
 
