@@ -8,6 +8,7 @@ const adminMiddleware = require('./middlewares/AdminMiddleware');
 
 const UserController = require('./controllers/UserController');
 app.get('/users/:id', userMiddleware, UserController.getId);
+app.get('/users', adminMiddleware, UserController.getAll);
 
 const AuthController = require('./controllers/AuthController');
 app.post('/signin', express.json(), AuthController.signIn);
@@ -18,6 +19,7 @@ app.get('/reservations/:id', userMiddleware, ReservationController.getId);
 app.post('/reservations', express.json(), userMiddleware, ReservationController.create);
 
 const SpaceController = require("./controllers/SpaceController");
+const AdminMiddleware = require('./middlewares/AdminMiddleware');
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
 app.put('/spaces/update/:id', express.json(), adminMiddleware, SpaceController.update);
 

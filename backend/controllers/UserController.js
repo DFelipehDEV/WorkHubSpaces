@@ -5,3 +5,8 @@ exports.getId = async (req, res) => {
         password: false
     }).exec());
 };
+
+
+exports.getAll = async (req, res) => {
+    res.send(await User.find({}))
+} 
