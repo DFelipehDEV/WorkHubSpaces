@@ -23,6 +23,11 @@ const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
 app.put('/spaces/update/:id', express.json(), adminMiddleware, SpaceController.update);
 
+const ExtraServiceController = require("./controllers/ExtraServiceController");
+app.post('/extraservice', express.json(), adminMiddleware, ExtraServiceController.create);
+app.get('/extraservice/:id', adminMiddleware, ExtraServiceController.getId);
+app.put('/extraservice/update/:id', express.json(), adminMiddleware, ExtraServiceController.update);
+
 app.listen(process.env.PORT, () => {
     try {
         mongoose.connect(process.env.ATLAS_CONNECTION);
