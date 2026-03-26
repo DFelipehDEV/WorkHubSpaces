@@ -19,16 +19,17 @@ app.post('/reservations', express.json(), userMiddleware, ReservationController.
 app.get('/reservations/:id', userMiddleware, ReservationController.get);
 app.put('/reservations/:id', express.json(), adminMiddleware, ReservationController.update);
 app.delete('/reservations/:id', adminMiddleware, ReservationController.delete);
+app.get('/reservations', adminMiddleware, ReservationController.getAll);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
-app.get('/spaces/:id', adminMiddleware, SpaceController.get);
+app.get('/spaces/:id', userMiddleware, SpaceController.get);
 app.put('/spaces/:id', express.json(), adminMiddleware, SpaceController.update);
 app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
 
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservices', express.json(), adminMiddleware, ExtraServiceController.create);
-app.get('/extraservices/:id', adminMiddleware, ExtraServiceController.get);
+app.get('/extraservices/:id', userMiddleware, ExtraServiceController.get);
 app.put('/extraservices/:id', express.json(), adminMiddleware, ExtraServiceController.update);
 app.delete('/extraservices/:id', adminMiddleware, ExtraServiceController.delete);
 app.get('/extraservices', ExtraServiceController.getAll);

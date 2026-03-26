@@ -59,3 +59,7 @@ exports.delete = async (req, res) => {
 
     return res.status(200).send({ message: "Success" });
 }
+
+exports.getAll = async (req, res) => {
+    res.send(await Reservation.find({}));
+} 
