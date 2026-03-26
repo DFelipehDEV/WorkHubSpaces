@@ -63,3 +63,22 @@ exports.delete = async (req, res) => {
 exports.getAll = async (req, res) => {
     res.send(await Reservation.find({}));
 } 
+
+exports.cancel = async (req, res) => {
+    const reservation = await Reservation.findById(req.params.id).orFail(() => {
+        return res.status(404).send({ message: "Couldn't find reservation" });
+    });
+
+    if (reservation.orderedBy == req.user._id || req.user.role == process.env.DB_ADMIN_ROLE_ID) {
+        // console.log(reservation);
+        if (reservation.status == 1) {
+            return res.status(400).send({ message: "This reservation is already canceled"})
+        }
+        reservation.updateOne({
+            // status: Reservation.ReservationStatuses.Canceled,
+            status: 1,
+        }).exec();
+        return res.status(200).send({ message: "Reservation was cancelled sucessfuly"});
+    }
+    return res.status(400).send({ message: "This reservation doesn't belong to this user" });
+}

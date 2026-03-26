@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+exports.ReservationStatuses = {
+    Pending: 0,
+    Canceled: 1,
+    Confirmed: 2,
+    Finished: 3,
+}
+
 const reservationSchema = new mongoose.Schema({
     reservedBy: {
         type: mongoose.ObjectId,
