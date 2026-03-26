@@ -15,9 +15,10 @@ app.post('/signin', express.json(), AuthController.signIn);
 app.post('/login', express.json(), AuthController.login);
 
 const ReservationController = require('./controllers/ReservationController');
-app.get('/reservations/:id', userMiddleware, ReservationController.getId);
 app.post('/reservations', express.json(), userMiddleware, ReservationController.create);
+app.get('/reservations/:id', userMiddleware, ReservationController.get);
 app.put('/reservations/:id', express.json(), adminMiddleware, ReservationController.update);
+app.delete('/reservations/:id', adminMiddleware, ReservationController.delete);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
