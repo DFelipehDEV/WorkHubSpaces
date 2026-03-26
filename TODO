@@ -5,7 +5,6 @@ sort space by price, popularity, capacity and date
 password reset (request & reset)
 
 CLIENT ROUTES:
-create reservation
 get own reservation history
 cancel own reservation
 
