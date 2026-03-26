@@ -10,6 +10,7 @@ exports.create = async (req, res) => {
             endDate: req.body.endDate,
             status: req.body.status,
             obs: req.body.obs,
+            internalObs: "",
             extraServices: req.body.extraServices,
             cost: req.body.cost,
         });
@@ -29,6 +30,7 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
+        //TODO: make it so if the user is admin, he can change the internal obs
         const reservation = await Reservation.findById(req.params.id).orFail(() => {
             return res.status(404).send({ message: "Couldn't find reservation" });
         }).updateOne({
@@ -38,6 +40,7 @@ exports.update = async (req, res) => {
             endDate: req.body.endDate,
             status: req.body.status,
             obs: req.body.obs,
+            internalObs: "",
             extraServices: req.body.extraServices,
             cost: req.body.cost,
         });
