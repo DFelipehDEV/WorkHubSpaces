@@ -28,7 +28,7 @@ app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
 
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservice', express.json(), adminMiddleware, ExtraServiceController.create);
-app.get('/extraservice/:id', adminMiddleware, ExtraServiceController.getId);
+app.get('/extraservice/:id', adminMiddleware, ExtraServiceController.get);
 app.put('/extraservice/update/:id', express.json(), adminMiddleware, ExtraServiceController.update);
 
 app.listen(process.env.PORT, () => {

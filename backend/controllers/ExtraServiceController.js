@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
     }));
 }
 
-exports.getId = async (req, res) => {
+exports.get = async (req, res) => {
     res.send(await ExtraService.findById(req.params.id).select({
     }).exec());
 };
