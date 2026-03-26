@@ -1,12 +1,15 @@
 $kind: http-request
-name: Mudar espaço
-url: "{{BASEURL}}/spaces/update/:id"
+name: Update Space
+url: "{{BASEURL}}/spaces/:id"
 method: PUT
 pathVariables:
-  id: 69c3b61af0172e751125b4bf
+  - key: id
+    value: 69c3b61af0172e751125b4bf
 body:
   type: json
   content: "{\r
+
+    \    \"type\": \"Privado\",\r
 
     \    \"available\": false,\r
 
@@ -19,4 +22,4 @@ body:
     \    \"images\": []\r
 
     }"
-order: 2000
+order: 3000

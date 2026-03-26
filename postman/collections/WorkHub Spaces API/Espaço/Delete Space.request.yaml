@@ -1,0 +1,8 @@
+$kind: http-request
+name: Delete Space
+url: "{{BASEURL}}/spaces/:id"
+method: DELETE
+pathVariables:
+  - key: id
+    value: 69c3b61af0172e751125b4bf
+order: 2331

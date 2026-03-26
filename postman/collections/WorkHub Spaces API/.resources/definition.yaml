@@ -1,9 +1,8 @@
 $kind: collection
+name: WorkHub Spaces API
 variables:
   BASEURL: ""
 auth:
-  - id: 9ed52271-e416-4d7e-be88-18f8ba1b2c7c
-    type: bearer
-    name: bearer auth
-    credentials:
-      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YmE3ODM3NmU3N2IzZThiZWE3Y2JjMSIsInJvbGUiOiI2OWMzYjQ5YjZiMWY2YmFiN2U1ZTcxZTYiLCJpYXQiOjE3NzQ0MzM3OTQsImV4cCI6MTc3NDUyMDE5NH0.imxUENFDwd_dQIRhujkscxjN57w_wF98egdeNikOXFI
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YmE3ODM3NmU3N2IzZThiZWE3Y2JjMSIsInJvbGUiOiI2OWMzYjQ5YjZiMWY2YmFiN2U1ZTcxZTYiLCJpYXQiOjE3NzQ1MjI1NDUsImV4cCI6MTc3NDYwODk0NX0.SlhR6smlLjrce9o7dprYSmCamIhbsC9szKeID8qtTGU

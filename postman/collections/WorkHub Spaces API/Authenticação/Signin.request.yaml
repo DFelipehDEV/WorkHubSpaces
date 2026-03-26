@@ -1,4 +1,5 @@
 $kind: http-request
+name: Signin
 url: "{{BASEURL}}/users"
 method: POST
 body:
@@ -22,4 +23,4 @@ body:
     \    \"company\": \"Desempregados Company\"\r
 
     }"
-order: 2000
+order: 2608620893110692

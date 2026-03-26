@@ -1,9 +1,14 @@
 $kind: http-request
+name: Create Space
 url: "{{BASEURL}}/spaces"
 method: POST
 body:
   type: json
   content: "{\r
+
+    \    \"type\": \"Privado\",\r
+
+    \    \"available\": true,\r
 
     \    \"description\": \"Espaço publico\",\r
 

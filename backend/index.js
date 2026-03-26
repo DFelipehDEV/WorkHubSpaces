@@ -21,7 +21,9 @@ app.put('/reservations/:id', express.json(), adminMiddleware, ReservationControl
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
-app.put('/spaces/update/:id', express.json(), adminMiddleware, SpaceController.update);
+app.get('/spaces/:id', adminMiddleware, SpaceController.get);
+app.put('/spaces/:id', express.json(), adminMiddleware, SpaceController.update);
+app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
 
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservice', express.json(), adminMiddleware, ExtraServiceController.create);
