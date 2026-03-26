@@ -1,11 +1,26 @@
 const mongoose = require("mongoose");
 
 const reservationSchema = new mongoose.Schema({
-    reservedBy: mongoose.ObjectId,
-    spaceId: mongoose.ObjectId,
-    active: Boolean,
-    startDate: Date,
-    endDate: Date,
+    reservedBy: {
+        type: mongoose.ObjectId,
+        required: true,
+    },
+    spaceId: {
+        type: mongoose.ObjectId,
+        required: true,
+    },
+    active: {
+        type: Boolean,
+        required: true,
+    },
+    startDate: {
+        type: Date,
+        required: true,
+    },
+    endDate: {
+        type: Date,
+        required: true,
+    },
     status: {
         type: Number,
         required: true,
