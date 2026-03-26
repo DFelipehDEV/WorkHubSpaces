@@ -13,7 +13,8 @@ exports.create = async (req, res) => {
         endDate: req.body.endDate,
         status: req.body.status,
         obs: req.body.obs,
-        extraServices: req.body.extraServices
+        extraServices: req.body.extraServices,
+        cost: req.body.cost,
     }));
 }
 
@@ -26,6 +27,7 @@ exports.update = async (req, res) => {
         endDate: req.body.endDate,
         status: req.body.status,
         obs: req.body.obs,
-        extraServices: req.body.extraServices
+        extraServices: req.body.extraServices,
+        cost: req.body.cost,
     }));
 }
