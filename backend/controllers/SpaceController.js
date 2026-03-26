@@ -10,7 +10,7 @@ exports.create = async (req, res) => {
             images: req.body.images,
         });
 
-        return res.status(200).send({ "message": "Space created", "id": space._id });
+        return res.status(201).send({ "message": "Space created", "id": space._id });
     } catch (err) {
         return res.status(400).send({ "message": err.message});
     }

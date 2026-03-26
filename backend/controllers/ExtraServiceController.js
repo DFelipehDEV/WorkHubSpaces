@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
             available: req.body.available
         });
 
-        return res.status(200).send({ "message": "ExtraService created", "id": extraService._id });
+        return res.status(201).send({ "message": "ExtraService created", "id": extraService._id });
     } catch (err) {
         return res.status(400).send({ "message": err.message});
     }

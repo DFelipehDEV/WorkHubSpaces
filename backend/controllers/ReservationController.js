@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
             extraServices: req.body.extraServices,
             cost: req.body.cost,
         });
-        return res.status(200).send({ "message": "Reservation created", "id": reservation._id });
+        return res.status(201).send({ "message": "Reservation created", "id": reservation._id });
     } catch (err) {
         return res.status(400).send({ "message": err.message});
     }
