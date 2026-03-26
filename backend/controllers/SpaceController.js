@@ -20,12 +20,11 @@ exports.get = async (req, res) => {
     const space = await Space.findById(req.params.id).orFail(() => {
         return res.status(404).send({ message: "Couldn't find space" });
     });
-    
+
     return res.status(200).send(space);
 }
 
 exports.update = async (req, res) => {
-    //TODO: validate field types
     try {
         const space = await Space.findById(req.params.id).orFail(() => {
             return res.status(404).send({ message: "Couldn't find space" });
