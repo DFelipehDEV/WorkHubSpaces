@@ -16,7 +16,6 @@ change space price
 change space capacity
 activate/deactivate spaces
 
-create extra service
 edit extra service info/price
 activate/deactivate/delete extra service
 
@@ -30,7 +29,8 @@ change reservation date
 calendary
 
 OTHER:
-space type and equipment list to Space model
+equipment list to Space model
 notifications
 upload images to space (cdn)
 pagination
+space reviews and favorite spaces
