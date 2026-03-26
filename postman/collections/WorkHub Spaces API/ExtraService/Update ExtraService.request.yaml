@@ -1,0 +1,16 @@
+$kind: http-request
+name: Update ExtraService
+url: "{{BASEURL}}/extraservices/:id"
+method: PUT
+pathVariables:
+  id: 69c51999c7ca591bded85e3b
+body:
+  type: json
+  content: "{\r
+
+    \    \"price\": 22.1,\r
+
+    \    \"available\": true\r
+
+    }"
+order: 4491075218181965

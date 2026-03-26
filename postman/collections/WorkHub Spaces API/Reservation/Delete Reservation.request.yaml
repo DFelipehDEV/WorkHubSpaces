@@ -4,4 +4,4 @@ url: "{{BASEURL}}/reservations/:id"
 method: DELETE
 pathVariables:
   id: 69c3b61af0172e751125b4bf
-order: 390420723925905
+order: 4000

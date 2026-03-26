@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get All ExtraServices
+url: "{{BASEURL}}/extraservices"
+method: GET
+order: 4503588079525253

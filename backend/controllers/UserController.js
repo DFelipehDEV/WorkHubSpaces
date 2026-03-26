@@ -8,5 +8,5 @@ exports.getId = async (req, res) => {
 
 
 exports.getAll = async (req, res) => {
-    res.send(await User.find({}))
+    res.send(await User.find({}));
 } 

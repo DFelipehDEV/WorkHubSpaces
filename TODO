@@ -2,8 +2,6 @@ PUBLIC ROUTES:
 search space by name, capacity and by date intervals
 sort space by price, popularity, capacity and date
 
-list available extra services
-
 password reset (request & reset)
 
 CLIENT ROUTES:
@@ -16,7 +14,6 @@ change space price
 change space capacity
 activate/deactivate spaces
 
-edit extra service info/price
 activate/deactivate/delete extra service
 
 get client reservation history

@@ -4,4 +4,4 @@ url: "{{BASEURL}}/spaces/:id"
 method: GET
 pathVariables:
   id: 69c3b61af0172e751125b4bf
-order: 3000
+order: 1573
