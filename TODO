@@ -4,22 +4,11 @@ sort space by price, popularity, capacity and date
 
 password reset (request & reset)
 
-CLIENT ROUTES:
-get own reservation history
-
 ADMIN ROUTES:
-change space price
-change space capacity
-activate/deactivate spaces
-
-activate/deactivate/delete extra service
 
 get client reservation history
 suspend users
 
-cancel reservations
-confirm/approve reservation
-change reservation date
 
 calendary
 

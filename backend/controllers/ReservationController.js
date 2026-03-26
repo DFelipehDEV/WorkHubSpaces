@@ -61,7 +61,13 @@ exports.delete = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    res.send(await Reservation.find({}));
+    let reservations = null;
+    if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
+        reservations = await Reservation.find({ }).exec();
+    } else {
+        reservations = await Reservation.find({ reservedBy: req.user.id }).exec();
+    }
+    return res.status(200).send(reservations);
 } 
 
 exports.cancel = async (req, res) => {
@@ -69,7 +75,7 @@ exports.cancel = async (req, res) => {
         return res.status(404).send({ message: "Couldn't find reservation" });
     });
 
-    if (reservation.orderedBy == req.user._id || req.user.role == process.env.DB_ADMIN_ROLE_ID) {
+    if (reservation.reservedBy == req.user.id || req.user.role == process.env.DB_ADMIN_ROLE_ID) {
         // console.log(reservation);
         if (reservation.status == 1) {
             return res.status(400).send({ message: "This reservation is already canceled"})

@@ -1,20 +1,20 @@
 $kind: http-request
 name: Signin
-url: "{{BASEURL}}/users"
+url: "{{BASEURL}}/signin"
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"name\": \"Diogo Monteiro\",\r
+    \    \"name\": \"Diogo Não Admin\",\r
 
-    \    \"password\": \"diogo123456\",\r
+    \    \"password\": \"diogo\",\r
 
-    \    \"email\": \"thediogopcm@gmail.com\",\r
+    \    \"email\": \"diogo@gmail.com\",\r
 
     \    \"contact\": \"+351 912647703\",\r
 
-    \    \"address\": \"Rua de Sendes 231\",\r
+    \    \"address\": \"Rua de Sendes\",\r
 
     \    \"nif\": 2345676,\r
 

@@ -4,4 +4,4 @@ url: "{{BASEURL}}/reservations/:id/cancel"
 method: GET
 pathVariables:
   id: 69c2bef735e07f733477d4ab
-order: 2577
+order: 2000

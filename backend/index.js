@@ -19,7 +19,7 @@ app.post('/reservations', express.json(), userMiddleware, ReservationController.
 app.get('/reservations/:id', userMiddleware, ReservationController.get);
 app.put('/reservations/:id', express.json(), adminMiddleware, ReservationController.update);
 app.delete('/reservations/:id', adminMiddleware, ReservationController.delete);
-app.get('/reservations', adminMiddleware, ReservationController.getAll);
+app.get('/reservations', userMiddleware, ReservationController.getAll);
 
 app.get('/reservations/:id/cancel', userMiddleware, ReservationController.cancel);
 
