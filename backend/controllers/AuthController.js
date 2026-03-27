@@ -22,7 +22,7 @@ exports.signIn = async (req, res) => {
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.status(201).json({ message: "User created", token });
     } catch (err) {
-        res.status(500).send(err.message);
+        res.status(500).json({ message: err.message });
     }
 }
 
@@ -33,11 +33,11 @@ exports.login = async (req, res) => {
         }).exec();
 
         if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
-            return res.status(500).send("User doesn't exist or the passord or/and the email are wrong");
+            return res.status(401).json({ message: "User doesn't exist or the password or/and the email are wrong" });
         }
 
         if (user.suspended) {
-            return res.status(500).send("User is suspended");
+            return res.status(403).json({ message: "User is suspended" });
         }
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -47,7 +47,7 @@ exports.login = async (req, res) => {
             token
         });
     } catch (err) {
-        res.status(500).send(err.message);
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -55,7 +55,7 @@ exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({
         email: req.body.email,
     }).orFail(() => {
-        return res.status(500).send("User doesn't exist");
+        return res.status(404).json({ message: "User doesn't exist" });
     }).exec();
 
     const transport = Nodemailer.createTransport(
@@ -80,13 +80,11 @@ exports.forgotPassword = async (req, res) => {
         category: "Password Reset",
     });
 
-    res.status(200).send({ message: "Success" });
+    res.status(200).json({ message: "Success" });
 }
 
 exports.resetPassword = async (req, res) => {
-    const reqToken = req.params.token;
-    const token = reqToken.split(' ')[1];
-    console.log(reqToken);
+    const token = req.params.token;
     console.log(token);
 
     try {
@@ -94,12 +92,16 @@ exports.resetPassword = async (req, res) => {
         const user = await User.findOne({
             email: decoded.email,
         }).orFail(() => {
-            return res.status(500).send("User doesn't exist");
+            return res.status(404).json({ message: "User doesn't exist" });
         }).exec();
+        
         if (decoded.id == user._id) {
             user.password = await bcrypt.hash(req.body.password, 8);
+            await user.save();
+            return res.status(200).json({ message: "Password updated successfully" });
+        } else {
+            return res.status(401).json({ message: "Token is not valid for this user" });
         }
-        console.log(user);
     } catch (err) {
         res.status(401).json({ message: "Token is not valid" });
     }
