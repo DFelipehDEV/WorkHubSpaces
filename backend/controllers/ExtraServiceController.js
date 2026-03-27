@@ -9,24 +9,24 @@ exports.create = async (req, res) => {
             available: req.body.available
         });
 
-        return res.status(201).send({ "message": "ExtraService created", "id": extraService._id });
+        return res.status(201).json({ "message": "ExtraService created", "id": extraService._id });
     } catch (err) {
-        return res.status(400).send({ "message": err.message});
+        return res.status(400).json({ "message": err.message});
     }
 }
 
 exports.get = async (req, res) => {
     const extraService = await ExtraService.findById(req.params.id).orFail(() => {
-        return res.status(404).send({ message: "Couldn't find ExtraService" });
+        return res.status(404).json({ message: "Couldn't find ExtraService" });
     });
 
-    return res.status(200).send(extraService);
+    return res.status(200).json(extraService);
 };
 
 exports.update = async (req, res) => {
     try {
         const extraService = await ExtraService.findById(req.params.id).orFail(() => {
-            return res.status(404).send({ message: "Couldn't find extraService" });
+            return res.status(404).json({ message: "Couldn't find extraService" });
         }).updateOne({
             name: req.body.name,
             description: req.body.description,
@@ -34,25 +34,25 @@ exports.update = async (req, res) => {
             available: req.body.available
         });
 
-        return res.status(200).send({ message: "Success" });
+        return res.status(200).json({ message: "Success" });
     } catch (err) {
-        return res.status(400).send({ message: err.message });
+        return res.status(400).json({ message: err.message });
     }
 }
 
 exports.delete = async (req, res) => {
     const extraService = await ExtraService.findByIdAndDelete(req.params.id);
     if (!extraService) {
-        return res.status(404).send({ message: "ExtraService doesn't exist" });
+        return res.status(404).json({ message: "ExtraService doesn't exist" });
     }
 
-    return res.status(200).send({ message: "Success" });
+    return res.status(200).json({ message: "Success" });
 }
 
 exports.getAll = async (req, res) => {
     const extraServices = await ExtraService.find({}).orFail(() => {
-        return res.status(404).send({ message: "Couldn't find ExtraServices" });
+        return res.status(404).json({ message: "Couldn't find ExtraServices" });
     });
 
-    return res.status(200).send(extraServices);
+    return res.status(200).json(extraServices);
 };
