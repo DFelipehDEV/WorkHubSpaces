@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Nodemailer = require("nodemailer");
+const { MailtrapTransport } = require("mailtrap");
+
 exports.signIn = async (req, res) => {
     try {
         const user = await User.create({
@@ -47,3 +50,57 @@ exports.login = async (req, res) => {
         res.status(500).send(err.message);
     }
 };
+
+exports.forgotPassword = async (req, res) => {
+    const user = await User.findOne({
+        email: req.body.email,
+    }).orFail(() => {
+        return res.status(500).send("User doesn't exist");
+    }).exec();
+
+    const transport = Nodemailer.createTransport(
+        MailtrapTransport({
+            token: process.env.MAILTRAP_TOKEN,
+        })
+    );
+
+    const sender = {
+        address: "workhubspaces@demomailtrap.co",
+        name: "WorkHub Spaces",
+    };
+
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+    transport.sendMail({
+        from: sender,
+        to: user.email,
+        subject: "Password Reset",
+        text: `Olá ${user.name}, foi pedido para repor a palavra-passe para o email ${user.email}. Clique no link abaixo para repor a palavra-passe.
+        localhost:3000/reset/${token}`,
+        category: "Password Reset",
+    });
+
+    res.status(200).send({ message: "Success" });
+}
+
+exports.resetPassword = async (req, res) => {
+    const reqToken = req.params.token;
+    const token = reqToken.split(' ')[1];
+    console.log(reqToken);
+    console.log(token);
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findOne({
+            email: decoded.email,
+        }).orFail(() => {
+            return res.status(500).send("User doesn't exist");
+        }).exec();
+        if (decoded.id == user._id) {
+            user.password = await bcrypt.hash(req.body.password, 8);
+        }
+        console.log(user);
+    } catch (err) {
+        res.status(401).json({ message: "Token is not valid" });
+    }
+}
