@@ -58,29 +58,33 @@ exports.forgotPassword = async (req, res) => {
         return res.status(404).json({ message: "User doesn't exist" });
     }).exec();
 
-    const transport = Nodemailer.createTransport(
-        MailtrapTransport({
-            token: process.env.MAILTRAP_TOKEN,
-        })
-    );
+    try {
+        const transport = Nodemailer.createTransport(
+            MailtrapTransport({
+                token: process.env.MAILTRAP_TOKEN,
+            })
+        );
 
-    const sender = {
-        address: "workhubspaces@demomailtrap.co",
-        name: "WorkHub Spaces",
-    };
+        const sender = {
+            address: "workhubspaces@demomailtrap.co",
+            name: "WorkHub Spaces",
+        };
 
-    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-    transport.sendMail({
-        from: sender,
-        to: user.email,
-        subject: "Password Reset",
-        text: `Olá ${user.name}, foi pedido para repor a palavra-passe para o email ${user.email}. Clique no link abaixo para repor a palavra-passe.
+        transport.sendMail({
+            from: sender,
+            to: user.email,
+            subject: "Password Reset",
+            text: `Olá ${user.name}, foi pedido para repor a palavra-passe para o email ${user.email}. Clique no link abaixo para repor a palavra-passe.
         localhost:3000/reset/${token}`,
-        category: "Password Reset",
-    });
+            category: "Password Reset",
+        });
 
-    res.status(200).json({ message: "Success" });
+        res.status(200).json({ message: "Success" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 }
 
 exports.resetPassword = async (req, res) => {
@@ -94,7 +98,7 @@ exports.resetPassword = async (req, res) => {
         }).orFail(() => {
             return res.status(404).json({ message: "User doesn't exist" });
         }).exec();
-        
+
         if (decoded.id == user._id) {
             user.password = await bcrypt.hash(req.body.password, 8);
             await user.save();
