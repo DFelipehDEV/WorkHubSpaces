@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
 
-exports.ReservationStatuses = {
-    Pending: 0,
-    Canceled: 1,
-    Confirmed: 2,
-    Finished: 3,
-}
-
 const reservationSchema = new mongoose.Schema({
     reservedBy: {
         type: mongoose.ObjectId,
@@ -39,4 +32,13 @@ const reservationSchema = new mongoose.Schema({
     cost: Number, // later used for reservation history, because the cost could change later
 });
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+const Reservation = mongoose.model('Reservation', reservationSchema);
+
+Reservation.ReservationStatuses = {
+    Pending: 0,
+    Canceled: 1,
+    Confirmed: 2,
+    Finished: 3,
+};
+
+module.exports = Reservation;

@@ -77,12 +77,11 @@ exports.cancel = async (req, res) => {
 
     if (reservation.reservedBy == req.user.id || req.user.role == process.env.DB_ADMIN_ROLE_ID) {
         // console.log(reservation);
-        if (reservation.status == 1) {
+        if (reservation.status == Reservation.ReservationStatuses.Canceled) {
             return res.status(400).json({ message: "This reservation is already canceled"})
         }
         reservation.updateOne({
-            // status: Reservation.ReservationStatuses.Canceled,
-            status: 1,
+            status: Reservation.ReservationStatuses.Canceled,
         }).exec();
         return res.status(200).json({ message: "Reservation was cancelled sucessfuly"});
     }
