@@ -23,7 +23,7 @@ app.put('/reservations/:id', express.json(), adminMiddleware, ReservationControl
 app.delete('/reservations/:id', adminMiddleware, ReservationController.delete);
 app.get('/reservations', userMiddleware, ReservationController.getAll);
 
-app.get('/reservations/:id/cancel', userMiddleware, ReservationController.cancel);
+app.post('/reservations/:id/cancel', userMiddleware, ReservationController.cancel);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
