@@ -58,3 +58,7 @@ exports.delete = async (req, res) => {
         return res.status(400).json({ message: err.message });
     }
 }
+
+exports.getAll = async (req, res) => {
+    res.json(await Space.find({}));
+} 

@@ -30,6 +30,7 @@ app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
 app.get('/spaces/:id', userMiddleware, SpaceController.get);
 app.put('/spaces/:id', express.json(), adminMiddleware, SpaceController.update);
 app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
+app.get('/spaces', userMiddleware, SpaceController.getAll);
 
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservices', express.json(), adminMiddleware, ExtraServiceController.create);
