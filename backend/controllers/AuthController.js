@@ -103,6 +103,6 @@ exports.resetPassword = async (req, res) => {
             return res.status(401).json({ message: "Token is not valid for this user" });
         }
     } catch (err) {
-        res.status(401).json({ message: "Token is not valid" });
+        res.status(401).json({ message: err.message });
     }
 }

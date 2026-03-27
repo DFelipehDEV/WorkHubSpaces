@@ -25,7 +25,7 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const extraService = await ExtraService.findById(req.params.id).orFail(() => {
+        await ExtraService.findById(req.params.id).orFail(() => {
             return res.status(404).json({ message: "Couldn't find extraService" });
         }).updateOne({
             name: req.body.name,

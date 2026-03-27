@@ -26,7 +26,7 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const space = await Space.findById(req.params.id).orFail(() => {
+        await Space.findById(req.params.id).orFail(() => {
             return res.status(404).json({ message: "Couldn't find space" });
         }).updateOne({
             type: req.body.type,

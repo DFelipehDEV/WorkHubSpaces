@@ -31,7 +31,7 @@ exports.get = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         //TODO: make it so if the user is admin, he can change the internal obs
-        const reservation = await Reservation.findById(req.params.id).orFail(() => {
+        await Reservation.findById(req.params.id).orFail(() => {
             return res.status(404).json({ message: "Couldn't find reservation" });
         }).updateOne({
             spaceId: req.body.spaceId,
@@ -61,7 +61,7 @@ exports.delete = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    let reservations = null;
+    let reservations;
     if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
         reservations = await Reservation.find({ }).exec();
     } else {
