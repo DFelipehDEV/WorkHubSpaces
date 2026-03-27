@@ -1,7 +1,0 @@
-$kind: http-request
-name: Delete ExtraService
-url: "{{BASEURL}}/extraservices/:id"
-method: DELETE
-pathVariables:
-  id: 69c51999c7ca591bded85e3b
-order: 1774526791345
