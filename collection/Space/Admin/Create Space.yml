@@ -1,0 +1,38 @@
+info:
+  name: Create Space
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{BASEURL}}/spaces"
+  body:
+    type: json
+    data: "{\r
+
+      \    \"type\": \"Privado\",\r
+
+      \    \"available\": true,\r
+
+      \    \"description\": \"Espaço publico\",\r
+
+      \    \"capacity\": 120,\r
+
+      \    \"pricePerHour\": 5,\r
+
+      \    \"images\": []\r
+
+      }"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

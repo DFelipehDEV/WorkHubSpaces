@@ -1,0 +1,42 @@
+info:
+  name: Update Space
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{BASEURL}}/spaces/:id"
+  params:
+    - name: id
+      value: 69c3b61af0172e751125b4bf
+      type: path
+  body:
+    type: json
+    data: "{\r
+
+      \    \"type\": \"Privado\",\r
+
+      \    \"available\": false,\r
+
+      \    \"description\": \"Espaço privado\",\r
+
+      \    \"capacity\": 2,\r
+
+      \    \"pricePerHour\": 5,\r
+
+      \    \"images\": []\r
+
+      }"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

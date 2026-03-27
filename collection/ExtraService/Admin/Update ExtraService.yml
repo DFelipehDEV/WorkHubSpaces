@@ -1,0 +1,34 @@
+info:
+  name: Update ExtraService
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{BASEURL}}/extraservices/:id"
+  params:
+    - name: id
+      value: 69c51999c7ca591bded85e3b
+      type: path
+  body:
+    type: json
+    data: "{\r
+
+      \    \"price\": 22.1,\r
+
+      \    \"available\": true\r
+
+      }"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

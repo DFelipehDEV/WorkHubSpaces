@@ -1,0 +1,48 @@
+info:
+  name: Update Reservation
+  type: http
+  seq: 1
+
+http:
+  method: PUT
+  url: "{{BASEURL}}/reservations/:id"
+  params:
+    - name: id
+      value: 69c2bef735e07f733477d4ab
+      type: path
+  body:
+    type: json
+    data: "{\r
+
+      \    \"reservedBy\": \"69ba78376e77b3e8bea7cbc1\",\r
+
+      \    \"spaceId\": \"69b2d3dc3ea89a511eb64a80\",\r
+
+      \    \"active\": true,\r
+
+      \    \"startDate\": \"2025-12-09\",\r
+
+      \    \"endDate\": \"2025-12-25\",\r
+
+      \    \"status\": 0,\r
+
+      \    \"obs\": \"\",\r
+
+      \    \"extraServices\": [],\r
+
+      \    \"cost\": 2\r
+
+      }"
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

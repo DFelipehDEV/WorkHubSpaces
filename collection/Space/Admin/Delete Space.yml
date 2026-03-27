@@ -1,0 +1,25 @@
+info:
+  name: Delete Space
+  type: http
+  seq: 3
+
+http:
+  method: DELETE
+  url: "{{BASEURL}}/spaces/:id"
+  params:
+    - name: id
+      value: 69c3b61af0172e751125b4bf
+      type: path
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

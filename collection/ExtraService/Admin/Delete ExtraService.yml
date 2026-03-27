@@ -1,0 +1,25 @@
+info:
+  name: Delete ExtraService
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: "{{BASEURL}}/extraservices/:id"
+  params:
+    - name: id
+      value: 69c51999c7ca591bded85e3b
+      type: path
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

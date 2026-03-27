@@ -1,0 +1,25 @@
+info:
+  name: Delete Reservation
+  type: http
+  seq: 2
+
+http:
+  method: DELETE
+  url: "{{BASEURL}}/reservations/:id"
+  params:
+    - name: id
+      value: 69c3b61af0172e751125b4bf
+      type: path
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

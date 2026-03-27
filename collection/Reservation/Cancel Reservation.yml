@@ -1,0 +1,25 @@
+info:
+  name: Cancel Reservation
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{BASEURL}}/reservations/:id/cancel"
+  params:
+    - name: id
+      value: 69c2bef735e07f733477d4ab
+      type: path
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
