@@ -70,14 +70,20 @@ exports.forgotPassword = async (req, res) => {
             name: "WorkHub Spaces",
         };
 
-        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10m' });
 
         transport.sendMail({
             from: sender,
             to: user.email,
             subject: "Password Reset",
-            text: `Olá ${user.name}, foi pedido para repor a palavra-passe para o email ${user.email}. Clique no link abaixo para repor a palavra-passe.
-        localhost:3000/reset/${token}`,
+            text: 
+            `
+            Olá ${user.name}, 
+            foi pedido para repor a palavra-passe para o email ${user.email}. 
+            Clique no link para repor a palavra-passe. 
+            ${process.env.BASE_URL}:${process.env.PORT}/reset/${token} 
+            Após 10 minutos, o link deixara de ser valido.
+            `,
             category: "Password Reset",
         });
 

@@ -45,5 +45,5 @@ app.listen(process.env.PORT, () => {
     } catch (ex) {
         console.log(ex.message);
     }
-    console.log(`http://localhost:${process.env.PORT}`);
+    console.log(`${process.env.BASE_URL}:${process.env.PORT}`);
 });
