@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const spaceSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     type: {
         type: String,
         required: true,
@@ -16,6 +20,7 @@ const spaceSchema = new mongoose.Schema({
     },
     pricePerHour: Number,
     images: [String],
+    favoritedBy: [mongoose.ObjectId],
     // reviews
 });
 
