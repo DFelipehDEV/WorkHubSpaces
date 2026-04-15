@@ -1,4 +1,5 @@
 const Reservation = require('../models/Reservation');
+const Notification = require('../models/Notification');
 
 exports.create = async (req, res) => {
     try {
@@ -34,20 +35,31 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        //TODO: make it so if the user is admin, he can change the internal obs
-        await Reservation.findById(req.params.id).orFail(() => {
+        const reservation = await Reservation.findById(req.params.id).orFail(() => {
             return res.status(404).json({ message: "Couldn't find reservation" });
-        }).updateOne({
+        });
+        const oldStatus = reservation.status;
+        reservation.updateOne({
             spaceId: req.body.spaceId,
             active: req.body.active,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
             status: req.body.status,
             obs: req.body.obs,
-            internalObs: "",
+            internalObs: req.body.internalObs,
             extraServices: req.body.extraServices,
             cost: req.body.cost,
         });
+
+        if (req.body.status && oldStatus != req.body.status) {
+            await Notification.create({
+                to: reservation.reservedBy,
+                level: Notification.NotificationLevels.Info,
+                message: `Estado da reserva ${reservation.id} foi alterada`,
+                //TODO: use frontend url
+                link: `${process.env.BASE_URL}/reservations/${reservation.id}`
+            });
+        }
 
         return res.status(200).json({ message: "Success" });
     } catch (err) {
