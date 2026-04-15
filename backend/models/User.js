@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    role: mongoose.ObjectId,
+    role: {
+        type: mongoose.ObjectId,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -29,7 +32,10 @@ const userSchema = new mongoose.Schema({
     },
     activity: String,
     company: String,
-    suspended: Boolean,
+    suspended: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 module.exports = mongoose.model('User', userSchema);
