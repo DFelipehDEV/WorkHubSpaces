@@ -5,10 +5,9 @@ sort space by price, popularity, capacity and date
 ADMIN ROUTES:
 get client reservation history
 
-calendary
+calendary(Frontend?)
 
 OTHER:
 equipment list to Space model
-notifications
 upload images to space (cdn)
 space reviews and favorite spaces

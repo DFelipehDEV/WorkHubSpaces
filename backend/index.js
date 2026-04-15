@@ -8,6 +8,8 @@ const adminMiddleware = require('./middlewares/AdminMiddleware');
 
 const UserController = require('./controllers/UserController');
 app.get('/users/:id', userMiddleware, UserController.getId);
+app.put('/users/:id', express.json(), userMiddleware, UserController.update);
+app.delete('/users/:id', adminMiddleware, UserController.delete);
 app.get('/users', adminMiddleware, UserController.getAll);
 
 const AuthController = require('./controllers/AuthController');

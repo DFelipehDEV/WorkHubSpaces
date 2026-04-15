@@ -1,0 +1,32 @@
+info:
+  name: Update User
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{BASEURL}}/users/:id"
+  params:
+    - name: id
+      value: 69c68594ffcf478af71c4a4d
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": "New Name",
+          "suspended": true
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
