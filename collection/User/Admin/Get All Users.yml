@@ -6,6 +6,15 @@ info:
 http:
   method: GET
   url: "{{BASEURL}}/users"
+  params:
+    - name: page
+      value: "1"
+      type: query
+      disabled: true
+    - name: limit
+      value: "4"
+      type: query
+      disabled: true
   auth: inherit
 
 runtime:

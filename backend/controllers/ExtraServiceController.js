@@ -57,10 +57,21 @@ exports.delete = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
+    const page = req.query.page;
+    const limit = req.query.limit;
+    let extraServices;
     try {
-        const extraServices = await ExtraService.find({}).orFail(() => {
-            return res.status(404).json({ message: "Couldn't find ExtraServices" });
-        });
+        if (page > 0 && limit > 0) {
+            extraServices = await ExtraService.find({}).orFail(() => {
+                return res.status(404).json({ message: "Couldn't find ExtraServices" });
+            })
+            .limit(limit)
+            .skip((page - 1) * limit);
+        } else {
+            extraServices = await ExtraService.find({}).orFail(() => {
+                return res.status(404).json({ message: "Couldn't find ExtraServices" });
+            });
+        }
 
         return res.status(200).json(extraServices);
     } catch (err) {

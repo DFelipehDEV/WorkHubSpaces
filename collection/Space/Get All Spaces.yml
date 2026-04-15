@@ -6,6 +6,15 @@ info:
 http:
   method: GET
   url: "{{BASEURL}}/spaces"
+  params:
+    - name: page
+      value: "1"
+      type: query
+      disabled: true
+    - name: limit
+      value: "5"
+      type: query
+      disabled: true
   auth: inherit
 
 settings:

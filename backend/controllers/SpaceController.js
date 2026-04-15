@@ -60,5 +60,22 @@ exports.delete = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    res.json(await Space.find({}));
+    const page = req.query.page;
+    const limit = req.query.limit;
+    try {
+        if (page > 0 && limit > 0) {
+            return res.status(200).json(
+                await Space.find({})
+                .limit(limit)
+                .skip((page - 1) * limit)
+                .exec()
+            );
+        }
+        
+        return res.status(200).json(
+            await Space.find({})
+        );
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
 } 

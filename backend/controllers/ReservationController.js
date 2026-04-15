@@ -68,13 +68,34 @@ exports.delete = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    let reservations;
-    if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
-        reservations = await Reservation.find({}).exec();
-    } else {
-        reservations = await Reservation.find({ reservedBy: req.user.id }).exec();
+    const page = req.query.page;
+    const limit = req.query.limit;
+    try {
+        let reservations;
+        if (page > 0 && limit > 0) {
+            if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
+                reservations = await Reservation.find({})
+                                .limit(limit)
+                                .skip((page - 1) * limit)
+                                .exec();
+            } else {
+                reservations = await Reservation.find({ reservedBy: req.user.id })
+                                .limit(limit)
+                                .skip((page - 1) * limit)
+                                .exec();
+            }
+        } else {
+            if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
+                reservations = await Reservation.find({});
+            } else {
+                reservations = await Reservation.find({ reservedBy: req.user.id });
+            }
+        }
+
+        return res.status(200).json(reservations);
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
     }
-    return res.status(200).json(reservations);
 }
 
 exports.cancel = async (req, res) => {
