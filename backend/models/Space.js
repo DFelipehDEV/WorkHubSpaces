@@ -16,7 +16,10 @@ const spaceSchema = new mongoose.Schema({
     },
     pricePerHour: Number,
     images: [String],
-    // reviews
+    favoritedBy: {
+        type: [mongoose.ObjectId],
+        default: null
+    }
 });
 
 module.exports = mongoose.model('Space', spaceSchema);
