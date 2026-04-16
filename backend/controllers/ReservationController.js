@@ -39,17 +39,7 @@ exports.update = async (req, res) => {
             return res.status(404).json({ message: "Couldn't find reservation" });
         });
         const oldStatus = reservation.status;
-        reservation.updateOne({
-            spaceId: req.body.spaceId,
-            active: req.body.active,
-            startDate: req.body.startDate,
-            endDate: req.body.endDate,
-            status: req.body.status,
-            obs: req.body.obs,
-            internalObs: req.body.internalObs,
-            extraServices: req.body.extraServices,
-            cost: req.body.cost,
-        });
+        reservation.updateOne(req.body);
 
         if (req.body.status && oldStatus != req.body.status) {
             await Notification.create({

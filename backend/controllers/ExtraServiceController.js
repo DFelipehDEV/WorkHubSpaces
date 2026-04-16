@@ -2,12 +2,7 @@ const ExtraService = require('../models/ExtraService');
 
 exports.create = async (req, res) => {
     try {
-        const extraService = await ExtraService.create({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            available: req.body.available
-        });
+        const extraService = await ExtraService.create(req.body);
 
         return res.status(201).json({ "message": "ExtraService created", "id": extraService._id });
     } catch (err) {
@@ -29,13 +24,8 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        await ExtraService.findById(req.params.id).orFail(() => {
+        await ExtraService.findByIdAndUpdate(req.params.id, req.body).orFail(() => {
             return res.status(404).json({ message: "Couldn't find extraService" });
-        }).updateOne({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            available: req.body.available
         });
 
         return res.status(200).json({ message: "Success" });

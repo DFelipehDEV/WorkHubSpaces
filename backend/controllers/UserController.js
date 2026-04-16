@@ -51,16 +51,8 @@ exports.update = async (req, res) => {
             return res.status(403).json({ message: "Only admins can suspend users" });
         }
 
-        await User.findById(req.params.id).orFail(() => {
+        await User.findByIdAndUpdate(req.params.id, req.body).orFail(() => {
             return res.status(404).json({ message: "Couldn't find user" });
-        }).updateOne({
-            name: req.body.name,
-            contact: req.body.contact,
-            address: req.body.address,
-            nif: req.body.nif,
-            activity: req.body.activity,
-            company: req.body.company,
-            suspended: req.body.suspended
         });
 
         return res.status(200).json({ message: "Success" });

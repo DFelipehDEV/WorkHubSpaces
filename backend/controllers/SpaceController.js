@@ -1,14 +1,7 @@
 const Space = require('../models/Space');
 exports.create = async (req, res) => {
     try {
-        const space = await Space.create({
-            type: req.body.type,
-            available: req.body.available,
-            description: req.body.description,
-            capacity: req.body.capacity,
-            pricePerHour: req.body.pricePerHour,
-            images: req.body.images,
-        });
+        const space = await Space.create(req.body);
 
         return res.status(201).json({ "message": "Space created", "id": space._id });
     } catch (err) {
@@ -30,15 +23,8 @@ exports.get = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        await Space.findById(req.params.id).orFail(() => {
+        await Space.findByIdAndUpdate(req.params.id, req.body).orFail(() => {
             return res.status(404).json({ message: "Couldn't find space" });
-        }).updateOne({
-            type: req.body.type,
-            available: req.body.available,
-            description: req.body.description,
-            capacity: req.body.capacity,
-            pricePerHour: req.body.pricePerHour,
-            images: req.body.images,
         });
 
         return res.status(200).json({ message: "Success" });
