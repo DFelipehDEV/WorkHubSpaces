@@ -36,7 +36,7 @@ const Reservation = mongoose.model('Reservation', reservationSchema);
 
 Reservation.ReservationStatuses = {
     Pending: 0,
-    Canceled: 1,
+    Cancelled: 1,
     Confirmed: 2,
     Finished: 3,
 };
