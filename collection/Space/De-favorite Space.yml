@@ -1,0 +1,19 @@
+info:
+  name: De-favorite Space
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{BASEURL}}/spaces/:id/defavorite"
+  params:
+    - name: id
+      value: 69e0e5107199a8a6140d219e
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

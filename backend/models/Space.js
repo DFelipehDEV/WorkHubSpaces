@@ -18,7 +18,6 @@ const spaceSchema = new mongoose.Schema({
     images: [String],
     favoritedBy: {
         type: [mongoose.ObjectId],
-        default: null
     }
 });
 

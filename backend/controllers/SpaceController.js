@@ -65,3 +65,34 @@ exports.getAll = async (req, res) => {
         return res.status(400).json({ message: err.message });
     }
 } 
+
+exports.favorite = async (req, res) => {
+    try {
+        const space = await Space.findById(req.params.id);
+        if (space.favoritedBy.includes(req.user.id))
+            return res.status(400).json({ message: "This user already favorited this space" });
+        space.favoritedBy.push(req.user.id);
+        space.save();
+        return res.status(200).json({ message: "Success" });
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+}
+
+exports.deFavorite = async (req, res) => {
+    try {
+        const space = await Space.findById(req.params.id);
+        if (!space.favoritedBy.includes(req.user.id))
+            return res.status(400).json({ message: "This user didn't favorite this space" });
+        
+        var index = space.favoritedBy.indexOf(req.user.id);
+        if (index !== -1) {
+            space.favoritedBy.splice(index, 1);
+        }
+
+        space.save();
+        return res.status(200).json({ message: "Success" });
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+}
