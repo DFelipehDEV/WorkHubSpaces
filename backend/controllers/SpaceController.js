@@ -147,3 +147,20 @@ exports.deFavorite = async (req, res) => {
         return res.status(400).json({ message: err.message });
     }
 }
+
+exports.addReview = async (req, res) => {
+    try {
+        const space = await Space.findById(req.params.id).orFail(() => {
+            return res.status(404).json({ message: "Couldn't find space" });
+        });
+        space.reviews.push({
+            user: req.user.id,
+            review: req.body.review,
+            rating: req.body.rating
+        });
+        await space.save();
+        return res.status(200).json({ message: "Success" });
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+}

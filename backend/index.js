@@ -35,6 +35,7 @@ app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
 app.get('/spaces', SpaceController.getAll);
 app.get('/spaces/:id/favorite', userMiddleware, SpaceController.favorite)
 app.get('/spaces/:id/defavorite', userMiddleware, SpaceController.deFavorite)
+app.post('/spaces/:id/review', express.json(), userMiddleware, SpaceController.addReview);
 
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservices', express.json(), adminMiddleware, ExtraServiceController.create);

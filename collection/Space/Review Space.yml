@@ -1,0 +1,26 @@
+info:
+  name: Review Space
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{BASEURL}}/spaces/:id/review"
+  params:
+    - name: id
+      value: 69e1fbce9a651f24b8178975
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "review": "Amei",
+        "rating": 9.5
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
