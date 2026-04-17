@@ -56,7 +56,8 @@ exports.getAll = async (req, res) => {
                 return res.status(404).json({ message: "Couldn't find ExtraServices" });
             })
             .limit(limit)
-            .skip((page - 1) * limit);
+            .skip((page - 1) * limit)
+            .exec();
         } else {
             extraServices = await ExtraService.find({}).orFail(() => {
                 return res.status(404).json({ message: "Couldn't find ExtraServices" });
