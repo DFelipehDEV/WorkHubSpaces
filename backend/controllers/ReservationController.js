@@ -117,3 +117,13 @@ exports.cancel = async (req, res) => {
     }
     return res.status(400).json({ message: "This reservation doesn't belong to this user" });
 }
+
+exports.getConfirmedDates = async (req, res) => {
+    try {
+        const reservations = await Reservation.find({ status: Reservation.ReservationStatuses.Confirmed }).select({ startDate: true, endDate: true}).exec();
+
+        return res.status(200).json(reservations)
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+}

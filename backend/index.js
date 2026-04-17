@@ -24,8 +24,8 @@ app.get('/reservations/:id', userMiddleware, ReservationController.get);
 app.put('/reservations/:id', express.json(), adminMiddleware, ReservationController.update);
 app.delete('/reservations/:id', adminMiddleware, ReservationController.delete);
 app.get('/reservations', userMiddleware, ReservationController.getAll);
-
 app.post('/reservations/:id/cancel', userMiddleware, ReservationController.cancel);
+app.get('/confirmed-dates', userMiddleware, ReservationController.getConfirmedDates);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);

@@ -5,8 +5,6 @@ sort space by date
 ADMIN ROUTES:
 get client reservation history
 
-calendary(Frontend?)
-
 OTHER:
 equipment list to Space model
 upload images to space (cdn)
