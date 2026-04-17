@@ -8,21 +8,16 @@ http:
   url: "{{BASEURL}}/spaces"
   body:
     type: json
-    data: "{\r
-
-      \    \"type\": \"Privado\",\r
-
-      \    \"available\": true,\r
-
-      \    \"description\": \"Espaço publico\",\r
-
-      \    \"capacity\": 120,\r
-
-      \    \"pricePerHour\": 5,\r
-
-      \    \"images\": []\r
-
-      }"
+    data: |-
+      {
+          "name": "Espaço Lunar",
+          "type": "Lunatico",
+          "available": true,
+          "description": "",
+          "capacity": 120,
+          "pricePerHour": 40,
+          "images": []
+      }
   auth: inherit
 
 runtime:

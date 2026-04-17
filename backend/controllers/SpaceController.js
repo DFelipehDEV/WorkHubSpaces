@@ -48,18 +48,67 @@ exports.delete = async (req, res) => {
 exports.getAll = async (req, res) => {
     const page = req.query.page;
     const limit = req.query.limit;
+    const name = req.query.name;
+    const capacity = req.query.capacity;
+    //const startDate = req.query.startDate;
+    //const endDate = req.query.endDate;
+    const sort = req.query.sort;
+
     try {
+        let findQuery = {};
+        let sortQuery = {};
+        if (name) {
+            findQuery.name = new RegExp(name, 'i');
+        }
+
+        if (capacity) {
+            findQuery.capacity = capacity;
+        }
+
+        /*if (startDate) {
+            findQuery.startDate = startDate;
+        }
+
+        if (endDate) {
+            findQuery.endDate = endDate;
+        }*/
+
+        if (sort == "pricePerHour") {
+            sortQuery.pricePerHour = 1;
+        }
+
+        if (sort == "-pricePerHour") {
+            sortQuery.pricePerHour = -1;
+        }
+
+        if (sort == "capacity") {
+            sortQuery.capacity = 1;
+        }
+
+        if (sort == "-capacity") {
+            sortQuery.capacity = -1;
+        }
+
+        if (sort == "popularity") {
+            sortQuery.popularity = 1;
+        }
+
+        if (sort == "-popularity") {
+            sortQuery.popularity = -1;
+        }
+
         if (page > 0 && limit > 0) {
             return res.status(200).json(
-                await Space.find({})
+                await Space.find(findQuery)
                 .limit(limit)
                 .skip((page - 1) * limit)
+                .sort(sortQuery)
                 .exec()
             );
         }
         
         return res.status(200).json(
-            await Space.find({})
+            await Space.find(findQuery).sort(sortQuery)
         );
     } catch (err) {
         return res.status(400).json({ message: err.message });
@@ -72,6 +121,7 @@ exports.favorite = async (req, res) => {
         if (space.favoritedBy.includes(req.user.id))
             return res.status(400).json({ message: "This user already favorited this space" });
         space.favoritedBy.push(req.user.id);
+        space.popularity++;
         space.save();
         return res.status(200).json({ message: "Success" });
     } catch (err) {
@@ -88,9 +138,10 @@ exports.deFavorite = async (req, res) => {
         var index = space.favoritedBy.indexOf(req.user.id);
         if (index !== -1) {
             space.favoritedBy.splice(index, 1);
+            space.popularity--;
+            space.save();
         }
 
-        space.save();
         return res.status(200).json({ message: "Success" });
     } catch (err) {
         return res.status(400).json({ message: err.message });

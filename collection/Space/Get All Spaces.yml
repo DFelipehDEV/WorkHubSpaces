@@ -12,7 +12,27 @@ http:
       type: query
       disabled: true
     - name: limit
-      value: "5"
+      value: "4"
+      type: query
+      disabled: true
+    - name: name
+      value: teste
+      type: query
+      disabled: true
+    - name: capacity
+      value: "120"
+      type: query
+      disabled: true
+    - name: startDate
+      value: "202"
+      type: query
+      disabled: true
+    - name: endDate
+      value: ""
+      type: query
+      disabled: true
+    - name: sort
+      value: -popularity
       type: query
       disabled: true
   auth: inherit

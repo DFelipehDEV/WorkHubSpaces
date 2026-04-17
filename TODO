@@ -1,6 +1,6 @@
 PUBLIC ROUTES:
-search space by name, capacity and by date intervals
-sort space by price, popularity, capacity and date
+search space by date intervals
+sort space by date
 
 ADMIN ROUTES:
 get client reservation history
