@@ -30,6 +30,7 @@ const reservationSchema = new mongoose.Schema({
     internalObs: String,
     extraServices: [mongoose.ObjectId],
     cost: Number, // later used for reservation history, because the cost could change later
+    equipments: [mongoose.ObjectId]
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);

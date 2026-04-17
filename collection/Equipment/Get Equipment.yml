@@ -1,21 +1,15 @@
 info:
-  name: Update Reservation
+  name: Get Equipment
   type: http
-  seq: 1
+  seq: 3
 
 http:
-  method: PUT
-  url: "{{BASEURL}}/reservations/:id"
+  method: GET
+  url: "{{BASEURL}}/equipments/:id"
   params:
     - name: id
-      value: 69c6892d369995c1e5bfb033
+      value: 69e2086d16f830f47bfdc945
       type: path
-  body:
-    type: json
-    data: |-
-      {
-        "equipments": ["69c6892d369995c1e5bfb033"]
-      }
   auth: inherit
 
 runtime:

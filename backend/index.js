@@ -18,6 +18,13 @@ app.post('/login', express.json(), AuthController.login);
 app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);
 
+const EquipmentController = require("./controllers/EquipmentController");
+app.post('/equipments', express.json(), adminMiddleware, EquipmentController.create);
+app.get('/equipments/:id', userMiddleware, EquipmentController.get);
+app.put('/equipments/:id', express.json(), adminMiddleware, EquipmentController.update);
+app.delete('/equipments/:id', adminMiddleware, EquipmentController.delete);
+app.get('/equipments', EquipmentController.getAll);
+
 const ReservationController = require('./controllers/ReservationController');
 app.post('/reservations', express.json(), userMiddleware, ReservationController.create);
 app.get('/reservations/:id', userMiddleware, ReservationController.get);
