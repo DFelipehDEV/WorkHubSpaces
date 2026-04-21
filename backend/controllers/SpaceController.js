@@ -100,20 +100,20 @@ exports.getAll = async (req, res) => {
         if (page > 0 && limit > 0) {
             return res.status(200).json(
                 await Space.find(findQuery)
-                .limit(limit)
-                .skip((page - 1) * limit)
-                .sort(sortQuery)
-                .exec()
+                    .limit(limit)
+                    .skip((page - 1) * limit)
+                    .sort(sortQuery)
+                    .exec()
             );
         }
-        
+
         return res.status(200).json(
             await Space.find(findQuery).sort(sortQuery)
         );
     } catch (err) {
         return res.status(400).json({ message: err.message });
     }
-} 
+}
 
 exports.favorite = async (req, res) => {
     try {
@@ -134,7 +134,7 @@ exports.deFavorite = async (req, res) => {
         const space = await Space.findById(req.params.id);
         if (!space.favoritedBy.includes(req.user.id))
             return res.status(400).json({ message: "This user didn't favorite this space" });
-        
+
         var index = space.favoritedBy.indexOf(req.user.id);
         if (index !== -1) {
             space.favoritedBy.splice(index, 1);

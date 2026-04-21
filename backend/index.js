@@ -51,6 +51,9 @@ app.put('/extraservices/:id', express.json(), adminMiddleware, ExtraServiceContr
 app.delete('/extraservices/:id', adminMiddleware, ExtraServiceController.delete);
 app.get('/extraservices', ExtraServiceController.getAll);
 
+const S3Controller = require("./controllers/S3Controller");
+app.get('/upload-url', adminMiddleware, S3Controller.getUploadUrl);
+
 app.listen(process.env.PORT, () => {
     try {
         mongoose.connect(process.env.ATLAS_CONNECTION);
