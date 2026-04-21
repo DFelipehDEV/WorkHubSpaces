@@ -8,23 +8,15 @@ http:
   url: "{{BASEURL}}/reservations"
   body:
     type: json
-    data: "{\r
-
-      \    \"spaceId\": \"69b2d3dc3ea89a511eb64a80\",\r
-
-      \    \"active\": true,\r
-
-      \    \"startDate\": \"2025-12-09\",\r
-
-      \    \"endDate\": \"2025-12-25\",\r
-
-      \    \"status\": 0,\r
-
-      \    \"obs\": \"\",\r
-
-      \    \"extraServices\": null\r
-
-      }"
+    data: |-
+      {
+          "spaceId": "69b2d3dc3ea89a511eb64a80",
+          "startDate": "2025-12-09",
+          "endDate": "2025-12-25",
+          "status": 3,
+          "obs": "",
+          "extraServices": null
+      }
   auth: inherit
 
 runtime:

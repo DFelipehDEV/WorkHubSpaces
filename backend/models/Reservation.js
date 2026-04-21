@@ -9,10 +9,6 @@ const reservationSchema = new mongoose.Schema({
         type: mongoose.ObjectId,
         required: true,
     },
-    active: {
-        type: Boolean,
-        required: true,
-    },
     startDate: {
         type: Date,
         required: true,
@@ -24,7 +20,7 @@ const reservationSchema = new mongoose.Schema({
     status: {
         type: Number,
         required: true,
-        enum: [0, 1, 2, 3] // 0 - Pendente, 1 - Cancelada, 2 - Confirmada, 3 - Concluida
+        enum: [0, 1, 2, 3] // 0 - Pending, 1 - Cancelled, 2 - Confirmed, 3 - Finished
     },
     obs: String,
     internalObs: String,

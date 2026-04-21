@@ -1,4 +1,5 @@
 const Space = require('../models/Space');
+const Reservation = require('../models/Reservation');
 exports.create = async (req, res) => {
     try {
         const space = await Space.create(req.body);
@@ -50,8 +51,8 @@ exports.getAll = async (req, res) => {
     const limit = req.query.limit;
     const name = req.query.name;
     const capacity = req.query.capacity;
-    //const startDate = req.query.startDate;
-    //const endDate = req.query.endDate;
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
     const sort = req.query.sort;
 
     try {
@@ -65,13 +66,16 @@ exports.getAll = async (req, res) => {
             findQuery.capacity = capacity;
         }
 
-        /*if (startDate) {
-            findQuery.startDate = startDate;
-        }
+        if (startDate && endDate) {
+            // Memory-optimized: MongoDB natively returns an array of occupied IDs
+            const occupiedSpaceIds = await Reservation.distinct('spaceId', {
+                status: { $in: [Reservation.ReservationStatuses.Pending, Reservation.ReservationStatuses.Confirmed] },
+                startDate: { $lt: endDate },
+                endDate: { $gt: startDate }
+            });
 
-        if (endDate) {
-            findQuery.endDate = endDate;
-        }*/
+            findQuery._id = { $nin: occupiedSpaceIds };
+        }
 
         if (sort == "pricePerHour") {
             sortQuery.pricePerHour = 1;
@@ -95,6 +99,14 @@ exports.getAll = async (req, res) => {
 
         if (sort == "-popularity") {
             sortQuery.popularity = -1;
+        }
+
+        if (sort == "date") {
+            sortQuery._id = 1;
+        }
+
+        if (sort == "-date") {
+            sortQuery._id = -1;
         }
 
         if (page > 0 && limit > 0) {

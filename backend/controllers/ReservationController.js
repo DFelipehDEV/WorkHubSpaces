@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
             active: req.body.active,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
-            status: req.body.status,
+            status: Reservation.ReservationStatuses.Pending,
             obs: req.body.obs,
             internalObs: "",
             extraServices: req.body.extraServices,
@@ -77,14 +77,14 @@ exports.getAll = async (req, res) => {
         if (page > 0 && limit > 0) {
             if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
                 reservations = await Reservation.find({})
-                                .limit(limit)
-                                .skip((page - 1) * limit)
-                                .exec();
+                    .limit(limit)
+                    .skip((page - 1) * limit)
+                    .exec();
             } else {
                 reservations = await Reservation.find({ reservedBy: req.user.id })
-                                .limit(limit)
-                                .skip((page - 1) * limit)
-                                .exec();
+                    .limit(limit)
+                    .skip((page - 1) * limit)
+                    .exec();
             }
         } else {
             if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
@@ -120,7 +120,7 @@ exports.cancel = async (req, res) => {
 
 exports.getConfirmedDates = async (req, res) => {
     try {
-        const reservations = await Reservation.find({ status: Reservation.ReservationStatuses.Confirmed }).select({ startDate: true, endDate: true}).exec();
+        const reservations = await Reservation.find({ status: Reservation.ReservationStatuses.Confirmed }).select({ startDate: true, endDate: true }).exec();
 
         return res.status(200).json(reservations)
     } catch (err) {
@@ -135,9 +135,9 @@ exports.getClientHistory = async (req, res) => {
         let reservations;
         if (page > 0 && limit > 0) {
             reservations = await Reservation.find({ reservedBy: req.params.id })
-                            .limit(limit)
-                            .skip((page - 1) * limit)
-                            .exec();
+                .limit(limit)
+                .skip((page - 1) * limit)
+                .exec();
         } else {
             reservations = await Reservation.find({ reservedBy: req.params.id });
         }
