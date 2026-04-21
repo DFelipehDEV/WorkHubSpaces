@@ -1,0 +1,27 @@
+info:
+  name: Get Client Reservation History
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{BASEURL}}/users/:id/reservations"
+  params:
+    - name: id
+      value: 69c688ac369995c1e5bfb028
+      type: path
+    - name: page
+      value: "1"
+      type: query
+      disabled: true
+    - name: limit
+      value: "10"
+      type: query
+      disabled: true
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -127,3 +127,22 @@ exports.getConfirmedDates = async (req, res) => {
         return res.status(400).json({ message: err.message });
     }
 }
+
+exports.getClientHistory = async (req, res) => {
+    const page = req.query.page;
+    const limit = req.query.limit;
+    try {
+        let reservations;
+        if (page > 0 && limit > 0) {
+            reservations = await Reservation.find({ reservedBy: req.params.id })
+                            .limit(limit)
+                            .skip((page - 1) * limit)
+                            .exec();
+        } else {
+            reservations = await Reservation.find({ reservedBy: req.params.id });
+        }
+        return res.status(200).json(reservations);
+    } catch (err) {
+        return res.status(400).json({ message: err.message });
+    }
+}
