@@ -67,12 +67,11 @@ exports.getAll = async (req, res) => {
         }
 
         if (startDate && endDate) {
-            // Memory-optimized: MongoDB natively returns an array of occupied IDs
-            const occupiedSpaceIds = await Reservation.distinct('spaceId', {
+            const occupiedSpaceIds = await Reservation.find({
                 status: { $in: [Reservation.ReservationStatuses.Pending, Reservation.ReservationStatuses.Confirmed] },
                 startDate: { $lt: endDate },
                 endDate: { $gt: startDate }
-            });
+            }).select({ spaceId: 1 }).exec();
 
             findQuery._id = { $nin: occupiedSpaceIds };
         }
