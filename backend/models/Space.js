@@ -46,6 +46,9 @@ const spaceSchema = new mongoose.Schema({
     },
     reviews: {
         type: [reviewSchema]
+    },
+    equipments: {
+        type: [mongoose.ObjectId]
     }
 });
 
