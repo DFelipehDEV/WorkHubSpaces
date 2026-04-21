@@ -51,6 +51,12 @@ exports.update = async (req, res) => {
             return res.status(403).json({ message: "Only admins can suspend users" });
         }
 
+        if (req.body.role && req.user.role != process.env.DB_ADMIN_ROLE_ID) {
+            return res.status(403).json({ message: "Only admins can change roles" });
+        }
+
+        delete req.body.password;
+
         await User.findByIdAndUpdate(req.params.id, req.body).orFail(() => {
             return res.status(404).json({ message: "Couldn't find user" });
         });
