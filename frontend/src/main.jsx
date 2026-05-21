@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import Home from './Home.jsx';
+import Spaces from './Spaces.jsx';
+import { BrowserRouter, Routes, Route } from "react-router";
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/spaces" element={<Spaces />} />
+      </Routes>
+  </BrowserRouter>,
 )
