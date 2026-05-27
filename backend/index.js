@@ -3,7 +3,16 @@ const express = require('express');
 var cors = require('cors')
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  allowedHeaders: [
+    "set-cookie",
+    "Content-Type",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Credentials",
+  ],
+}));
 
 const userMiddleware = require('./middlewares/UserMiddleware');
 const adminMiddleware = require('./middlewares/AdminMiddleware');
@@ -19,6 +28,7 @@ app.post('/signin', express.json(), AuthController.signIn);
 app.post('/login', express.json(), AuthController.login);
 app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);
+app.get('/validate-token', AuthController.validateHeaderToken);
 
 const EquipmentController = require("./controllers/EquipmentController");
 app.post('/equipments', express.json(), adminMiddleware, EquipmentController.create);
@@ -58,10 +68,10 @@ const S3Controller = require("./controllers/S3Controller");
 app.get('/upload-url', adminMiddleware, S3Controller.getUploadUrl);
 
 app.listen(process.env.PORT, () => {
-    try {
-        mongoose.connect(process.env.ATLAS_CONNECTION);
-    } catch (ex) {
-        console.log(ex.message);
-    }
-    console.log(`${process.env.BASE_URL}:${process.env.PORT}`);
+  try {
+    mongoose.connect(process.env.ATLAS_CONNECTION);
+  } catch (ex) {
+    console.log(ex.message);
+  }
+  console.log(`${process.env.BASE_URL}:${process.env.PORT}`);
 });

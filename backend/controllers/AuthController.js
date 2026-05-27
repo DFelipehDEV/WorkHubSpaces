@@ -42,6 +42,11 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+        res.cookie("authToken", token, {
+            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: true,
+        })
+
         res.status(200).json({
             message: "Success",
             token
@@ -76,8 +81,8 @@ exports.forgotPassword = async (req, res) => {
             from: sender,
             to: user.email,
             subject: "Password Reset",
-            text: 
-            `
+            text:
+                `
             Olá ${user.name}, 
             foi pedido para repor a palavra-passe para o email ${user.email}. 
             Clique no link para repor a palavra-passe. 
@@ -116,3 +121,17 @@ exports.resetPassword = async (req, res) => {
         res.status(401).json({ message: err.message });
     }
 }
+
+exports.validateHeaderToken = async (req, res) => {
+    const { authToken } = req.headers;
+    console.log(req.headers);
+
+    if (authToken == undefined) return;
+
+    const token = authToken.split("authToken=")[1].split(";")[0];
+    console.log(token);
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        res.status(200).json( {message: "Success"} )
+    });
+};
