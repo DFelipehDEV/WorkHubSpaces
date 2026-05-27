@@ -35,6 +35,10 @@ http:
       value: -popularity
       type: query
       disabled: true
+    - name: type
+      value: 6a16c28bc6bf6363e41a5cc1
+      type: query
+      disabled: true
   auth: inherit
 
 settings:

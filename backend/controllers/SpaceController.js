@@ -50,6 +50,7 @@ exports.getAll = async (req, res) => {
   const page = req.query.page;
   const limit = req.query.limit;
   const name = req.query.name;
+  const type = req.query.type;
   const capacity = req.query.capacity;
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
@@ -60,6 +61,10 @@ exports.getAll = async (req, res) => {
     let sortQuery = {};
     if (name) {
       findQuery.name = new RegExp(name, 'i');
+    }
+
+    if (type) {
+      findQuery.type = type;
     }
 
     if (capacity) {

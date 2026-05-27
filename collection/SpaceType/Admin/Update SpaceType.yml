@@ -1,24 +1,20 @@
 info:
-  name: Update Space
+  name: Update SpaceType
   type: http
   seq: 2
 
 http:
   method: PUT
-  url: "{{BASEURL}}/spaces/:id"
+  url: "{{BASEURL}}/spacetypes/:id"
   params:
     - name: id
-      value: 69c3b61af0172e751125b4bf
+      value: 6a16c28bc6bf6363e41a5cc1
       type: path
   body:
     type: json
     data: |-
       {
-          "available": false,
-          "description": "Espaço privado",
-          "capacity": 2,
-          "pricePerHour": 5,
-          "images": []
+          "name": ""
       }
   auth: inherit
 

@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: "{{BASEURL}}/upload-url?fileName=my-custom-image.png&contentType=image/png"
+  url: "{{BASEURL}}/upload-url?fileName=casapraia.png&contentType=image/png"
   params:
     - name: fileName
-      value: my-custom-image.png
+      value: casapraia.png
       type: query
     - name: contentType
       value: image/png

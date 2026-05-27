@@ -57,6 +57,13 @@ app.get('/spaces/:id/favorite', userMiddleware, SpaceController.favorite)
 app.get('/spaces/:id/defavorite', userMiddleware, SpaceController.deFavorite)
 app.post('/spaces/:id/review', express.json(), userMiddleware, SpaceController.addReview);
 
+const SpaceTypeController = require("./controllers/SpaceTypeController");
+app.post('/spacetypes', express.json(), adminMiddleware, SpaceTypeController.create);
+app.get('/spacetypes/:id', SpaceTypeController.get);
+app.put('/spacetypes/:id', express.json(), adminMiddleware, SpaceTypeController.update);
+app.delete('/spacetypes/:id', adminMiddleware, SpaceTypeController.delete);
+app.get('/spacetypes', SpaceTypeController.getAll);
+
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservices', express.json(), adminMiddleware, ExtraServiceController.create);
 app.get('/extraservices/:id', userMiddleware, ExtraServiceController.get);

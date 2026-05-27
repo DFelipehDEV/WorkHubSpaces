@@ -10,13 +10,13 @@ http:
     type: json
     data: |-
       {
-          "name": "Espaço Lunar",
-          "type": "Lunatico",
+          "name": "Algarvium",
+          "type": "6a16c44f0a612b39675a17ff",
           "available": true,
           "description": "",
-          "capacity": 120,
-          "pricePerHour": 40,
-          "images": []
+          "capacity": 200,
+          "pricePerHour": 20,
+          "images": ["https://pub-118c9d47444a44eeb6f8a30b556023ac.r2.dev/1779877021359.11"]
       }
   auth: inherit
 

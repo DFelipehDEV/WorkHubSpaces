@@ -1,0 +1,25 @@
+info:
+  name: Delete SpaceType
+  type: http
+  seq: 1
+
+http:
+  method: DELETE
+  url: "{{BASEURL}}/spacetypes/:id"
+  params:
+    - name: id
+      value: 6a16c28bc6bf6363e41a5cc1
+      type: path
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
