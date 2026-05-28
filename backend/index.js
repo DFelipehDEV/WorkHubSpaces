@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
-var cors = require('cors')
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 app.use(cors({
@@ -28,7 +29,7 @@ app.post('/signin', express.json(), AuthController.signIn);
 app.post('/login', express.json(), AuthController.login);
 app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);
-app.get('/validate-token', AuthController.validateHeaderToken);
+app.get('/validate-token', cookieParser(), AuthController.validateHeaderToken);
 
 const EquipmentController = require("./controllers/EquipmentController");
 app.post('/equipments', express.json(), adminMiddleware, EquipmentController.create);

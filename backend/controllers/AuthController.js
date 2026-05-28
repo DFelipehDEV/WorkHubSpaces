@@ -123,15 +123,12 @@ exports.resetPassword = async (req, res) => {
 }
 
 exports.validateHeaderToken = async (req, res) => {
-    const { authToken } = req.headers;
-    console.log(req.headers);
+    const authToken = req.cookies.authToken;
+    console.log(req.cookies.authToken);
 
-    if (authToken == undefined) return;
+    if (authToken == undefined) return res.status(400).json( {message: "authToken is missing"});
 
-    const token = authToken.split("authToken=")[1].split(";")[0];
-    console.log(token);
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(authToken, process.env.JWT_SECRET, (err, user) => {
         res.status(200).json( {message: "Success"} )
     });
 };
