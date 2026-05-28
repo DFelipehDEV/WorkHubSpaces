@@ -1,0 +1,34 @@
+{
+    "nav": {
+        "home": "Home",
+        "spaces": "Espaços",
+        "login": "Entrar"
+    },
+    "home": {
+        "hero": {
+            "title": "Reserve um Espaço!",
+            "desc": "Reserve os melhores espaços de Portugal.",
+            "cta": "Ver Espaços"
+        }
+    },
+    "noimg": "Sem Imagem",
+    "goback": "Voltar",
+    "space": {
+        "notfound": "Espaço não encontrado",
+        "available": "Disponivel",
+        "unavailable": "Indisponivel",
+        "equipments": "Equipamentos",
+        "no_equipments": "Sem equipamentos listados.",
+        "reviews": "Análises",
+        "no_reviews": "Ainda não existe nenhuma análise.",
+        "people": "pessoas",
+        "book": "Reservar",
+        "type": "Tipo",
+        "all": "todos"
+    },
+    "auth": {
+        "login": "Entrar",
+        "email": "Email",
+        "password": "Palavra-passe"
+    }
+}

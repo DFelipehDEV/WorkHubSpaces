@@ -2,9 +2,11 @@ import Navigation from "./Navigation"
 import Footer from "./Footer"
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 function Login() {
   const [error, setError] = useState("");
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,13 +46,13 @@ function Login() {
           <div className="px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
               <div>
-                <h1 className="text-2xl font-semibold">Login</h1>
+                <h1 className="text-2xl font-semibold">{t('auth.login')}</h1>
               </div>
               <div className="">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                  <input name="email" type="text" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder="Email" />
-                  <input name="password" type="password" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder="Password" />
-                  <button type="submit" className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">Join</button>
+                  <input name="email" type="text" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder={t('auth.email')} />
+                  <input name="password" type="password" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder={t('auth.password')} />
+                  <button type="submit" className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">{t('auth.login')}</button>
                 </div>
                 {error != "" &&
                   <div className="bg-red-500 text-black px-4 py-2 rounded-xl">{error}</div>

@@ -3,12 +3,15 @@ import { useParams, Link } from 'react-router';
 import Navigation from "./Navigation";
 import Footer from "./Footer";
 import { Star, ChevronLeft, User, Check, Package } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 function Space() {
   const { id } = useParams();
   const [space, setSpace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const {t} = useTranslation();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
@@ -62,11 +65,9 @@ function Space() {
 
                 <div className="space-y-6">
                   <div className='flex justify-end'>
-                    {/* Button skeleton */}
                     <div className="w-24 h-10 bg-stone-200 rounded animate-pulse"></div>
                   </div>
                   <div className="space-y-3">
-                    {/* Equipment list skeleton */}
                     <div className="w-32 h-6 bg-stone-200 rounded animate-pulse mb-2"></div>
                     <div className="w-full h-4 bg-stone-200 rounded animate-pulse"></div>
                     <div className="w-5/6 h-4 bg-stone-200 rounded animate-pulse"></div>
@@ -76,7 +77,6 @@ function Space() {
               </div>
 
               <div className="mt-8 border-t border-stone-100 pt-6">
-                {/* Reviews skeleton */}
                 <div className="w-32 h-8 bg-stone-200 rounded animate-pulse mb-4"></div>
                 <div className="space-y-4">
                   {[1, 2].map((i) => (
@@ -106,8 +106,8 @@ function Space() {
       <div className="min-h-screen bg-stone-50 flex flex-col">
         <Navigation />
         <div className="flex flex-col items-center justify-center grow">
-          <h2 className="text-2xl font-bold text-stone-800 mb-4">Espaço não encontrado</h2>
-          <Link to="/spaces" className="px-4 py-2 bg-stone-800 text-white rounded-md">Voltar aos espaços</Link>
+          <h2 className="text-2xl font-bold text-stone-800 mb-4">{t('space.notfound')}</h2>
+          <Link to="/spaces" className="px-4 py-2 bg-stone-800 text-white rounded-md">{t('goback')}</Link>
         </div>
         <Footer />
       </div>
@@ -120,7 +120,7 @@ function Space() {
 
       <main className='grow px-8 lg:px-48 py-8'>
         <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-stone-900 transition-colors">
-          <ChevronLeft /> Voltar
+          <ChevronLeft /> {t('goback')}
         </Link>
 
         <div className="bg-white border border-stone-200 rounded-lg shadow-sm overflow-hidden">
@@ -132,7 +132,7 @@ function Space() {
             />
           ) : (
             <div className="w-full h-96 bg-stone-200 flex items-center justify-center text-stone-500">
-              Sem Imagem
+              {t('noimg')}
             </div>
           )}
 
@@ -144,20 +144,20 @@ function Space() {
                     <div className='flex md:gap-2'>
                       <Check className={space.available ? "text-green-600" : "text-red-600"}/>
                       <p className={space.available ? "text-green-600" : "text-red-600"}>
-                        {space.available ? "Disponível" : "Indisponível"}
+                        {space.available ? t('space.available') : t('space.unavailable')}
                       </p>
                     </div>
                     <div>
                       <div className='flex md:gap-2'>
                         <User/>
-                        <p className="text-stone-600">{space.capacity} pessoas</p>
+                        <p className="text-stone-600">{space.capacity} {t('space.people')}</p>
                       </div>
                     </div>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold text-stone-800">{space.pricePerHour}€/hora</p>
-                <p className='text-xl font-bold text-stone-800'>{space.pricePerHour * 24}€/dia</p>
+                <p className="text-xl font-bold text-stone-800">{space.pricePerHour}€/{t('space.hour')}</p>
+                <p className='text-xl font-bold text-stone-800'>{space.pricePerHour * 24}€/{t('space.day')}</p>
               </div>
             </div>
 
@@ -166,19 +166,19 @@ function Space() {
               <div className="md:col-span-2 space-y-6">
                 <div>
                   <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                    {space.description || "Nenhuma descrição disponível."}
+                    {space.description}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-6 rounded-md">
                 <div className='flex justify-end'>
-                  <button className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">Reservar</button>
+                  <button className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">{t('space.book')}</button>
                 </div>
                 <div>
                   <div className='flex md:gap-2'>
                     <Package/>
-                    <h3 className="font-semibold text-stone-800 mb-1">Equipamentos</h3>
+                    <h3 className="font-semibold text-stone-800 mb-1">{t('space.equipments')}</h3>
                   </div>
                   {space.equipments && space.equipments.length > 0 ? (
                     <ul className="list-disc list-inside text-stone-600">
@@ -187,14 +187,14 @@ function Space() {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-stone-500 text-sm">Nenhum equipamento listado.</p>
+                    <p className="text-stone-500 text-sm">{t('space.no_equipments')}</p>
                   )}
                 </div>
               </div>
             </div>
 
             <div className="mt-8 border-t border-stone-100 pt-6">
-              <h3 className="text-xl font-semibold text-stone-800 mb-4">Reviews</h3>
+              <h3 className="text-xl font-semibold text-stone-800 mb-4">{t('space.reviews')}</h3>
               {space.reviews && space.reviews.length > 0 ? (
                 <div className="space-y-4">
                   {space.reviews.map((review, i) => (
@@ -211,7 +211,7 @@ function Space() {
                   ))}
                 </div>
               ) : (
-                <p className="text-stone-500">Ainda não existem avaliações para este espaço.</p>
+                <p className="text-stone-500">{t('space.no_reviews')}</p>
               )}
             </div>
 

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import Navigation from "./Navigation";
 import Footer from "./Footer";
-import { Star } from 'lucide-react'
+import { Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 function Spaces() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,8 @@ function Spaces() {
   const [spaceTypes, setSpaceTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
+
+  const { t } = useTranslation();
   
   const today = new Date();
   const futureDate = new Date();
@@ -58,20 +61,21 @@ function Spaces() {
   };
 
   return (
-    <body className="min-h-screen bg-stone-50 overflow-scroll">
+    <div className="min-h-screen bg-stone-50 flex flex-col">
       <Navigation />
-      <div className='px-16 lg:px-48 py-8'>
-        <div className='flex justify-end gap-4 mb-6 relative'>
-          <div>
+      
+      <main className='grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-6'>
+        <div className='flex flex-col sm:flex-row justify-end gap-3 mb-6'>
+          <div className="relative">
             <button 
               onClick={() => setShowCalendar(!showCalendar)}
-              className="bg-white rounded-md px-4 py-2 border border-stone-200 shadow-sm text-stone-700"
+              className="w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 transition-colors"
             >
               {formatDate(dateRange[0].startDate)} - {formatDate(dateRange[0].endDate)}
             </button>
 
             {showCalendar && (
-              <div className="absolute z-10 top-12 right-32 shadow-lg border border-stone-200 bg-white">
+              <div className="absolute z-50 top-full mt-2 right-0 sm:right-auto sm:left-0 shadow-lg border border-stone-200 bg-white rounded-md overflow-hidden">
                 <DateRange
                   ranges={dateRange}
                   onChange={handleSelect}
@@ -83,54 +87,60 @@ function Spaces() {
           </div>
 
           <select 
-            className='bg-white rounded-md px-4 py-2 border border-stone-200 shadow-sm h-fit'
+            className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
             value={selectedType} 
             onChange={(e) => setSelectedType(e.target.value)}
           >
-            <option value="">Tipo (Todos)</option>
+            <option value="">{t('space.type')} ({t('space.all')})</option>
             {spaceTypes.map((type, index) => (
               <option key={index} value={type._id}>{type.name}</option>
             ))}
           </select>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
           {!loading && spaces
             .filter(space => space.available)
             .filter(space => selectedType === "" || space.type === selectedType)
             .map((space) => (
-              <Link to={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} key={space._id} className='border border-stone-200 rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-shadow'>
+              <Link 
+                to={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} 
+                key={space._id} 
+                className='border border-stone-200 rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-shadow flex flex-col'
+              >
                 {space.images && space.images.length > 0 ? (
                   <img
                     src={space.images[0]}
                     alt={space.name}
-                    className='w-full h-48 object-cover'
+                    className='w-full h-40 object-cover'
                   />
                 ) : (
-                  <div className="w-full h-48 bg-stone-200 flex items-center justify-center text-stone-500">
-                    Sem Imagem
+                  <div className="w-full h-40 bg-stone-200 flex items-center justify-center text-sm text-stone-500">
+                    {t('noimg')}
                   </div>
                 )}
-                <div className='flex justify-between p-4'>
-                  <div className='leading-tight'>
-                    <h3 className='font-semibold text-lg text-stone-800'>{space.name}</h3>
-                    <div className='flex gap-4'>
-                      <small className='font-light text-stone-600'>{space.pricePerHour}€/hora ou {space.pricePerHour * 24}€/dia</small>
-                      {space.reviews.length > 0 && 
-                        <div className='flex'>
-                          <Star className='w-1/2 -translate-y-1'/>
-                          <small className='font-light text-stone-600'>{space.reviews.length}</small>
-                        </div>
-                      }
-                    </div>
+                
+                <div className='flex flex-col justify-between p-3 grow'>
+                  <h3 className='font-semibold text-base text-stone-800 mb-1 truncate'>{space.name}</h3>
+                  <div className='flex justify-between items-center mt-auto'>
+                    <span className='text-sm text-stone-600'>
+                      {space.pricePerHour}€/h <span className="text-stone-400">|</span> {space.pricePerHour * 24}€/d
+                    </span>
+                    {space.reviews.length > 0 && 
+                      <div className='flex items-center gap-1 bg-stone-100 px-2 py-0.5 rounded-full'>
+                        <Star className='w-3 h-3 text-stone-700 fill-stone-700'/>
+                        <span className='text-xs font-medium text-stone-700'>{space.reviews.length}</span>
+                      </div>
+                    }
                   </div>
                 </div>
               </Link>
             ))}
         </div>
-      </div>
+      </main>
+      
       {!loading && <Footer />}
-    </body>
+    </div>
   );
 }
 

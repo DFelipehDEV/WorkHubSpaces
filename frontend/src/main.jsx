@@ -1,16 +1,22 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import { StrictMode, Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router";
+import './index.css';
 import Home from './Home.jsx';
 import Spaces from './Spaces.jsx';
 import Space from './Space.jsx';
 import Login from './Login.jsx';
-import { StrictMode } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router";
 import Dashboard from './Dashboard.jsx';
+import './i18n.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <Suspense fallback={
+      <div className="min-h-screen">
+        
+      </div>
+    }>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/spaces" element={<Spaces />} />
@@ -18,6 +24,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
-    </BrowserRouter>,
+      </BrowserRouter>
+    </Suspense>
   </StrictMode>
-)
+);

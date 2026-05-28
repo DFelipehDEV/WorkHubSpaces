@@ -1,0 +1,36 @@
+{
+    "nav": {
+        "home": "Home",
+        "spaces": "Spaces",
+        "login": "Login"
+    },
+    "home": {
+        "hero": {
+            "title": "Book a Space!",
+            "desc": "Book the best spaces in Portugal.",
+            "cta": "See Spaces"
+        }
+    },
+    "noimg": "No Image",
+    "goback": "Go Back",
+    "space": {
+        "notfound": "Space not found",
+        "available": "Available",
+        "unavailable": "Unavailable",
+        "equipments": "Equipments",
+        "no_equipments": "No equipments listed.",
+        "reviews": "Reviews",
+        "no_reviews": "Yet to be reviewed.",
+        "people": "people",
+        "book": "Book",
+        "hour": "hour",
+        "day": "day",
+        "type": "Type",
+        "all": "all"
+    },
+    "auth": {
+        "login": "Login",
+        "email": "Email",
+        "password": "Password"
+    }
+}
