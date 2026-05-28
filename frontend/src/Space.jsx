@@ -132,15 +132,17 @@ function Space() {
             </div>
 
             <div className="mt-8 border-t border-stone-100 pt-6">
-              <h3 className="text-xl font-semibold text-stone-800 mb-4">Reviews ({space.reviews?.length || 0})</h3>
+              <h3 className="text-xl font-semibold text-stone-800 mb-4">Reviews</h3>
               {space.reviews && space.reviews.length > 0 ? (
                 <div className="space-y-4">
                   {space.reviews.map((review, i) => (
                     <div key={i} className="bg-stone-50 p-4 rounded-md">
                       <div className="flex justify-between mb-2">
-                        <span className="font-medium text-stone-800">Utilizador {review.user}</span>
-                        <Star />
-                        <span className="text-stone-600 font-semibold">{review.rating}/10</span>
+                        <span className="font-medium text-stone-800">{review.user}</span>
+                        <div className='flex md:gap-2'>
+                          <Star className='text-primary-2'/>
+                          <span className="text-primary-2 font-semibold">{review.rating}/10</span>
+                        </div>
                       </div>
                       <p className="text-stone-600">{review.review}</p>
                     </div>
