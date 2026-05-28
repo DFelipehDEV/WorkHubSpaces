@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
 import Navigation from "./Navigation";
 import Footer from "./Footer";
+import { Star } from 'lucide-react'
 
 function Spaces() {
   const [loading, setLoading] = useState(true);
@@ -97,7 +99,7 @@ function Spaces() {
             .filter(space => space.available)
             .filter(space => selectedType === "" || space.type === selectedType)
             .map((space) => (
-              <a href={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} key={space._id} className='border border-stone-200 rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-shadow'>
+              <Link to={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} key={space._id} className='border border-stone-200 rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-shadow'>
                 {space.images && space.images.length > 0 ? (
                   <img
                     src={space.images[0]}
@@ -112,12 +114,18 @@ function Spaces() {
                 <div className='flex justify-between p-4'>
                   <div className='leading-tight'>
                     <h3 className='font-semibold text-lg text-stone-800'>{space.name}</h3>
-                    <small className='font-light text-stone-600'>{space.pricePerHour}€/hora ou {space.pricePerHour * 24}€/dia</small>
-                    <br />
-                    <small className='font-light text-stone-600'>{space.reviews.length} review(s)</small>
+                    <div className='flex gap-4'>
+                      <small className='font-light text-stone-600'>{space.pricePerHour}€/hora ou {space.pricePerHour * 24}€/dia</small>
+                      {space.reviews.length > 0 && 
+                        <div className='flex'>
+                          <Star className='w-1/2 -translate-y-1'/>
+                          <small className='font-light text-stone-600'>{space.reviews.length}</small>
+                        </div>
+                      }
+                    </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
         </div>
       </div>
