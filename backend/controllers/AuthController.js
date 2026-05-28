@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Nodemailer = require("nodemailer");
 const { MailtrapTransport } = require("mailtrap");
 
-exports.signIn = async (req, res) => {
+exports.signUp = async (req, res) => {
     try {
         const user = await User.create({
             role: process.env.DB_CLIENT_ROLE_ID,
@@ -124,8 +124,6 @@ exports.resetPassword = async (req, res) => {
 
 exports.validateHeaderToken = async (req, res) => {
     const authToken = req.cookies.authToken;
-    console.log(req.cookies.authToken);
-
     if (authToken == undefined) return res.status(400).json( {message: "authToken is missing"});
 
     jwt.verify(authToken, process.env.JWT_SECRET, (err, user) => {

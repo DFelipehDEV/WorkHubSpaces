@@ -1,11 +1,11 @@
 info:
-  name: Signin
+  name: Signup
   type: http
   seq: 3
 
 http:
   method: POST
-  url: "{{BASEURL}}/signin"
+  url: "{{BASEURL}}/signup"
   body:
     type: json
     data: |-

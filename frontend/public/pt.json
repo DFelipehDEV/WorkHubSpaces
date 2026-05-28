@@ -31,6 +31,15 @@
     "auth": {
         "login": "Entrar",
         "email": "Email",
-        "password": "Palavra-passe"
+        "password": "Palavra-passe",
+        "not_authenticated": "Não estas autenticado.",
+        "create_account": "Criar conta.",
+        "name": "Nome",
+        "contact": "Contacto",
+        "address": "Morada",
+        "nif": "NIF",
+        "activity": "Atividade",
+        "company": "Empresa",
+        "optional": "opcional"
     }
 }

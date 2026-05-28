@@ -25,7 +25,7 @@ app.delete('/users/:id', adminMiddleware, UserController.delete);
 app.get('/users', adminMiddleware, UserController.getAll);
 
 const AuthController = require('./controllers/AuthController');
-app.post('/signin', express.json(), AuthController.signIn);
+app.post('/signup', express.json(), AuthController.signUp);
 app.post('/login', express.json(), AuthController.login);
 app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);

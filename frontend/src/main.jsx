@@ -6,6 +6,7 @@ import Home from './Home.jsx';
 import Spaces from './Spaces.jsx';
 import Space from './Space.jsx';
 import Login from './Login.jsx';
+import SignUp from './SignUp.jsx';
 import Dashboard from './Dashboard.jsx';
 import './i18n.js';
 
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/spaces" element={<Spaces />} />
           <Route path="/spaces/:id" element={<Space />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
