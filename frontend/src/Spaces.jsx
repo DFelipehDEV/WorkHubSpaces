@@ -56,7 +56,7 @@ function Spaces() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <body className="min-h-screen bg-stone-50 overflow-scroll">
       <Navigation />
       <div className='px-16 lg:px-48 py-8'>
         <div className='flex justify-end gap-4 mb-6 relative'>
@@ -122,7 +122,7 @@ function Spaces() {
         </div>
       </div>
       {!loading && <Footer />}
-    </div>
+    </body>
   );
 }
 

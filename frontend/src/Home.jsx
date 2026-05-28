@@ -5,7 +5,7 @@ import { Link } from "react-router"
 
 function Home() {
   return (
-    <body>
+    <body className="overflow-scroll">
       <Navigation />
       <div className="px-16 py-12 lg:px-48">
         <div className="bg-white p-3 rounded-xl">
