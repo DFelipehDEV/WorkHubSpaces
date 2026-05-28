@@ -29,11 +29,73 @@ function Space() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 flex flex-col">
+      <div className="min-h-screen bg-stone-50 flex flex-col overflow-scroll">
         <Navigation />
-        <div className="flex items-center justify-center">
-          <p className="text-stone-500">A carregar...</p>
-        </div>
+        <main className='grow px-8 lg:px-48 py-8'>
+          <div className="w-20 h-6 bg-stone-200 rounded animate-pulse mb-6"></div>
+
+          <div className="bg-white border border-stone-200 rounded-lg shadow-sm overflow-hidden">
+            <div className="w-full h-96 bg-stone-200 animate-pulse"></div>
+
+            <div className="p-8">
+              <div className="flex justify-between items-start mb-6">
+                <div className="w-1/2">
+                  <div className="h-10 bg-stone-200 rounded animate-pulse mb-4 w-3/4"></div>
+                  <div className='flex gap-2 md:gap-8'>
+                    <div className="w-24 h-6 bg-stone-200 rounded animate-pulse"></div>
+                    <div className="w-24 h-6 bg-stone-200 rounded animate-pulse"></div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <div className="w-24 h-8 bg-stone-200 rounded animate-pulse"></div>
+                  <div className="w-24 h-8 bg-stone-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-stone-100 pt-6">
+                <div className="md:col-span-2 space-y-4">
+                  <div className="h-4 bg-stone-200 rounded animate-pulse w-full"></div>
+                  <div className="h-4 bg-stone-200 rounded animate-pulse w-full"></div>
+                  <div className="h-4 bg-stone-200 rounded animate-pulse w-5/6"></div>
+                  <div className="h-4 bg-stone-200 rounded animate-pulse w-4/6"></div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className='flex justify-end'>
+                    {/* Button skeleton */}
+                    <div className="w-24 h-10 bg-stone-200 rounded animate-pulse"></div>
+                  </div>
+                  <div className="space-y-3">
+                    {/* Equipment list skeleton */}
+                    <div className="w-32 h-6 bg-stone-200 rounded animate-pulse mb-2"></div>
+                    <div className="w-full h-4 bg-stone-200 rounded animate-pulse"></div>
+                    <div className="w-5/6 h-4 bg-stone-200 rounded animate-pulse"></div>
+                    <div className="w-4/6 h-4 bg-stone-200 rounded animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 border-t border-stone-100 pt-6">
+                {/* Reviews skeleton */}
+                <div className="w-32 h-8 bg-stone-200 rounded animate-pulse mb-4"></div>
+                <div className="space-y-4">
+                  {[1, 2].map((i) => (
+                    <div key={i} className="bg-stone-50 p-4 rounded-md">
+                      <div className="flex justify-between mb-4">
+                        <div className="w-32 h-5 bg-stone-200 rounded animate-pulse"></div>
+                        <div className="w-16 h-5 bg-stone-200 rounded animate-pulse"></div>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="w-full h-4 bg-stone-200 rounded animate-pulse"></div>
+                        <div className="w-2/3 h-4 bg-stone-200 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
         <Footer />
       </div>
     );
@@ -43,7 +105,7 @@ function Space() {
     return (
       <div className="min-h-screen bg-stone-50 flex flex-col">
         <Navigation />
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center grow">
           <h2 className="text-2xl font-bold text-stone-800 mb-4">Espaço não encontrado</h2>
           <Link to="/spaces" className="px-4 py-2 bg-stone-800 text-white rounded-md">Voltar aos espaços</Link>
         </div>
@@ -53,7 +115,7 @@ function Space() {
   }
 
   return (
-    <body className="min-h-screen bg-stone-50 flex flex-col overflow-scroll">
+    <div className="min-h-screen bg-stone-50 flex flex-col overflow-scroll">
       <Navigation />
 
       <main className='grow px-8 lg:px-48 py-8'>
@@ -158,7 +220,7 @@ function Space() {
       </main>
 
       <Footer />
-    </body>
+    </div>
   );
 }
 
