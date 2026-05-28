@@ -5,25 +5,27 @@ import Footer from "./Footer"
 function Dashboard() {
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/validate-token`), {
-  method: 'GET',
-  credentials: 'include'
-}
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.message === "Success") {
-          setAuthenticated(true);
-        }
-      })
-      .catch(error => console.error(error));
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/validate-token`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then((res) => res.json())
+    .then((json) => {
+      if (json.message === "Success") {
+        setAuthenticated(true);
+      }
+    })
+    .catch(error => console.error(error));
   }, []);
 
   return (
-    <body>
+    <div>
       <Navigation />
-      {authenticated && <h1>protegido2</h1>}
+      <div className='min-h-screen'>
+        {authenticated && <h1>protegido2</h1>}
+      </div>
       <Footer />
-    </body>
+    </div>
   );
 }
 
