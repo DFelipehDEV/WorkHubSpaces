@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
-import Navigation from "./Navigation";
-import Footer from "./Footer";
 import { Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -61,10 +59,7 @@ function Spaces() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navigation />
-      
-      <main className='grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-6'>
+    <div className='max-w-7xl mx-auto w-full px-4 sm:px-6 py-6'>
         <div className='flex flex-col sm:flex-row justify-end gap-3 mb-6'>
           <div className="relative">
             <button 
@@ -137,9 +132,6 @@ function Spaces() {
               </Link>
             ))}
         </div>
-      </main>
-      
-      {!loading && <Footer />}
     </div>
   );
 }

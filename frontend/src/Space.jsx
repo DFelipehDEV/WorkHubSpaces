@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import Navigation from "./Navigation";
-import Footer from "./Footer";
 import { Star, ChevronLeft, User, Check, Package, Calendar as CalendarIcon, FileText, Plus, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from './AuthContext';
@@ -169,34 +167,23 @@ function Space() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 flex flex-col">
-        <Navigation />
-        <main className="grow flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-        </main>
-        <Footer />
+      <div className="flex justify-center items-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
       </div>
     );
   }
 
   if (error || !space) {
     return (
-      <div className="min-h-screen bg-stone-50 flex flex-col">
-        <Navigation />
-        <div className="flex flex-col items-center justify-center grow">
-          <h2 className="text-2xl font-bold text-stone-800 mb-4">{t('space.notfound')}</h2>
-          <Link to="/spaces" className="px-4 py-2 bg-stone-800 text-white rounded-md">{t('goback')}</Link>
-        </div>
-        <Footer />
+      <div className="flex flex-col items-center justify-center py-20">
+        <h2 className="text-2xl font-bold text-stone-800 mb-4">{t('space.notfound')}</h2>
+        <Link to="/spaces" className="px-4 py-2 bg-stone-800 text-white rounded-md">{t('goback')}</Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col">
-      <Navigation />
-
-      <main className='grow px-8 lg:px-48 py-8'>
+    <div className="px-8 lg:px-48 py-8">
         <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-primary-2">
           <ChevronLeft /> {t('goback')}
         </Link>
@@ -471,9 +458,6 @@ function Space() {
 
           </div>
         </div>
-      </main>
-
-      <Footer />
     </div>
   );
 }

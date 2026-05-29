@@ -15,6 +15,7 @@ import './i18n.js';
 
 import { AuthProvider } from './AuthContext.jsx';
 import { ClientRoute } from './ClientRoute.jsx';
+import Layout from './Layout.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,36 +27,38 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/spaces" element={<Spaces />} />
-            <Route path="/spaces/:id" element={<Space />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ClientRoute>
-                  <Dashboard />
-                </ClientRoute>
-              }
-            />
-            <Route
-              path="/reservations"
-              element={
-                <ClientRoute>
-                  <Reservations />
-                </ClientRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ClientRoute>
-                  <Profile />
-                </ClientRoute>
-              }
-            />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/spaces" element={<Spaces />} />
+              <Route path="/spaces/:id" element={<Space />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ClientRoute>
+                    <Dashboard />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/reservations"
+                element={
+                  <ClientRoute>
+                    <Reservations />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ClientRoute>
+                    <Profile />
+                  </ClientRoute>
+                }
+              />
+            </Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
