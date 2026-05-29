@@ -49,7 +49,15 @@
     "common": {
         "done": "Done",
         "show_all": "Show All",
-        "show_less": "Show Less"
+        "show_less": "Show Less",
+        "loading": "Loading..."
+    },
+    "profile": {
+        "title": "Manage Profile",
+        "save_btn": "Save Profile",
+        "session_expired": "Session expired. Please log in again.",
+        "success": "Profile updated successfully!",
+        "failed": "Failed to update profile."
     },
     "auth": {
         "login": "Login",

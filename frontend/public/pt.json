@@ -50,7 +50,15 @@
     "common": {
         "done": "Concluído",
         "show_all": "Mostrar Todos",
-        "show_less": "Mostrar Menos"
+        "show_less": "Mostrar Menos",
+        "loading": "A carregar..."
+    },
+    "profile": {
+        "title": "Gerir Perfil",
+        "save_btn": "Guardar Perfil",
+        "session_expired": "Sessão expirada. Por favor, inicie sessão novamente.",
+        "success": "Perfil atualizado com sucesso!",
+        "failed": "Falha ao atualizar o perfil."
     },
     "auth": {
         "login": "Entrar",

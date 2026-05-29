@@ -78,3 +78,27 @@ exports.delete = async (req, res) => {
     return res.status(400).json({ message: err.message });
   }
 };
+
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select({ password: false });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    delete req.body.password;
+    delete req.body.role;
+    delete req.body.suspended;
+
+    const user = await User.findByIdAndUpdate(req.user.id, req.body, { new: true }).select({ password: false });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    return res.status(200).json({ message: "Success", user });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+};

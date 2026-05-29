@@ -10,6 +10,7 @@ import Logout from './Logout.jsx';
 import SignUp from './SignUp.jsx';
 import Dashboard from './Dashboard.jsx';
 import Reservations from './Reservations.jsx';
+import Profile from './Profile.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './AuthContext.jsx';
@@ -44,6 +45,14 @@ createRoot(document.getElementById('root')).render(
               element={
                 <ClientRoute>
                   <Reservations />
+                </ClientRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ClientRoute>
+                  <Profile />
                 </ClientRoute>
               }
             />
