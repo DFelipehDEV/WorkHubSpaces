@@ -3,11 +3,14 @@ import Footer from "./Footer"
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "./AuthContext";
 
 function Login() {
   const [error, setError] = useState("");
   const {t} = useTranslation();
   const navigate = useNavigate();
+  const { login } = useAuth();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,6 +32,7 @@ function Login() {
         setError(result.message);
         return;
       }
+      login(); 
       navigate('../dashboard');
     } catch (error) {
       console.error("Network or parsing error:", error);

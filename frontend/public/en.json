@@ -1,8 +1,13 @@
 {
     "nav": {
         "home": "Home",
-        "spaces": "Spaces",
-        "login": "Login"
+        "spaces": "Espaços",
+        "login": "Entrar",
+        "dashboard": "Dashboard",
+        "reservations": "Reservas",
+        "history": "Histórico",
+        "profile": "Gerir Perfil",
+        "logout": "Sair"
     },
     "home": {
         "hero": {
@@ -41,5 +46,22 @@
         "activity": "Activity",
         "company": "Company",
         "optional": "optional"
+    },
+    "reservations": {
+        "status": {
+            "pending": "Pending",
+            "cancelled": "Cancelled",
+            "confirmed": "Confirmed",
+            "finished": "Finished"
+        },
+        "error_fetching": "Could not load reservations.",
+        "no_data": "No reservations found",
+        "no_data_desc": "You have not made any bookings yet.",
+        "space_id": "Space Ref",
+        "start": "Start",
+        "end": "End",
+        "cost": "Cost",
+        "cancel_btn": "Cancel Booking",
+        "confirm_cancel": "Are you sure you want to cancel this reservation?"
     }
 }

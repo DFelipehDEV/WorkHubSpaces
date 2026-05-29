@@ -2,7 +2,12 @@
     "nav": {
         "home": "Home",
         "spaces": "Espaços",
-        "login": "Entrar"
+        "login": "Entrar",
+        "dashboard": "Dashboard",
+        "reservations": "Reservas",
+        "history": "Histórico",
+        "profile": "Gerir Perfil",
+        "logout": "Sair"
     },
     "home": {
         "hero": {
@@ -41,5 +46,22 @@
         "activity": "Atividade",
         "company": "Empresa",
         "optional": "opcional"
+    },
+    "reservations": {
+        "status": {
+            "pending": "Pendente",
+            "cancelled": "Cancelado",
+            "confirmed": "Confirmado",
+            "finished": "Concluído"
+        },
+        "error_fetching": "Não foi possível carregar as reservas.",
+        "no_data": "Nenhuma reserva encontrada",
+        "no_data_desc": "Ainda não efetuou nenhuma reserva.",
+        "space_id": "Ref. Espaço",
+        "start": "Início",
+        "end": "Fim",
+        "cost": "Custo",
+        "cancel_btn": "Cancelar Reserva",
+        "confirm_cancel": "Tem a certeza que deseja cancelar esta reserva?"
     }
 }
