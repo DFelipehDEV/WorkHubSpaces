@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import Reservations from './pages/Reservations.jsx';
 import Profile from './pages/Profile.jsx';
 import BookSpace from './pages/BookSpace.jsx';
+import History from './pages/History.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -56,6 +57,14 @@ createRoot(document.getElementById('root')).render(
                 element={
                   <ClientRoute>
                     <Reservations />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/history"
+                element={
+                  <ClientRoute>
+                    <History />
                   </ClientRoute>
                 }
               />

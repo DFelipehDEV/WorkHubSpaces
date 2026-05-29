@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Calendar, AlertCircle, ArrowRight } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 
-function Reservations() {
+function History() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,12 +21,13 @@ function Reservations() {
         if (!response.ok) throw new Error('Failed to fetch reservations');
 
         const data = await response.json();
-
-        const activeBookings = data.filter(res => res.status === 0 || res.status === 2);
-        setReservations(activeBookings);
+        
+        // Filter only Cancelled (1) and Finished (3) bookings
+        const pastBookings = data.filter(res => res.status === 1 || res.status === 3);
+        setReservations(pastBookings);
       } catch (err) {
         console.error(err);
-        setError(t('reservations.error_fetching', 'Could not load reservations.'));
+        setError(t('reservations.error_fetching', 'Could not load booking history.'));
       } finally {
         setIsLoading(false);
       }
@@ -34,29 +36,9 @@ function Reservations() {
     fetchReservations();
   }, [t]);
 
-  const handleCancel = async (id) => {
-    if (!window.confirm(t('reservations.confirm_cancel', 'Are you sure you want to cancel this reservation?'))) return;
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations/${id}/cancel`, {
-        method: 'POST',
-        credentials: 'include'
-      });
-
-      if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.message || 'Failed to cancel');
-      }
-
-      setReservations(prev => prev.filter(res => res._id !== id));
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">{t('nav.reservations', 'Reservations')}</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-6">{t('nav.history', 'Booking History')}</h1>
 
       {isLoading ? (
         <div className="flex justify-center items-center py-20">
@@ -70,17 +52,18 @@ function Reservations() {
       ) : reservations.length === 0 ? (
         <div className="bg-white p-8 rounded-2xl border border-stone-200 text-center shadow-sm max-w-2xl mx-auto">
           <Calendar className="mx-auto text-stone-300 mb-4" size={48} />
-          <h3 className="text-lg font-bold text-stone-800">{t('reservations.no_data', 'No reservations found')}</h3>
-          <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_data_desc', 'You have not made any bookings yet.')}</p>
+          <h3 className="text-lg font-bold text-stone-800">{t('reservations.no_history', 'No past bookings found')}</h3>
+          <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_history_desc', 'Your completed and cancelled reservations will appear here.')}</p>
+          <div className="mt-6">
+            <Link to="/spaces" className="inline-flex items-center gap-1 px-5 py-2.5 bg-primary-2 text-white rounded-xl text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
+              {t('home.hero.cta', 'See Spaces')} <ArrowRight size={16} />
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reservations.map((reservation) => (
-            <ReservationCard
-              key={reservation._id}
-              reservation={reservation}
-              onCancel={handleCancel}
-            />
+            <ReservationCard key={reservation._id} reservation={reservation} />
           ))}
         </div>
       )}
@@ -88,4 +71,4 @@ function Reservations() {
   );
 }
 
-export default Reservations;
+export default History;

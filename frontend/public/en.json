@@ -93,7 +93,10 @@
         "end": "End",
         "cost": "Cost",
         "cancel_btn": "Cancel Booking",
-        "confirm_cancel": "Are you sure you want to cancel this reservation?"
+        "confirm_cancel": "Are you sure you want to cancel this reservation?",
+        "no_history": "No past bookings found",
+        "no_history_desc": "Your completed and cancelled reservations will appear here.",
+        "book_again": "Book Again"
     },
     "booking": {
         "goback_to_space": "Go Back to Space details",

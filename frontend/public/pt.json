@@ -94,7 +94,10 @@
         "end": "Fim",
         "cost": "Custo",
         "cancel_btn": "Cancelar Reserva",
-        "confirm_cancel": "Tem a certeza que deseja cancelar esta reserva?"
+        "confirm_cancel": "Tem a certeza que deseja cancelar esta reserva?",
+        "no_history": "Nenhuma reserva anterior encontrada",
+        "no_history_desc": "As suas reservas canceladas e concluídas aparecerão aqui.",
+        "book_again": "Reservar Novamente"
     },
     "booking": {
         "goback_to_space": "Voltar para detalhes do espaço",
