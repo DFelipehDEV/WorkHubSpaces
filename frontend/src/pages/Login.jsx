@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [error, setError] = useState("");

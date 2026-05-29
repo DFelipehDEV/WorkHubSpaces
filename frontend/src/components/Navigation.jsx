@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { Menu, X, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from './AuthContext'; 
+import { useAuth } from '../context/AuthContext'; 
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);

@@ -12,9 +12,11 @@ exports.create = async (req, res) => {
 
 exports.get = async (req, res) => {
   try {
-    const space = await Space.findById(req.params.id).orFail(() => {
-      return res.status(404).json({ message: "Couldn't find space" });
-    });
+    const space = await Space.findById(req.params.id)
+      .populate({ path: 'reviews.user', select: 'name' })
+      .orFail(() => {
+        return res.status(404).json({ message: "Couldn't find space" });
+      });
 
     return res.status(200).json(space);
   } catch (err) {

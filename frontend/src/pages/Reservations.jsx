@@ -63,8 +63,15 @@ function Reservations() {
   };
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    const date = new Date(dateString);
+    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      ...(hasTime ? { hour: '2-digit', minute: '2-digit' } : {})
+    };
+    return date.toLocaleDateString(undefined, options);
   };
 
   return (

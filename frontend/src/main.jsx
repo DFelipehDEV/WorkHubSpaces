@@ -2,20 +2,21 @@ import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router";
 import './index.css';
-import Home from './Home.jsx';
-import Spaces from './Spaces.jsx';
-import Space from './Space.jsx';
-import Login from './Login.jsx';
-import Logout from './Logout.jsx';
-import SignUp from './SignUp.jsx';
-import Dashboard from './Dashboard.jsx';
-import Reservations from './Reservations.jsx';
-import Profile from './Profile.jsx';
+import Home from './pages/Home.jsx';
+import Spaces from './pages/Spaces.jsx';
+import Space from './pages/Space.jsx';
+import Login from './pages/Login.jsx';
+import Logout from './pages/Logout.jsx';
+import SignUp from './pages/SignUp.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Reservations from './pages/Reservations.jsx';
+import Profile from './pages/Profile.jsx';
+import BookSpace from './pages/BookSpace.jsx';
 import './i18n.js';
 
-import { AuthProvider } from './AuthContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 import { ClientRoute } from './ClientRoute.jsx';
-import Layout from './Layout.jsx';
+import Layout from './components/Layout.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -31,6 +32,14 @@ createRoot(document.getElementById('root')).render(
               <Route path="/" element={<Home />} />
               <Route path="/spaces" element={<Spaces />} />
               <Route path="/spaces/:id" element={<Space />} />
+              <Route
+                path="/spaces/:id/book"
+                element={
+                  <ClientRoute>
+                    <BookSpace />
+                  </ClientRoute>
+                }
+              />
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/signup" element={<SignUp />} />

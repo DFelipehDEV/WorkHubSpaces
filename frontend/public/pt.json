@@ -29,6 +29,7 @@
         "people": "pessoas",
         "book": "Reservar",
         "hour": "hora",
+        "hours": "horas",
         "day": "dia",
         "days": "dias",
         "type": "Tipo",
@@ -45,7 +46,10 @@
         "book_btn_short": "Reservar Agora",
         "login_to_book": "Entrar",
         "booking_success_title": "Reserva Criada!",
-        "booking_success_desc": "A redirecionar para o painel..."
+        "booking_success_desc": "A redirecionar para o painel...",
+        "observations_placeholder": "Necessita de lugares sentados específicos, equipamento de apresentação visual ou configurações de layout específicas? Diga-nos.",
+        "notfound_desc": "O espaço solicitado não existe.",
+        "book_this_space": "Reservar Espaço"
     },
     "common": {
         "done": "Concluído",
@@ -91,5 +95,31 @@
         "cost": "Custo",
         "cancel_btn": "Cancelar Reserva",
         "confirm_cancel": "Tem a certeza que deseja cancelar esta reserva?"
+    },
+    "booking": {
+        "goback_to_space": "Voltar para detalhes do espaço",
+        "success_title": "Reserva Efetuada com Sucesso!",
+        "success_desc": "A sua reserva foi criada. A redirecionar para a página de reservas...",
+        "error_title": "Falha na Reserva",
+        "step_dates": "Selecione as Datas da Reserva",
+        "dates_selected": "Datas Selecionadas",
+        "hide_calendar": "Concluído",
+        "change_dates": "Escolher Datas",
+        "mode_hourly": "Reserva por Horas",
+        "mode_daily": "Reserva por Dias",
+        "select_date": "Selecionar Data",
+        "start_time": "Hora de Início",
+        "end_time": "Hora de Fim",
+        "error_time_relation": "A hora de fim deve ser posterior à hora de início.",
+        "step_services": "Serviços Extra (Opcional)",
+        "step_equipment": "Selecionar Equipamento (Opcional)",
+        "step_observations": "Pedidos Especiais (Opcional)",
+        "summary_title": "Resumo da Reserva",
+        "duration": "Duração",
+        "space_cost": "Aluguer do Espaço",
+        "services_total": "Serviços Extra",
+        "equipments_total": "Aluguer de Equipamento",
+        "total_cost": "Preço Total",
+        "confirm_btn": "Confirmar e Reservar"
     }
 }

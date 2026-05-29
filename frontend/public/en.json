@@ -29,6 +29,7 @@
         "people": "people",
         "book": "Book",
         "hour": "hour",
+        "hours": "hours",
         "day": "day",
         "days": "days",
         "type": "Type",
@@ -44,7 +45,10 @@
         "book_btn_short": "Book Now",
         "login_to_book": "Login",
         "booking_success_title": "Booking Created!",
-        "booking_success_desc": "Redirecting to your dashboard..."
+        "booking_success_desc": "Redirecting to your dashboard...",
+        "observations_placeholder": "Do you need specific seating, visual presentation gear, or specific layout configurations? Let us know.",
+        "notfound_desc": "The requested space does not exist.",
+        "book_this_space": "Book Space"
     },
     "common": {
         "done": "Done",
@@ -90,5 +94,31 @@
         "cost": "Cost",
         "cancel_btn": "Cancel Booking",
         "confirm_cancel": "Are you sure you want to cancel this reservation?"
+    },
+    "booking": {
+        "goback_to_space": "Go Back to Space details",
+        "success_title": "Booking Successful!",
+        "success_desc": "Your reservation was created. Redirecting to your bookings page...",
+        "error_title": "Booking Failed",
+        "step_dates": "Select Booking Dates",
+        "dates_selected": "Dates Selected",
+        "hide_calendar": "Done",
+        "change_dates": "Choose Dates",
+        "mode_hourly": "Hourly Booking",
+        "mode_daily": "Daily Booking",
+        "select_date": "Select Date",
+        "start_time": "Start Time",
+        "end_time": "End Time",
+        "error_time_relation": "End time must be after start time.",
+        "step_services": "Extra Services (Optional)",
+        "step_equipment": "Select Equipment (Optional)",
+        "step_observations": "Special Requests (Optional)",
+        "summary_title": "Booking Summary",
+        "duration": "Duration",
+        "space_cost": "Space Rental",
+        "services_total": "Extra Services",
+        "equipments_total": "Equipment Rental",
+        "total_cost": "Total Price",
+        "confirm_btn": "Confirm and Book"
     }
 }
