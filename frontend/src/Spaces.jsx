@@ -61,7 +61,7 @@ function Spaces() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navigation />
       
       <main className='grow max-w-7xl mx-auto w-full px-4 sm:px-6 py-6'>
@@ -69,7 +69,7 @@ function Spaces() {
           <div className="relative">
             <button 
               onClick={() => setShowCalendar(!showCalendar)}
-              className="w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 transition-colors"
+              className="cursor-pointer w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 hover:text-primary-2"
             >
               {formatDate(dateRange[0].startDate)} - {formatDate(dateRange[0].endDate)}
             </button>
@@ -106,7 +106,7 @@ function Spaces() {
               <Link 
                 to={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} 
                 key={space._id} 
-                className='border border-stone-200 rounded-lg shadow-sm overflow-hidden bg-white hover:shadow-md transition-shadow flex flex-col'
+                className='border border-stone-200 rounded-lg shadow-md overflow-hidden bg-white hover:shadow-lg transition-shadow flex flex-col group'
               >
                 {space.images && space.images.length > 0 ? (
                   <img
@@ -121,7 +121,7 @@ function Spaces() {
                 )}
                 
                 <div className='flex flex-col justify-between p-3 grow'>
-                  <h3 className='font-semibold text-base text-stone-800 mb-1 truncate'>{space.name}</h3>
+                  <h3 className='font-semibold text-base text-stone-800 mb-1 truncate group-hover:text-primary-2'>{space.name}</h3>
                   <div className='flex justify-between items-center mt-auto'>
                     <span className='text-sm text-stone-600'>
                       {space.pricePerHour}€/h <span className="text-stone-400">|</span> {space.pricePerHour * 24}€/d

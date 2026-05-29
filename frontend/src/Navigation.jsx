@@ -19,15 +19,15 @@ function Navigation() {
   return (
     <div className="px-4 md:px-12 lg:px-24 pt-5 sticky top-0 z-50">
       <div className="px-6 py-4 flex gap-8 justify-between items-center rounded-3xl bg-white/75 backdrop-blur-sm border border-stone-200 shadow-sm relative">
-        <Link to={baseUrl} className="text-stone-800 text-xl md:text-2xl font-semibold" onClick={closeMenus}>
+        <Link to={baseUrl} className="text-primary-2 text-shadow-sm text-xl md:text-2xl font-semibold" onClick={closeMenus}>
           Workhub Spaces
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link to={baseUrl} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-stone-600 transition-colors">
+          <Link to={baseUrl} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
             {t('nav.home')}
           </Link>
-          <Link to={`${baseUrl}/spaces`} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-stone-600 transition-colors">
+          <Link to={`${baseUrl}/spaces`} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
             {t('nav.spaces')}
           </Link>
           
@@ -35,27 +35,27 @@ function Navigation() {
             <div className="relative">
               <button 
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center justify-center p-2 rounded-full hover:bg-stone-100 transition-colors text-stone-800 cursor-pointer"
+                className="flex items-center justify-center p-2 rounded-full text-stone-800 cursor-pointer group"
               >
-                <User size={24} />
+                <User size={24} className='group-hover:text-primary-2' />
               </button>
 
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-lg py-2 flex flex-col z-50">
-                  <Link to={`${baseUrl}/dashboard`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-stone-50 transition-colors">
+                  <Link to={`${baseUrl}/dashboard`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.dashboard')}
                   </Link>
-                  <Link to={`${baseUrl}/reservations`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-stone-50 transition-colors">
+                  <Link to={`${baseUrl}/reservations`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.reservations')}
                   </Link>
-                  <Link to={`${baseUrl}/history`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-stone-50 transition-colors">
+                  <Link to={`${baseUrl}/history`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.history')}
                   </Link>
-                  <Link to={`${baseUrl}/profile`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-stone-50 transition-colors">
+                  <Link to={`${baseUrl}/profile`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.profile')}
                   </Link>
                   <div className="border-t border-stone-100 my-1"></div>
-                  <Link to={`${baseUrl}/logout`} onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                  <Link to={`${baseUrl}/logout`} onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
                     {t('nav.logout')}
                   </Link>
                 </div>
@@ -69,7 +69,7 @@ function Navigation() {
         </div>
 
         <button
-          className="md:hidden text-stone-800 p-2 cursor-pointer hover:bg-stone-100 rounded-lg transition-colors"
+          className="md:hidden text-stone-800 p-2 cursor-pointer hover:bg-primary-2 rounded-lg"
           onClick={() => {
             setIsOpen(!isOpen);
             setIsProfileOpen(false);

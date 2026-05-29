@@ -104,7 +104,7 @@ function Reservations() {
                         {reservation.spaceId !== null ? (
                           <Link
                             to={`/spaces/${reservation.spaceId._id}`}
-                            className="text-stone-900 hover:text-stone-700 underline decoration-stone-300 hover:decoration-stone-600 transition-colors font-bold"
+                            className="text-stone-900 hover:text-primary-2 underline hover:decoration-primary-2 font-bold"
                           >
                             {reservation.spaceId.name}
                           </Link>
@@ -124,7 +124,7 @@ function Reservations() {
                       <p><strong>{t('reservations.start', 'Start')}:</strong> {formatDate(reservation.startDate)}</p>
                       <p><strong>{t('reservations.end', 'End')}:</strong> {formatDate(reservation.endDate)}</p>
                       {reservation.cost && (
-                        <p><strong>{t('reservations.cost', 'Cost')}:</strong>{reservation.cost.toFixed(2)}€</p>
+                        <p><strong>{t('reservations.cost', 'Cost')}: </strong>{reservation.cost.toFixed(2)}€</p>
                       )}
                     </div>
                   </div>
@@ -132,7 +132,7 @@ function Reservations() {
                   {(reservation.status === 0 || reservation.status === 2) && (
                     <button
                       onClick={() => handleCancel(reservation._id)}
-                      className="px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm font-medium w-full md:w-auto"
+                      className="px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 cursor-pointer text-sm font-medium w-full md:w-auto"
                     >
                       {t('reservations.cancel_btn', 'Cancel Booking')}
                     </button>

@@ -193,11 +193,11 @@ function Space() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 flex flex-col overflow-scroll">
+    <div className="min-h-screen bg-stone-50 flex flex-col">
       <Navigation />
 
       <main className='grow px-8 lg:px-48 py-8'>
-        <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-stone-900 transition-colors">
+        <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-primary-2">
           <ChevronLeft /> {t('goback')}
         </Link>
 
@@ -250,7 +250,7 @@ function Space() {
                         setShowCalendar(!showCalendar);
                         setShowServicesDropdown(false);
                       }}
-                      className="w-full flex items-center gap-2.5 text-stone-600 hover:text-stone-900 px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors text-sm font-medium cursor-pointer"
+                      className="w-full flex items-center gap-2.5 text-stone-600 hover:text-primary-2 px-3 py-2 rounded-lg hover:bg-stone-50 text-sm font-medium cursor-pointer"
                     >
                       <CalendarIcon size={16} className="text-stone-400" />
                       <span>{formatDate(dateRange[0].startDate)} — {formatDate(dateRange[0].endDate)}</span>
@@ -278,7 +278,7 @@ function Space() {
                         setShowServicesDropdown(!showServicesDropdown);
                         setShowCalendar(false);
                       }}
-                      className="w-full flex items-center gap-2.5 text-stone-600 hover:text-stone-900 px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors text-sm font-medium cursor-pointer"
+                      className="w-full flex items-center gap-2.5 text-stone-600 hover:text-primary-2 px-3 py-2 rounded-lg hover:bg-stone-50 text-sm font-medium cursor-pointer"
                     >
                       <Plus size={16} className="text-stone-400" />
                       <span>
@@ -333,7 +333,7 @@ function Space() {
 
                   <div className="h-5 w-px bg-stone-200 hidden md:block"></div>
 
-                  <div className="w-full md:w-auto flex-grow flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-stone-50/50 transition-colors">
+                  <div className="w-full md:w-auto grow flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-stone-50/50">
                     <FileText size={16} className="text-stone-400 shrink-0" />
                     <input
                       type="text"
@@ -434,7 +434,7 @@ function Space() {
                       {space.equipments && space.equipments.length > 3 && (
                         <button
                           onClick={() => setShowAllEquipments(!showAllEquipments)}
-                          className="mt-3 text-[10px] font-bold text-stone-500 hover:text-stone-800 uppercase tracking-wider flex items-center gap-0.5 cursor-pointer outline-none transition-colors"
+                          className="mt-3 text-[10px] font-bold text-stone-500 hover:text-primary-2 uppercase tracking-wider flex items-center gap-0.5 cursor-pointer outline-none"
                         >
                           {showAllEquipments ? t('common.show_less', 'Show Less') : `${t('common.show_all', 'Show All')} (${space.equipments.length})`}
                         </button>

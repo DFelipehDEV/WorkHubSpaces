@@ -8,6 +8,10 @@
     --font-mono: "JetBrains Mono", monospace;
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 :root {
     background-color: rgb(240, 240, 240)
 }
