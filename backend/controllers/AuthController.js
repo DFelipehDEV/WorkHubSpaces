@@ -45,6 +45,7 @@ exports.login = async (req, res) => {
         res.cookie("Authorization", "Bearer " + token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
+            sameSite: "lax",
         })
 
         res.status(200).json({
