@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.cookie("authToken", token, {
+        res.cookie("Authorization", "Bearer " + token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
         })
@@ -123,10 +123,23 @@ exports.resetPassword = async (req, res) => {
 }
 
 exports.validateHeaderToken = async (req, res) => {
-    const authToken = req.cookies.authToken;
-    if (authToken == undefined) return res.status(400).json( {message: "authToken is missing"});
+    const authorization = req.cookies.Authorization || req.cookies.authorization;
+    if (authorization == undefined) return res.status(400).json( {message: "authorization is missing"});
 
-    jwt.verify(authToken, process.env.JWT_SECRET, (err, user) => {
+    let token = authorization;
+    if (authorization.startsWith('Bearer ')) {
+        token = authorization.split(' ')[1];
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(401).json({ message: "Invalid or expired token" });
+        }
         res.status(200).json( {message: "Success"} )
     });
+};
+
+exports.logout = async (req, res) => {
+    res.clearCookie("Authorization");
+    return res.status(200).json({ message: "Success" });
 };

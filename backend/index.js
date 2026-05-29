@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const app = express();
+app.use(cookieParser());
 app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true,
@@ -12,6 +13,8 @@ app.use(cors({
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials",
+    "Authorization",
+    "authorization",
   ],
 }));
 
@@ -29,7 +32,8 @@ app.post('/signup', express.json(), AuthController.signUp);
 app.post('/login', express.json(), AuthController.login);
 app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);
-app.get('/validate-token', cookieParser(), AuthController.validateHeaderToken);
+app.get('/validate-token', AuthController.validateHeaderToken);
+app.get('/logout', AuthController.logout);
 
 const EquipmentController = require("./controllers/EquipmentController");
 app.post('/equipments', express.json(), adminMiddleware, EquipmentController.create);
