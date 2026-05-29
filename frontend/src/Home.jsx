@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 function Home() {
   const { t } = useTranslation();
   return (
-    <body className="overflow-scroll">
+    <div className="">
       <Navigation />
       <div className="px-16 py-12 lg:px-48 min-h-screen">
         <div className="bg-white p-3 rounded-xl">
@@ -17,7 +17,7 @@ function Home() {
         </div>
       </div>
       <Footer />
-    </body>
+    </div>
   )
 }
 
