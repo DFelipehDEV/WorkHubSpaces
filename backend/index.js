@@ -81,6 +81,10 @@ app.get('/extraservices', ExtraServiceController.getAll);
 const S3Controller = require("./controllers/S3Controller");
 app.get('/upload-url', adminMiddleware, S3Controller.getUploadUrl);
 
+const NotificationController = require("./controllers/NotificationController");
+app.get('/notifications', userMiddleware, NotificationController.getAll);
+app.delete('/notifications/:id', userMiddleware, NotificationController.delete);
+
 app.listen(process.env.PORT, () => {
   try {
     mongoose.connect(process.env.ATLAS_CONNECTION);
