@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
 @theme {
     --color-primary: #00E676;
     --color-primary-2: #2E7D32;
+    --font-sans: "Outfit", "Google Sans", "Product Sans", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
 }
 
 :root {

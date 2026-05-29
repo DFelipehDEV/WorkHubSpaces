@@ -30,8 +30,26 @@
         "book": "Book",
         "hour": "hour",
         "day": "day",
+        "days": "days",
         "type": "Type",
-        "all": "all"
+        "all": "all",
+        "price": "Price",
+        "select_dates": "Select Dates",
+        "extra_services": "Extra Services",
+        "no_extras": "Add Services",
+        "no_extras_available": "No extra services available.",
+        "observations": "Observations",
+        "observations_placeholder_short": "Any special requests?",
+        "total": "Total",
+        "book_btn_short": "Book Now",
+        "login_to_book": "Login",
+        "booking_success_title": "Booking Created!",
+        "booking_success_desc": "Redirecting to your dashboard..."
+    },
+    "common": {
+        "done": "Done",
+        "show_all": "Show All",
+        "show_less": "Show Less"
     },
     "auth": {
         "login": "Login",
@@ -58,6 +76,7 @@
         "no_data": "No reservations found",
         "no_data_desc": "You have not made any bookings yet.",
         "space_id": "Space Ref",
+        "space_name": "Space",
         "start": "Start",
         "end": "End",
         "cost": "Cost",

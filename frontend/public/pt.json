@@ -30,8 +30,27 @@
         "book": "Reservar",
         "hour": "hora",
         "day": "dia",
+        "days": "dias",
         "type": "Tipo",
-        "all": "todos"
+        "all": "todos",
+        "price": "Preço",
+        "select_dates": "Selecionar Datas",
+        "extra_services": "Serviços Extra",
+        "no_extras": "Adicionar Serviços",
+        "select_extras": "Selecionar Extras",
+        "no_extras_available": "Sem serviços extra disponíveis.",
+        "observations": "Observações",
+        "observations_placeholder_short": "Algum pedido especial?",
+        "total": "Total",
+        "book_btn_short": "Reservar Agora",
+        "login_to_book": "Entrar",
+        "booking_success_title": "Reserva Criada!",
+        "booking_success_desc": "A redirecionar para o painel..."
+    },
+    "common": {
+        "done": "Concluído",
+        "show_all": "Mostrar Todos",
+        "show_less": "Mostrar Menos"
     },
     "auth": {
         "login": "Entrar",
@@ -58,6 +77,7 @@
         "no_data": "Nenhuma reserva encontrada",
         "no_data_desc": "Ainda não efetuou nenhuma reserva.",
         "space_id": "Ref. Espaço",
+        "space_name": "Espaço",
         "start": "Início",
         "end": "Fim",
         "cost": "Custo",

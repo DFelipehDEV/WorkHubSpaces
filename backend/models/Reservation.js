@@ -7,6 +7,7 @@ const reservationSchema = new mongoose.Schema({
   },
   spaceId: {
     type: mongoose.ObjectId,
+    ref: 'Space',
     required: true,
   },
   startDate: {

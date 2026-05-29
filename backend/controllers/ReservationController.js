@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
 
 exports.get = async (req, res) => {
   try {
-    const reservation = await Reservation.findById(req.params.id).orFail(() => {
+    const reservation = await Reservation.findById(req.params.id).populate('spaceId').orFail(() => {
       return res.status(404).json({ message: "Couldn't find reservation" });
     });
 
@@ -79,18 +79,20 @@ exports.getAll = async (req, res) => {
         reservations = await Reservation.find({})
           .limit(limit)
           .skip((page - 1) * limit)
+          .populate('spaceId')
           .exec();
       } else {
         reservations = await Reservation.find({ reservedBy: req.user.id })
           .limit(limit)
           .skip((page - 1) * limit)
+          .populate('spaceId')
           .exec();
       }
     } else {
       if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
-        reservations = await Reservation.find({});
+        reservations = await Reservation.find({}).populate('spaceId').exec();
       } else {
-        reservations = await Reservation.find({ reservedBy: req.user.id });
+        reservations = await Reservation.find({ reservedBy: req.user.id }).populate('spaceId').exec();
       }
     }
 
@@ -137,9 +139,10 @@ exports.getClientHistory = async (req, res) => {
       reservations = await Reservation.find({ reservedBy: req.params.id })
         .limit(limit)
         .skip((page - 1) * limit)
+        .populate('spaceId')
         .exec();
     } else {
-      reservations = await Reservation.find({ reservedBy: req.params.id });
+      reservations = await Reservation.find({ reservedBy: req.params.id }).populate('spaceId').exec();
     }
     return res.status(200).json(reservations);
   } catch (err) {
