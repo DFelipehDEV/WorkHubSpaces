@@ -1,13 +1,13 @@
 {
     "nav": {
         "home": "Home",
-        "spaces": "Espaços",
-        "login": "Entrar",
+        "spaces": "Spaces",
+        "login": "Login",
         "dashboard": "Dashboard",
-        "reservations": "Reservas",
-        "history": "Histórico",
-        "profile": "Gerir Perfil",
-        "logout": "Sair"
+        "reservations": "Reservations",
+        "history": "History",
+        "profile": "Manage Profile",
+        "logout": "Logout"
     },
     "home": {
         "hero": {
@@ -22,39 +22,18 @@
         "notfound": "Space not found",
         "available": "Available",
         "unavailable": "Unavailable",
-        "equipments": "Equipments",
-        "no_equipments": "No equipments listed.",
         "reviews": "Reviews",
         "no_reviews": "Yet to be reviewed.",
         "people": "people",
-        "book": "Book",
         "hour": "hour",
         "hours": "hours",
         "day": "day",
         "days": "days",
         "type": "Type",
         "all": "all",
-        "price": "Price",
-        "select_dates": "Select Dates",
-        "extra_services": "Extra Services",
-        "no_extras": "Add Services",
-        "no_extras_available": "No extra services available.",
-        "observations": "Observations",
-        "observations_placeholder_short": "Any special requests?",
-        "total": "Total",
-        "book_btn_short": "Book Now",
-        "login_to_book": "Login",
-        "booking_success_title": "Booking Created!",
-        "booking_success_desc": "Redirecting to your dashboard...",
         "observations_placeholder": "Do you need specific seating, visual presentation gear, or specific layout configurations? Let us know.",
         "notfound_desc": "The requested space does not exist.",
         "book_this_space": "Book Space"
-    },
-    "common": {
-        "done": "Done",
-        "show_all": "Show All",
-        "show_less": "Show Less",
-        "loading": "Loading..."
     },
     "profile": {
         "title": "Manage Profile",
@@ -67,7 +46,6 @@
         "login": "Login",
         "email": "Email",
         "password": "Password",
-        "not_authenticated": "You are not authenticated.",
         "create_account": "Create account.",
         "name": "Name",
         "contact": "Contact",
@@ -87,16 +65,13 @@
         "error_fetching": "Could not load reservations.",
         "no_data": "No reservations found",
         "no_data_desc": "You have not made any bookings yet.",
-        "space_id": "Space Ref",
-        "space_name": "Space",
         "start": "Start",
         "end": "End",
         "cost": "Cost",
         "cancel_btn": "Cancel Booking",
         "confirm_cancel": "Are you sure you want to cancel this reservation?",
         "no_history": "No past bookings found",
-        "no_history_desc": "Your completed and cancelled reservations will appear here.",
-        "book_again": "Book Again"
+        "no_history_desc": "Your completed and cancelled reservations will appear here."
     },
     "booking": {
         "goback_to_space": "Go Back to Space details",
@@ -123,5 +98,16 @@
         "equipments_total": "Equipment Rental",
         "total_cost": "Total Price",
         "confirm_btn": "Confirm and Book"
+    },
+    "dashboard": {
+        "welcome": "Welcome back",
+        "membership_desc": "Here is your active membership card and reservation status.",
+        "upcoming_title": "Next Upcoming Reservation",
+        "no_upcoming": "No upcoming reservations found.",
+        "view_details": "View all reservations",
+        "notifications_title": "Notifications",
+        "unread": "Unread",
+        "dismiss": "Dismiss",
+        "no_notifications": "You have no unread notifications."
     }
 }

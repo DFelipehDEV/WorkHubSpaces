@@ -59,7 +59,7 @@ function Spaces() {
   };
 
   return (
-    <div className='max-w-7xl mx-auto w-full px-4 sm:px-6 py-6'>
+    <div className='max-w-6xl mx-auto w-full px-4 sm:px-6 py-6'>
         <div className='flex flex-col sm:flex-row justify-end gap-3 mb-6'>
           <div className="relative">
             <button 

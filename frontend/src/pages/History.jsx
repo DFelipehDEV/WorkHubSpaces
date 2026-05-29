@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { Calendar, AlertCircle, ArrowRight } from 'lucide-react';
+import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 
 function History() {
@@ -54,11 +53,6 @@ function History() {
           <Calendar className="mx-auto text-stone-300 mb-4" size={48} />
           <h3 className="text-lg font-bold text-stone-800">{t('reservations.no_history', 'No past bookings found')}</h3>
           <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_history_desc', 'Your completed and cancelled reservations will appear here.')}</p>
-          <div className="mt-6">
-            <Link to="/spaces" className="inline-flex items-center gap-1 px-5 py-2.5 bg-primary-2 text-white rounded-xl text-sm font-bold shadow-sm hover:opacity-90 transition-opacity">
-              {t('home.hero.cta', 'See Spaces')} <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

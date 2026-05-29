@@ -33,28 +33,20 @@ function ReservationCard({ reservation, onCancel }) {
   return (
     <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between gap-4 hover:shadow-md hover:border-stone-300 transition-all duration-200">
       <div className="space-y-3 grow">
-        {/* Space Name & Status */}
         <div className="flex justify-between items-start gap-2">
           <span className="font-bold text-stone-850 line-clamp-1 text-base">
-            {reservation.spaceId !== null ? (
-              <Link
-                to={`/spaces/${reservation.spaceId._id}`}
-                className="hover:text-primary-2 underline hover:decoration-primary-2"
-              >
-                {reservation.spaceId.name}
-              </Link>
-            ) : (
-              <span className="font-mono text-xs text-stone-500">
-                {typeof reservation.spaceId === 'string' ? reservation.spaceId.substring(0, 8) + '...' : 'N/A'}
-              </span>
-            )}
+            <Link
+              to={`/spaces/${reservation.spaceId._id}`}
+              className="hover:text-primary-2 underline hover:decoration-primary-2"
+            >
+              {reservation.spaceId.name}
+            </Link>
           </span>
           <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 uppercase tracking-wider ${color}`}>
             {label}
           </span>
         </div>
 
-        {/* Start/End dates */}
         <div className="text-xs text-stone-600 space-y-2 font-mono bg-stone-50/75 p-3 rounded-xl border border-stone-100">
           <div>
             <strong className="text-stone-400 uppercase text-[9px] tracking-wider block mb-0.5">{t('reservations.start', 'Start')}</strong> 
@@ -66,22 +58,16 @@ function ReservationCard({ reservation, onCancel }) {
           </div>
         </div>
 
-        {/* Cost display */}
-        {reservation.cost && (
-          <div className="flex justify-between items-center text-xs font-mono pt-1">
-            <span className="text-stone-400 uppercase text-[9px] tracking-wider">{t('reservations.cost', 'Cost')}</span>
-            <span className="font-bold text-stone-900 text-sm">{reservation.cost.toFixed(2)}€</span>
-          </div>
-        )}
+        <div className="flex justify-between items-center text-xs font-mono pt-1">
+          <span className="text-stone-400 uppercase text-[9px] tracking-wider">{t('reservations.cost', 'Cost')}</span>
+          <span className="font-bold text-stone-900 text-sm">{reservation.cost.toFixed(2)}€</span>
+        </div>
 
-        {/* Observations */}
-        {reservation.obs && (
-          <div className="pt-2 border-t border-stone-100">
-            <p className="text-[11px] text-stone-500 line-clamp-2 italic leading-relaxed">
-              &ldquo;{reservation.obs}&rdquo;
-            </p>
-          </div>
-        )}
+        <div className="pt-2 border-t border-stone-100">
+          <p className="text-[11px] text-stone-500 line-clamp-2 italic leading-relaxed">
+            &ldquo;{reservation.obs}&rdquo;
+          </p>
+        </div>
       </div>
 
       {isCancelable && (

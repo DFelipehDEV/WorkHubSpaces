@@ -22,40 +22,18 @@
         "notfound": "Espaço não encontrado",
         "available": "Disponivel",
         "unavailable": "Indisponivel",
-        "equipments": "Equipamentos",
-        "no_equipments": "Sem equipamentos listados.",
         "reviews": "Análises",
         "no_reviews": "Ainda não existe nenhuma análise.",
         "people": "pessoas",
-        "book": "Reservar",
         "hour": "hora",
         "hours": "horas",
         "day": "dia",
         "days": "dias",
         "type": "Tipo",
         "all": "todos",
-        "price": "Preço",
-        "select_dates": "Selecionar Datas",
-        "extra_services": "Serviços Extra",
-        "no_extras": "Adicionar Serviços",
-        "select_extras": "Selecionar Extras",
-        "no_extras_available": "Sem serviços extra disponíveis.",
-        "observations": "Observações",
-        "observations_placeholder_short": "Algum pedido especial?",
-        "total": "Total",
-        "book_btn_short": "Reservar Agora",
-        "login_to_book": "Entrar",
-        "booking_success_title": "Reserva Criada!",
-        "booking_success_desc": "A redirecionar para o painel...",
         "observations_placeholder": "Necessita de lugares sentados específicos, equipamento de apresentação visual ou configurações de layout específicas? Diga-nos.",
         "notfound_desc": "O espaço solicitado não existe.",
         "book_this_space": "Reservar Espaço"
-    },
-    "common": {
-        "done": "Concluído",
-        "show_all": "Mostrar Todos",
-        "show_less": "Mostrar Menos",
-        "loading": "A carregar..."
     },
     "profile": {
         "title": "Gerir Perfil",
@@ -68,7 +46,6 @@
         "login": "Entrar",
         "email": "Email",
         "password": "Palavra-passe",
-        "not_authenticated": "Não estas autenticado.",
         "create_account": "Criar conta.",
         "name": "Nome",
         "contact": "Contacto",
@@ -88,16 +65,13 @@
         "error_fetching": "Não foi possível carregar as reservas.",
         "no_data": "Nenhuma reserva encontrada",
         "no_data_desc": "Ainda não efetuou nenhuma reserva.",
-        "space_id": "Ref. Espaço",
-        "space_name": "Espaço",
         "start": "Início",
         "end": "Fim",
         "cost": "Custo",
         "cancel_btn": "Cancelar Reserva",
         "confirm_cancel": "Tem a certeza que deseja cancelar esta reserva?",
         "no_history": "Nenhuma reserva anterior encontrada",
-        "no_history_desc": "As suas reservas canceladas e concluídas aparecerão aqui.",
-        "book_again": "Reservar Novamente"
+        "no_history_desc": "As suas reservas canceladas e concluídas aparecerão aqui."
     },
     "booking": {
         "goback_to_space": "Voltar para detalhes do espaço",
@@ -124,5 +98,16 @@
         "equipments_total": "Aluguer de Equipamento",
         "total_cost": "Preço Total",
         "confirm_btn": "Confirmar e Reservar"
+    },
+    "dashboard": {
+        "welcome": "Bem-vindo de volta",
+        "membership_desc": "Aqui está o seu cartão de membro ativo e estado das reservas.",
+        "upcoming_title": "Próxima Reserva",
+        "no_upcoming": "Nenhuma próxima reserva encontrada.",
+        "view_details": "Ver todas as reservas",
+        "notifications_title": "Notificações",
+        "unread": "Não lidas",
+        "dismiss": "Dispensar",
+        "no_notifications": "Não tem nenhuma notificação por ler."
     }
 }

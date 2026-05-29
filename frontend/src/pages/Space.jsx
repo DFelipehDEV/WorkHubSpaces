@@ -46,8 +46,8 @@ function Space() {
   }
 
   return (
-    <div className="px-8 lg:px-48 py-8">
-        <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-primary-2">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-primary-2 items-center gap-1">
           <ChevronLeft /> {t('goback')}
         </Link>
 

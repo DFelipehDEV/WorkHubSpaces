@@ -1,18 +1,79 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
-import { Menu, X, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, User, Bell } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext'; 
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const closeMenus = () => {
     setIsOpen(false);
     setIsProfileOpen(false);
+    setIsNotificationsOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      const timer = setTimeout(() => {
+        setNotifications([]);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+
+    const fetchNotifications = () => {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/notifications`, { credentials: 'include' })
+        .then(res => {
+          if (!res.ok) return [];
+          return res.json();
+        })
+        .then(data => {
+          if (Array.isArray(data)) {
+            setNotifications(data);
+          }
+        })
+        .catch(err => console.error("Navigation notifications load failed:", err));
+    };
+
+    fetchNotifications();
+    
+    // Poll every 20 seconds to keep fresh
+    const interval = setInterval(fetchNotifications, 20000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
+
+  const handleDismissNotification = async (id, e) => {
+    e.stopPropagation();
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/notifications/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setNotifications(prev => prev.filter(item => item._id !== id));
+      }
+    } catch (err) {
+      console.error("Dismiss failed:", err);
+    }
+  };
+
+  const handleNotificationClick = (link) => {
+    closeMenus();
+    if (!link) return;
+    try {
+      const url = new URL(link);
+      navigate(url.pathname);
+    } catch {
+      navigate('/reservations');
+    }
   };
 
   return (
@@ -31,34 +92,85 @@ function Navigation() {
           </Link>
           
           {isAuthenticated ? (
-            <div className="relative">
-              <button 
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center justify-center p-2 rounded-full text-stone-800 cursor-pointer group"
-              >
-                <User size={24} className='group-hover:text-primary-2' />
-              </button>
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <button 
+                  onClick={() => {
+                    setIsNotificationsOpen(!isNotificationsOpen);
+                    setIsProfileOpen(false);
+                  }}
+                  className="flex items-center justify-center p-2 rounded-full text-stone-800 cursor-pointer group"
+                >
+                  <Bell size={24} className='group-hover:text-primary-2' /> 
+                </button>
 
-              {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-lg py-2 flex flex-col z-50">
-                  <Link to="/dashboard" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                    {t('nav.dashboard')}
-                  </Link>
-                  <Link to="/reservations" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                    {t('nav.reservations')}
-                  </Link>
-                  <Link to="/history" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                    {t('nav.history')}
-                  </Link>
-                  <Link to="/profile" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                    {t('nav.profile')}
-                  </Link>
-                  <div className="border-t border-stone-100 my-1"></div>
-                  <Link to="/logout" onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
-                    {t('nav.logout')}
-                  </Link>
-                </div>
-              )}
+                {isNotificationsOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white border border-stone-200 rounded-2xl shadow-xl py-3 flex flex-col z-50">
+                    <div className="px-4 pb-2 border-b border-stone-100 flex justify-between items-center">
+                      {notifications.length > 0 && (
+                        <span className="bg-primary/10 text-primary-2 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          {notifications.length} unread
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="flex flex-col max-h-64 overflow-y-auto divide-y divide-stone-100">
+                      {notifications.map((notif) => (
+                        <div 
+                          key={notif._id}
+                          onClick={() => handleNotificationClick(notif.link)}
+                          className={`p-3 text-left hover:bg-stone-50/50 transition-all flex justify-between items-start gap-3 ${
+                            notif.link ? 'cursor-pointer' : ''
+                          }`}
+                        >
+                          <p className="text-xs font-semibold text-stone-700 leading-normal hover:text-stone-900">
+                            {notif.message}
+                          </p>
+                          <button
+                            onClick={(e) => handleDismissNotification(notif._id, e)}
+                            className="text-[10px] text-stone-400 hover:text-red-500 font-bold shrink-0 cursor-pointer p-1"
+                          >
+                            Dismiss
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="relative">
+                <button 
+                  onClick={() => {
+                    setIsProfileOpen(!isProfileOpen);
+                    setIsNotificationsOpen(false);
+                  }}
+                  className="flex items-center justify-center p-2 rounded-full text-stone-800 cursor-pointer group"
+                >
+                  <User size={24} className='group-hover:text-primary-2' />
+                </button>
+
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-lg py-2 flex flex-col z-50">
+                    <Link to="/dashboard" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                      {t('nav.dashboard')}
+                    </Link>
+                    <Link to="/reservations" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                      {t('nav.reservations')}
+                    </Link>
+                    <Link to="/history" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                      {t('nav.history')}
+                    </Link>
+                    <Link to="/profile" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                      {t('nav.profile')}
+                    </Link>
+                    <div className="border-t border-stone-100 my-1"></div>
+                    <Link to="/logout" onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
+                      {t('nav.logout')}
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <Link to="/login" className="bg-primary-2 text-center px-5 py-2 rounded-xl tracking-tighter text-white text-md font-medium hover:opacity-90 transition-opacity">
@@ -72,6 +184,7 @@ function Navigation() {
           onClick={() => {
             setIsOpen(!isOpen);
             setIsProfileOpen(false);
+            setIsNotificationsOpen(false);
           }}
           aria-label="Toggle menu"
           aria-expanded={isOpen}
@@ -91,7 +204,35 @@ function Navigation() {
           
           {isAuthenticated ? (
             <>
-              <div className="text-stone-400 text-sm font-semibold pt-2 pb-1 uppercase tracking-wider">Account</div>
+              <div className="text-stone-400 text-sm font-semibold pt-2 pb-1 uppercase tracking-wider flex justify-between items-center border-b border-stone-100">
+                <span>Account</span>
+                {notifications.length > 0 && (
+                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
+                    {notifications.length} New
+                  </span>
+                )}
+              </div>
+
+              {notifications.length > 0 && (
+                <div className="bg-stone-50 border border-stone-200 rounded-xl p-3 my-1 space-y-2 max-h-40 overflow-y-auto">
+                  {notifications.map(notif => (
+                    <div 
+                      key={notif._id}
+                      onClick={() => handleNotificationClick(notif.link)}
+                      className="text-xs flex justify-between items-start gap-2 border-b border-stone-150/50 pb-2 last:border-0 last:pb-0 cursor-pointer"
+                    >
+                      <p className="font-semibold text-stone-700 leading-normal hover:text-stone-900">{notif.message}</p>
+                      <button 
+                        onClick={(e) => handleDismissNotification(notif._id, e)}
+                        className="text-[10px] text-stone-400 hover:text-red-500 font-bold shrink-0 p-1"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <Link to="/dashboard" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.dashboard')}
               </Link>
