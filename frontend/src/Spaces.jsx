@@ -104,7 +104,7 @@ function Spaces() {
             .filter(space => selectedType === "" || space.type === selectedType)
             .map((space) => (
               <Link 
-                to={`${import.meta.env.VITE_FRONTEND_URL}/spaces/${space._id}`} 
+                to={`/spaces/${space._id}`} 
                 key={space._id} 
                 className='border border-stone-200 rounded-lg shadow-md overflow-hidden bg-white hover:shadow-lg transition-shadow flex flex-col group'
               >

@@ -7,7 +7,6 @@ import { useAuth } from './AuthContext';
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const baseUrl = import.meta.env.VITE_FRONTEND_URL;
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
 
@@ -19,15 +18,15 @@ function Navigation() {
   return (
     <div className="px-4 md:px-12 lg:px-24 pt-5 sticky top-0 z-50">
       <div className="px-6 py-4 flex gap-8 justify-between items-center rounded-3xl bg-white/75 backdrop-blur-sm border border-stone-200 shadow-sm relative">
-        <Link to={baseUrl} className="text-primary-2 text-shadow-sm text-xl md:text-2xl font-semibold" onClick={closeMenus}>
+        <Link to="/" className="text-primary-2 text-shadow-sm text-xl md:text-2xl font-semibold" onClick={closeMenus}>
           Workhub Spaces
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link to={baseUrl} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
+          <Link to="/" className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
             {t('nav.home')}
           </Link>
-          <Link to={`${baseUrl}/spaces`} className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
+          <Link to="/spaces" className="text-stone-800 text-lg font-normal tracking-tighter hover:text-primary-2">
             {t('nav.spaces')}
           </Link>
           
@@ -42,27 +41,27 @@ function Navigation() {
 
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-stone-200 rounded-xl shadow-lg py-2 flex flex-col z-50">
-                  <Link to={`${baseUrl}/dashboard`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                  <Link to="/dashboard" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.dashboard')}
                   </Link>
-                  <Link to={`${baseUrl}/reservations`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                  <Link to="/reservations" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.reservations')}
                   </Link>
-                  <Link to={`${baseUrl}/history`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                  <Link to="/history" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.history')}
                   </Link>
-                  <Link to={`${baseUrl}/profile`} onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                  <Link to="/profile" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                     {t('nav.profile')}
                   </Link>
                   <div className="border-t border-stone-100 my-1"></div>
-                  <Link to={`${baseUrl}/logout`} onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
+                  <Link to="/logout" onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
                     {t('nav.logout')}
                   </Link>
                 </div>
               )}
             </div>
           ) : (
-            <Link to={`${baseUrl}/login`} className="bg-primary-2 text-center px-5 py-2 rounded-xl tracking-tighter text-white text-md font-medium hover:opacity-90 transition-opacity">
+            <Link to="/login" className="bg-primary-2 text-center px-5 py-2 rounded-xl tracking-tighter text-white text-md font-medium hover:opacity-90 transition-opacity">
               {t('nav.login')}
             </Link>
           )}
@@ -83,34 +82,34 @@ function Navigation() {
 
       {isOpen && (
         <div className="md:hidden mt-2 p-4 bg-white border border-stone-200 rounded-2xl shadow-lg flex flex-col gap-2 z-50 relative">
-          <Link to={baseUrl} className="text-stone-800 text-lg py-2 border-b border-stone-100" onClick={closeMenus}>
+          <Link to="/" className="text-stone-800 text-lg py-2 border-b border-stone-100" onClick={closeMenus}>
             {t('nav.home')}
           </Link>
-          <Link to={`${baseUrl}/spaces`} className="text-stone-800 text-lg py-2 border-b border-stone-100" onClick={closeMenus}>
+          <Link to="/spaces" className="text-stone-800 text-lg py-2 border-b border-stone-100" onClick={closeMenus}>
             {t('nav.spaces')}
           </Link>
           
           {isAuthenticated ? (
             <>
               <div className="text-stone-400 text-sm font-semibold pt-2 pb-1 uppercase tracking-wider">Account</div>
-              <Link to={`${baseUrl}/dashboard`} className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+              <Link to="/dashboard" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.dashboard')}
               </Link>
-              <Link to={`${baseUrl}/reservations`} className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+              <Link to="/reservations" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.reservations')}
               </Link>
-              <Link to={`${baseUrl}/history`} className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+              <Link to="/history" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.history')}
               </Link>
-              <Link to={`${baseUrl}/profile`} className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+              <Link to="/profile" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.profile')}
               </Link>
-              <Link to={`${baseUrl}/logout`} className="text-red-600 text-lg py-2 pl-4 font-medium mt-2" onClick={closeMenus}>
+              <Link to="/logout" className="text-red-600 text-lg py-2 pl-4 font-medium mt-2" onClick={closeMenus}>
                 {t('nav.logout')}
               </Link>
             </>
           ) : (
-            <Link to={`${baseUrl}/login`} className="bg-primary-2 text-center px-4 py-3 rounded-xl text-white text-md font-medium mt-2" onClick={closeMenus}>
+            <Link to="/login" className="bg-primary-2 text-center px-4 py-3 rounded-xl text-white text-md font-medium mt-2" onClick={closeMenus}>
               {t('nav.login')}
             </Link>
           )}
