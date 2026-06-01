@@ -2,12 +2,22 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
+import Pagination from '../components/Pagination';
 
 function History() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(reservations.length / itemsPerPage);
+
+  const displayedReservations = reservations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -55,11 +65,19 @@ function History() {
           <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_history_desc', 'Your completed and cancelled reservations will appear here.')}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reservations.map((reservation) => (
-            <ReservationCard key={reservation._id} reservation={reservation} />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayedReservations.map((reservation) => (
+              <ReservationCard key={reservation._id} reservation={reservation} />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
       )}
     </div>
   );

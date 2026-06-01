@@ -33,7 +33,8 @@
         "all": "todos",
         "observations_placeholder": "Necessita de lugares sentados específicos, equipamento de apresentação visual ou configurações de layout específicas? Diga-nos.",
         "notfound_desc": "O espaço solicitado não existe.",
-        "book_this_space": "Reservar Espaço"
+        "book_this_space": "Reservar Espaço",
+        "deleted": "Espaço Eliminado"
     },
     "profile": {
         "title": "Gerir Perfil",
@@ -109,5 +110,22 @@
         "unread": "Não lidas",
         "dismiss": "Dispensar",
         "no_notifications": "Não tem nenhuma notificação por ler."
+    },
+    "pagination": {
+        "showing": "A mostrar",
+        "to": "a",
+        "of": "de",
+        "results": "resultados"
+    },
+    "sort": {
+        "popularity_desc": "Popularidade",
+        "price_asc": "Preço: Menor para Maior",
+        "price_desc": "Preço: Maior para Menor",
+        "capacity_asc": "Capacidade: Menor para Maior",
+        "capacity_desc": "Capacidade: Maior para Menor",
+        "name_asc": "Nome: A para Z"
+    },
+    "search": {
+        "placeholder": "Espaços..."
     }
 }

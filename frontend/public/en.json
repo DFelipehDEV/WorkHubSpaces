@@ -33,7 +33,8 @@
         "all": "all",
         "observations_placeholder": "Do you need specific seating, visual presentation gear, or specific layout configurations? Let us know.",
         "notfound_desc": "The requested space does not exist.",
-        "book_this_space": "Book Space"
+        "book_this_space": "Book Space",
+        "deleted": "Deleted Space"
     },
     "profile": {
         "title": "Manage Profile",
@@ -109,5 +110,22 @@
         "unread": "Unread",
         "dismiss": "Dismiss",
         "no_notifications": "You have no unread notifications."
+    },
+    "pagination": {
+        "showing": "Showing",
+        "to": "to",
+        "of": "of",
+        "results": "results"
+    },
+    "sort": {
+        "popularity_desc": "Popularity",
+        "price_asc": "Price: Low to High",
+        "price_desc": "Price: High to Low",
+        "capacity_asc": "Capacity: Low to High",
+        "capacity_desc": "Capacity: High to Low",
+        "name_asc": "Name: A to Z"
+    },
+    "search": {
+        "placeholder": "Spaces..."
     }
 }

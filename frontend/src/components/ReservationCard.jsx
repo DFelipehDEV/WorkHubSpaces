@@ -28,7 +28,10 @@ function ReservationCard({ reservation, onCancel }) {
     return date.toLocaleDateString(undefined, options);
   };
 
-  const isCancelable = (reservation.status === 0 || reservation.status === 2) && typeof onCancel === 'function';
+  const isCancelable = reservation.status == 0 || reservation.status == 2;
+
+  const spaceId = reservation.spaceId?._id;
+  const spaceName = reservation.spaceId?.name || "?";
 
   return (
     <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between gap-4 hover:shadow-md hover:border-stone-300 transition-all duration-200">
@@ -36,10 +39,10 @@ function ReservationCard({ reservation, onCancel }) {
         <div className="flex justify-between items-start gap-2">
           <span className="font-bold text-stone-850 line-clamp-1 text-base">
             <Link
-              to={`/spaces/${reservation.spaceId._id}`}
+              to={`/spaces/${spaceId}`}
               className="hover:text-primary-2 underline hover:decoration-primary-2"
             >
-              {reservation.spaceId.name}
+              {spaceName}
             </Link>
           </span>
           <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold shrink-0 uppercase tracking-wider ${color}`}>
@@ -60,7 +63,7 @@ function ReservationCard({ reservation, onCancel }) {
 
         <div className="flex justify-between items-center text-xs font-mono pt-1">
           <span className="text-stone-400 uppercase text-[9px] tracking-wider">{t('reservations.cost', 'Cost')}</span>
-          <span className="font-bold text-stone-900 text-sm">{reservation.cost.toFixed(2)}€</span>
+          <span className="font-bold text-stone-900 text-sm">{(reservation.cost ?? 0).toFixed(2)}€</span>
         </div>
 
         <div className="pt-2 border-t border-stone-100">

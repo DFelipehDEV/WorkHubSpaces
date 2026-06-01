@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
-import { Star } from 'lucide-react';
+import { Star, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import Pagination from '../components/Pagination';
 
 function Spaces() {
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,11 @@ function Spaces() {
   const [spaceTypes, setSpaceTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const [sortBy, setSortBy] = useState("-popularity");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
 
   const { t } = useTranslation();
   
@@ -25,19 +31,50 @@ function Spaces() {
     key: 'selection'
   }]);
 
+  // Debounce search query changes to prevent over-fetching
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces`)
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  // Reset to first page when any filters, search, or sorting change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedType, dateRange, sortBy, debouncedSearchQuery]);
+
+  useEffect(() => {
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (selectedType) {
+      params.append('type', selectedType);
+    }
+    if (sortBy) {
+      params.append('sort', sortBy);
+    }
+    if (debouncedSearchQuery) {
+      params.append('name', debouncedSearchQuery);
+    }
+    if (dateRange[0]?.startDate && dateRange[0]?.endDate) {
+      params.append('startDate', dateRange[0].startDate.toISOString());
+      params.append('endDate', dateRange[0].endDate.toISOString());
+    }
+
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces?${params.toString()}`)
       .then((res) => res.json())
       .then((json) => {
-        setSpaces(json.sort((a, b) => parseFloat(b.popularity) - parseFloat(a.popularity)));
-        setSpaceTypes([...new Set(json.map(space => space.type).filter(Boolean))]);
+        setSpaces(Array.isArray(json) ? json : []);
         setLoading(false);
       })
       .catch(error => {
         console.error(error);
         setLoading(false);
       });
-  }, []);
+  }, [selectedType, sortBy, dateRange, debouncedSearchQuery]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/spacetypes`)
@@ -58,46 +95,81 @@ function Spaces() {
     return date.toLocaleDateString('pt-PT');
   };
 
+  const filteredSpaces = spaces.filter(space => space.available);
+
+  const totalPages = Math.ceil(filteredSpaces.length / itemsPerPage);
+  const displayedSpaces = filteredSpaces.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className='max-w-6xl mx-auto w-full px-4 sm:px-6 py-6'>
-        <div className='flex flex-col sm:flex-row justify-end gap-3 mb-6'>
-          <div className="relative">
-            <button 
-              onClick={() => setShowCalendar(!showCalendar)}
-              className="cursor-pointer w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 hover:text-primary-2"
-            >
-              {formatDate(dateRange[0].startDate)} - {formatDate(dateRange[0].endDate)}
-            </button>
-
-            {showCalendar && (
-              <div className="absolute z-50 top-full mt-2 right-0 sm:right-auto sm:left-0 shadow-lg border border-stone-200 bg-white rounded-md overflow-hidden">
-                <DateRange
-                  ranges={dateRange}
-                  onChange={handleSelect}
-                  months={1}
-                  direction="horizontal"
-                />
-              </div>
-            )}
+        <div className='flex flex-col md:flex-row justify-between gap-3 mb-6 items-center'>
+          {/* Search Box on the left */}
+          <div className="relative w-full md:max-w-xs">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-stone-400">
+              <Search className="w-4 h-4" />
+            </span>
+            <input
+              type="text"
+              placeholder={t('search.placeholder', 'Search spaces...')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white rounded-md pl-9 pr-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 placeholder-stone-400 focus:outline-none focus:border-primary-2 focus:ring-1 focus:ring-primary-2 h-fit"
+            />
           </div>
 
-          <select 
-            className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
-            value={selectedType} 
-            onChange={(e) => setSelectedType(e.target.value)}
-          >
-            <option value="">{t('space.type')} ({t('space.all')})</option>
-            {spaceTypes.map((type, index) => (
-              <option key={index} value={type._id}>{type.name}</option>
-            ))}
-          </select>
+          {/* Filtering controls on the right */}
+          <div className='flex flex-col sm:flex-row w-full md:w-auto justify-end gap-3 items-center'>
+            <div className="relative w-full sm:w-auto">
+              <button 
+                onClick={() => setShowCalendar(!showCalendar)}
+                className="cursor-pointer w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 hover:text-primary-2"
+              >
+                {formatDate(dateRange[0].startDate)} - {formatDate(dateRange[0].endDate)}
+              </button>
+
+              {showCalendar && (
+                <div className="absolute z-50 top-full mt-2 right-0 sm:right-auto sm:left-0 shadow-lg border border-stone-200 bg-white rounded-md overflow-hidden">
+                  <DateRange
+                    ranges={dateRange}
+                    onChange={handleSelect}
+                    months={1}
+                    direction="horizontal"
+                  />
+                </div>
+              )}
+            </div>
+
+            <select 
+              className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
+              value={selectedType} 
+              onChange={(e) => setSelectedType(e.target.value)}
+            >
+              <option value="">{t('space.type')} ({t('space.all')})</option>
+              {spaceTypes.map((type, index) => (
+                <option key={index} value={type._id}>{type.name}</option>
+              ))}
+            </select>
+
+            <select 
+              className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
+              value={sortBy} 
+              onChange={(e) => setSortBy(e.target.value)}
+              aria-label="Order by"
+            >
+              <option value="-popularity">{t('sort.popularity_desc', 'Popularity')}</option>
+              <option value="pricePerHour">{t('sort.price_asc', 'Price: Low to High')}</option>
+              <option value="-pricePerHour">{t('sort.price_desc', 'Price: High to Low')}</option>
+              <option value="capacity">{t('sort.capacity_asc', 'Capacity: Low to High')}</option>
+              <option value="-capacity">{t('sort.capacity_desc', 'Capacity: High to Low')}</option>
+            </select>
+          </div>
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-          {!loading && spaces
-            .filter(space => space.available)
-            .filter(space => selectedType === "" || space.type === selectedType)
-            .map((space) => (
+          {!loading && displayedSpaces.map((space) => (
               <Link 
                 to={`/spaces/${space._id}`} 
                 key={space._id} 
@@ -132,6 +204,14 @@ function Spaces() {
               </Link>
             ))}
         </div>
+
+        {!loading && filteredSpaces.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
     </div>
   );
 }

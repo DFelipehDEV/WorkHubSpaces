@@ -2,12 +2,28 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
+import Pagination from '../components/Pagination';
 
 function Reservations() {
   const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalPages = Math.ceil(reservations.length / itemsPerPage);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [reservations.length, totalPages, currentPage]);
+
+  const displayedReservations = reservations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -21,7 +37,7 @@ function Reservations() {
 
         const data = await response.json();
 
-        const activeBookings = data.filter(res => res.status === 0 || res.status === 2);
+        const activeBookings = data.filter(res => res.status == 0 || res.status == 2);
         setReservations(activeBookings);
       } catch (err) {
         console.error(err);
@@ -74,15 +90,23 @@ function Reservations() {
           <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_data_desc', 'You have not made any bookings yet.')}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reservations.map((reservation) => (
-            <ReservationCard
-              key={reservation._id}
-              reservation={reservation}
-              onCancel={handleCancel}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayedReservations.map((reservation) => (
+              <ReservationCard
+                key={reservation._id}
+                reservation={reservation}
+                onCancel={handleCancel}
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
       )}
     </div>
   );
