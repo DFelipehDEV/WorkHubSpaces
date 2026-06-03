@@ -34,7 +34,9 @@
         "observations_placeholder": "Necessita de lugares sentados específicos, equipamento de apresentação visual ou configurações de layout específicas? Diga-nos.",
         "notfound_desc": "O espaço solicitado não existe.",
         "book_this_space": "Reservar Espaço",
-        "deleted": "Espaço Eliminado"
+        "deleted": "Espaço Eliminado",
+        "favorites_only": "Apenas Favoritos",
+        "all_spaces": "Todos os Espaços"
     },
     "profile": {
         "title": "Gerir Perfil",

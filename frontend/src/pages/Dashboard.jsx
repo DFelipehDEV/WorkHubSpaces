@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
+import { X } from 'lucide-react';
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -149,9 +150,9 @@ function Dashboard() {
               
               <button
                 onClick={(e) => handleDismissNotification(notif._id, e)}
-                className="text-xs text-stone-400 hover:text-red-500 font-bold shrink-0 cursor-pointer p-1"
+                className="text-stone-400 hover:text-red-500 shrink-0 cursor-pointer p-1"
               >
-                {t('dashboard.dismiss', 'Dismiss')}
+                <X size={16} />
               </button>
             </div>
           ))}

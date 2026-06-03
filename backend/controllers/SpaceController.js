@@ -136,11 +136,15 @@ exports.getAll = async (req, res) => {
 exports.favorite = async (req, res) => {
   try {
     const space = await Space.findById(req.params.id);
-    if (space.favoritedBy.includes(req.user.id))
+    if (!space) {
+      return res.status(404).json({ message: "Space not found" });
+    }
+    const hasFavorited = (space.favoritedBy || []).some(uid => uid.toString() === req.user.id);
+    if (hasFavorited)
       return res.status(400).json({ message: "This user already favorited this space" });
     space.favoritedBy.push(req.user.id);
     space.popularity++;
-    space.save();
+    await space.save();
     return res.status(200).json({ message: "Success" });
   } catch (err) {
     return res.status(400).json({ message: err.message });
@@ -150,15 +154,16 @@ exports.favorite = async (req, res) => {
 exports.deFavorite = async (req, res) => {
   try {
     const space = await Space.findById(req.params.id);
-    if (!space.favoritedBy.includes(req.user.id))
+    if (!space) {
+      return res.status(404).json({ message: "Space not found" });
+    }
+    const index = (space.favoritedBy || []).findIndex(uid => uid.toString() === req.user.id);
+    if (index === -1)
       return res.status(400).json({ message: "This user didn't favorite this space" });
 
-    var index = space.favoritedBy.indexOf(req.user.id);
-    if (index !== -1) {
-      space.favoritedBy.splice(index, 1);
-      space.popularity--;
-      space.save();
-    }
+    space.favoritedBy.splice(index, 1);
+    space.popularity--;
+    await space.save();
 
     return res.status(200).json({ message: "Success" });
   } catch (err) {

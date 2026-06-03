@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
@@ -8,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import Pagination from '../components/Pagination';
 
 function Spaces() {
+  const { isAuthenticated, user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [spaces, setSpaces] = useState([]);
   const [spaceTypes, setSpaceTypes] = useState([]);
@@ -18,6 +20,7 @@ function Spaces() {
   const [sortBy, setSortBy] = useState("-popularity");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   const { t } = useTranslation();
   
@@ -44,10 +47,12 @@ function Spaces() {
 
   // Reset to first page when any filters, search, or sorting change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
   }, [selectedType, dateRange, sortBy, debouncedSearchQuery]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     const params = new URLSearchParams();
     if (selectedType) {
@@ -95,7 +100,13 @@ function Spaces() {
     return date.toLocaleDateString('pt-PT');
   };
 
-  const filteredSpaces = spaces.filter(space => space.available);
+  const filteredSpaces = spaces.filter(space => {
+    if (!space.available) return false;
+    if (showFavoritesOnly) {
+      return space.favoritedBy && space.favoritedBy.includes(user?._id);
+    }
+    return true;
+  });
 
   const totalPages = Math.ceil(filteredSpaces.length / itemsPerPage);
   const displayedSpaces = filteredSpaces.slice(
@@ -122,6 +133,23 @@ function Spaces() {
 
           {/* Filtering controls on the right */}
           <div className='flex flex-col sm:flex-row w-full md:w-auto justify-end gap-3 items-center'>
+            {isAuthenticated && (
+              <button
+                onClick={() => {
+                  setShowFavoritesOnly(!showFavoritesOnly);
+                  setCurrentPage(1);
+                }}
+                className={`w-full sm:w-auto px-3 py-2 border rounded-md shadow-sm text-sm font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+                  showFavoritesOnly
+                    ? 'bg-primary-2 text-white border-primary-2 hover:opacity-90'
+                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+                }`}
+              >
+                <Star className={`w-4 h-4 ${showFavoritesOnly ? 'fill-white text-white' : 'text-stone-400'}`} />
+                {showFavoritesOnly ? t('space.all_spaces', 'All Spaces') : t('space.favorites_only', 'Favorites Only')}
+              </button>
+            )}
+
             <div className="relative w-full sm:w-auto">
               <button 
                 onClick={() => setShowCalendar(!showCalendar)}

@@ -34,7 +34,9 @@
         "observations_placeholder": "Do you need specific seating, visual presentation gear, or specific layout configurations? Let us know.",
         "notfound_desc": "The requested space does not exist.",
         "book_this_space": "Book Space",
-        "deleted": "Deleted Space"
+        "deleted": "Deleted Space",
+        "favorites_only": "Favorites Only",
+        "all_spaces": "All Spaces"
     },
     "profile": {
         "title": "Manage Profile",

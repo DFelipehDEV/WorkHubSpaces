@@ -1,15 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, ChevronLeft, User, Check } from 'lucide-react';
+import { Star, ChevronLeft, User, Check, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 function Space() {
   const { id } = useParams();
+  const { isAuthenticated, user } = useAuth();
   const [space, setSpace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const {t} = useTranslation();
+
+  const isFavorited = !!(space?.favoritedBy && user && space.favoritedBy.includes(user._id));
+
+  const handleToggleFavorite = async () => {
+    if (!isAuthenticated) return;
+    const endpoint = isFavorited ? 'defavorite' : 'favorite';
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}/${endpoint}`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (res.ok) {
+        setSpace(prev => {
+          const list = prev.favoritedBy || [];
+          const updatedList = isFavorited
+            ? list.filter(uid => uid !== user._id)
+            : [...list, user._id];
+          return { ...prev, favoritedBy: updatedList };
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
@@ -67,7 +93,23 @@ function Space() {
           <div className="p-8">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h1 className='text-3xl font-bold text-stone-800 mb-2'>{space.name}</h1>
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className='text-3xl font-bold text-stone-850'>{space.name}</h1>
+                  {isAuthenticated && (
+                    <button
+                      onClick={handleToggleFavorite}
+                      className="p-1.5 rounded-full border border-stone-200 hover:bg-stone-50 transition-colors cursor-pointer group"
+                      aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      <Heart
+                        size={20}
+                        className={`transition-transform group-active:scale-90 ${
+                          isFavorited ? 'fill-red-500 text-red-500' : 'text-stone-400 hover:text-red-500'
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
                 <div className='flex gap-2 md:gap-8'>
                     <div className='flex md:gap-2'>
                       <Check className={space.available ? "text-green-600" : "text-red-600"}/>

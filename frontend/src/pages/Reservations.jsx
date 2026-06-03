@@ -13,16 +13,11 @@ function Reservations() {
   const itemsPerPage = 6;
 
   const totalPages = Math.ceil(reservations.length / itemsPerPage);
-
-  useEffect(() => {
-    if (currentPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
-    }
-  }, [reservations.length, totalPages, currentPage]);
+  const safeCurrentPage = Math.min(currentPage, totalPages > 0 ? totalPages : 1);
 
   const displayedReservations = reservations.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (safeCurrentPage - 1) * itemsPerPage,
+    safeCurrentPage * itemsPerPage
   );
 
   useEffect(() => {
@@ -102,7 +97,7 @@ function Reservations() {
           </div>
 
           <Pagination
-            currentPage={currentPage}
+            currentPage={safeCurrentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />

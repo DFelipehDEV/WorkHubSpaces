@@ -106,13 +106,6 @@ function Navigation() {
 
                 {isNotificationsOpen && (
                   <div className="absolute right-0 mt-2 w-80 bg-white border border-stone-200 rounded-2xl shadow-xl py-3 flex flex-col z-50">
-                    <div className="px-4 pb-2 border-b border-stone-100 flex justify-between items-center">
-                      {notifications.length > 0 && (
-                        <span className="bg-primary/10 text-primary-2 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                          {notifications.length} unread
-                        </span>
-                      )}
-                    </div>
                     
                     <div className="flex flex-col max-h-64 overflow-y-auto divide-y divide-stone-100">
                       {notifications.map((notif) => (
@@ -128,9 +121,10 @@ function Navigation() {
                           </p>
                           <button
                             onClick={(e) => handleDismissNotification(notif._id, e)}
-                            className="text-[10px] text-stone-400 hover:text-red-500 font-bold shrink-0 cursor-pointer p-1"
+                            className="text-stone-400 hover:text-red-500 shrink-0 cursor-pointer p-1"
+                            aria-label="Dismiss notification"
                           >
-                            Dismiss
+                            <X size={14} />
                           </button>
                         </div>
                       ))}
@@ -219,11 +213,6 @@ function Navigation() {
             <>
               <div className="text-stone-400 text-sm font-semibold pt-2 pb-1 uppercase tracking-wider flex justify-between items-center border-b border-stone-100">
                 <span>Account</span>
-                {notifications.length > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
-                    {notifications.length} New
-                  </span>
-                )}
               </div>
 
               {notifications.length > 0 && (
@@ -237,9 +226,10 @@ function Navigation() {
                       <p className="font-semibold text-stone-700 leading-normal hover:text-stone-900">{notif.message}</p>
                       <button 
                         onClick={(e) => handleDismissNotification(notif._id, e)}
-                        className="text-[10px] text-stone-400 hover:text-red-500 font-bold shrink-0 p-1"
+                        className="text-stone-400 hover:text-red-500 shrink-0 p-1 cursor-pointer"
+                        aria-label="Dismiss notification"
                       >
-                        Dismiss
+                        <X size={14} />
                       </button>
                     </div>
                   ))}
