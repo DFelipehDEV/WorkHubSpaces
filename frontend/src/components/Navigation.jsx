@@ -10,7 +10,7 @@ function Navigation() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   const closeMenus = () => {
@@ -164,6 +164,11 @@ function Navigation() {
                     <Link to="/profile" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                       {t('nav.profile')}
                     </Link>
+                    {isAdmin && (
+                      <Link to="/admin/spaces" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                        Admin Spaces
+                      </Link>
+                    )}
                     <div className="border-t border-stone-100 my-1"></div>
                     <Link to="/logout" onClick={closeMenus} className="px-4 py-2 text-red-600 hover:bg-red-50">
                       {t('nav.logout')}
@@ -245,6 +250,11 @@ function Navigation() {
               <Link to="/profile" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                 {t('nav.profile')}
               </Link>
+              {isAdmin && (
+                <Link to="/admin/spaces" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+                  Admin Spaces
+                </Link>
+              )}
               <Link to="/logout" className="text-red-600 text-lg py-2 pl-4 font-medium mt-2" onClick={closeMenus}>
                 {t('nav.logout')}
               </Link>

@@ -5,34 +5,46 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/validate-token`, {
-      method: 'GET',
-      credentials: 'include'
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Unauthorized");
-        return res.json();
-      })
-      .then((json) => {
-        setIsAuthenticated(json.message === "Success");
-      })
-      .catch((error) => {
-        console.error("Auth check failed:", error);
-        setIsAuthenticated(false);
-      })
-      .finally(() => {
-        setIsLoading(false);
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/profile`, {
+        method: 'GET',
+        credentials: 'include'
       });
+      if (!res.ok) throw new Error("Unauthorized");
+      const data = await res.json();
+      setIsAuthenticated(true);
+      setUser(data);
+    } catch {
+      setIsAuthenticated(false);
+      setUser(null);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchProfile().finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
-  const login = () => setIsAuthenticated(true);
-  const logout = () => setIsAuthenticated(false);
+  const login = () => {
+    setIsAuthenticated(true);
+    fetchProfile();
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
+  const isAdmin = user?.role === import.meta.env.VITE_DB_ADMIN_ROLE_ID;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, isAdmin, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

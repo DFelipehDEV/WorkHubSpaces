@@ -13,6 +13,7 @@ import Reservations from './pages/Reservations.jsx';
 import Profile from './pages/Profile.jsx';
 import BookSpace from './pages/BookSpace.jsx';
 import History from './pages/History.jsx';
+import AdminSpaces from './pages/AdminSpaces.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -73,6 +74,14 @@ createRoot(document.getElementById('root')).render(
                 element={
                   <ClientRoute>
                     <Profile />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/admin/spaces"
+                element={
+                  <ClientRoute>
+                    <AdminSpaces />
                   </ClientRoute>
                 }
               />
