@@ -12,7 +12,7 @@ function ReservationCard({ reservation, onCancel }) {
   };
 
   const { label, color } = statusConfig[reservation.status] || {
-    label: 'Unknown',
+    label: 'N/A',
     color: 'bg-stone-100 text-stone-700'
   };
 

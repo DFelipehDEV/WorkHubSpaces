@@ -14,6 +14,7 @@ import Profile from './pages/Profile.jsx';
 import BookSpace from './pages/BookSpace.jsx';
 import History from './pages/History.jsx';
 import AdminSpaces from './pages/AdminSpaces.jsx';
+import AdminReservations from './pages/AdminReservations.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -82,6 +83,14 @@ createRoot(document.getElementById('root')).render(
                 element={
                   <ClientRoute>
                     <AdminSpaces />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/admin/reservations"
+                element={
+                  <ClientRoute>
+                    <AdminReservations />
                   </ClientRoute>
                 }
               />
