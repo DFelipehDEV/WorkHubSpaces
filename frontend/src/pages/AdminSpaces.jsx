@@ -96,10 +96,7 @@ function AdminSpaces() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">
       <div className="flex justify-between items-center mb-4">
-        <div>
-          <h1 className="text-2xl font-bold text-stone-900">Spaces Admin</h1>
-          <p className="text-xs text-stone-500">Manage all workspace listings</p>
-        </div>
+        <h1 className="text-2xl font-bold text-stone-900">Spaces Admin</h1>
         <button
           onClick={() => activeSpace ? setActiveSpace(null) : handleCreateNew()}
           className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer"

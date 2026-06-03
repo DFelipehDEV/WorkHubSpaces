@@ -172,6 +172,9 @@ function Navigation() {
                         <Link to="/admin/reservations" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
                           Admin Reservations
                         </Link>
+                        <Link to="/admin/services" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
+                          Admin Services
+                        </Link>
                       </>
                     )}
                     <div className="border-t border-stone-100 my-1"></div>
@@ -262,6 +265,9 @@ function Navigation() {
                   </Link>
                   <Link to="/admin/reservations" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
                     Admin Reservations
+                  </Link>
+                  <Link to="/admin/services" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
+                    Admin Services
                   </Link>
                 </>
               )}
