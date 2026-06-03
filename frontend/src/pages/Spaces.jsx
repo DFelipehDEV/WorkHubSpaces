@@ -117,8 +117,7 @@ function Spaces() {
   return (
     <div className='max-w-6xl mx-auto w-full px-4 sm:px-6 py-6'>
         <div className='flex flex-col md:flex-row justify-between gap-3 mb-6 items-center'>
-          {/* Search Box on the left */}
-          <div className="relative w-full md:max-w-xs">
+          <div className="relative w-full md:max-w-3xs">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-stone-400">
               <Search className="w-4 h-4" />
             </span>
@@ -131,7 +130,6 @@ function Spaces() {
             />
           </div>
 
-          {/* Filtering controls on the right */}
           <div className='flex flex-col sm:flex-row w-full md:w-auto justify-end gap-3 items-center'>
             {isAuthenticated && (
               <button
