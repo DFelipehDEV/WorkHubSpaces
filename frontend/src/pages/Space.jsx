@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, ChevronLeft, User, Check, Heart } from 'lucide-react';
+import { Star, ChevronLeft, User, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 
@@ -101,10 +101,10 @@ function Space() {
                       className="p-1.5 rounded-full border border-stone-200 hover:bg-stone-50 transition-colors cursor-pointer group"
                       aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
                     >
-                      <Heart
+                      <Star
                         size={20}
                         className={`transition-transform group-active:scale-90 ${
-                          isFavorited ? 'fill-red-500 text-red-500' : 'text-stone-400 hover:text-red-500'
+                          isFavorited ? 'fill-yellow-500 text-yellow-500' : 'text-stone-400 hover:text-yellow-500'
                         }`}
                       />
                     </button>
