@@ -10,6 +10,10 @@ function Space() {
   const [space, setSpace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [rating, setRating] = useState(10);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewMsg, setReviewMsg] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {t} = useTranslation();
 
@@ -34,6 +38,50 @@ function Space() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleAddReview = async (e) => {
+    e.preventDefault();
+    setReviewMsg(null);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}/review`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          review: reviewText,
+          rating: Number(rating),
+        }),
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.message || t("space.review_error"));
+      }
+
+      setReviewMsg({ text: t("space.review_success"), isError: false });
+      setReviewText("");
+      setRating(10);
+
+      setSpace((prev) => ({
+        ...prev,
+        reviews: [
+          ...prev.reviews,
+          {
+            user: { name: user?.name || "Tu" },
+            review: reviewText,
+            rating: Number(rating),
+          },
+        ],
+      }));
+    } catch (err) {
+      setReviewMsg({ text: err.message, isError: true });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -170,6 +218,73 @@ function Space() {
                 <p className="text-stone-500">{t('space.no_reviews')}</p>
               )}
             </div>
+
+            {isAuthenticated && (
+              <form onSubmit={handleAddReview} className="mt-8 border-t border-stone-100 pt-6 w-full space-y-4">
+                <h4 className="text-lg font-semibold text-stone-850">
+                  {t("space.add_review_title", { name: space.name })}
+                </h4>
+                <p className="text-xs text-stone-500">
+                  {t("space.add_review_desc")}
+                </p>
+                
+                {reviewMsg && (
+                  <div className={`p-3 rounded-xl border text-xs ${reviewMsg.isError ? "bg-red-50 text-red-700 border-red-200" : "bg-green-50 text-green-700 border-green-200"}`}>
+                    {reviewMsg.text}
+                  </div>
+                )}
+
+                <div className="flex flex-col md:flex-row gap-4 items-end w-full">
+                  <div className="grow w-full md:w-auto">
+                    <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1">
+                      {t("space.review_label")}
+                    </label>
+                    <textarea
+                      required
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      rows={1}
+                      className="w-full bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs text-stone-850 focus:outline-none focus:border-stone-400 resize-none h-10"
+                    />
+                  </div>
+
+                  <div className="flex items-end gap-4 shrink-0 w-full md:w-auto pb-0.5">
+                    <div>
+                      <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-1.5">
+                        {t("space.rating_label")}
+                      </label>
+                      <div className="flex items-center gap-0.5 h-7">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setRating(star)}
+                            className="cursor-pointer transition-transform active:scale-90"
+                          >
+                            <Star
+                              size={18}
+                              className={
+                                rating >= star
+                                  ? "text-yellow-500 fill-yellow-500"
+                                  : "text-stone-300 hover:text-yellow-400"
+                              }
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-primary-2 text-white font-bold h-10 px-6 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all shadow-sm text-xs cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmitting ? "..." : t("space.submit_review_btn")}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
 
           </div>
         </div>

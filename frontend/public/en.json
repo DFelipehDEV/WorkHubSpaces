@@ -36,7 +36,14 @@
         "book_this_space": "Book Space",
         "deleted": "Deleted Space",
         "favorites_only": "Favorites Only",
-        "all_spaces": "All Spaces"
+        "all_spaces": "All Spaces",
+        "add_review_title": "Write a review for {{name}}",
+        "add_review_desc": "Please describe what you liked or disliked.",
+        "rating_label": "Rating (1-10)",
+        "review_label": "Comment",
+        "submit_review_btn": "Submit Review",
+        "review_success": "Review submitted successfully!",
+        "review_error": "Error submitting review."
     },
     "profile": {
         "title": "Manage Profile",

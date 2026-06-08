@@ -36,7 +36,14 @@
         "book_this_space": "Reservar Espaço",
         "deleted": "Espaço Eliminado",
         "favorites_only": "Apenas Favoritos",
-        "all_spaces": "Todos os Espaços"
+        "all_spaces": "Todos os Espaços",
+        "add_review_title": "Escreva uma review para {{name}}",
+        "add_review_desc": "Por favor, descreva o que gostou ou não gostou.",
+        "rating_label": "Avaliação (1-10)",
+        "review_label": "Comentário",
+        "submit_review_btn": "Submeter Análise",
+        "review_success": "Análise submetida com sucesso!",
+        "review_error": "Erro ao submeter análise."
     },
     "profile": {
         "title": "Gerir Perfil",
