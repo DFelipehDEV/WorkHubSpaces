@@ -161,16 +161,16 @@ function Navigation() {
                     {isAdmin && (
                       <>
                         <Link to="/admin/spaces" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                          Admin Spaces
+                          {t('admin.nav.spaces')}
                         </Link>
                         <Link to="/admin/reservations" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                          Admin Reservations
+                          {t('admin.nav.reservations')}
                         </Link>
                         <Link to="/admin/services" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                          Admin Services
+                          {t('admin.nav.services')}
                         </Link>
                         <Link to="/admin/users" onClick={closeMenus} className="px-4 py-2 text-stone-800 hover:bg-primary/10 hover:text-primary-2">
-                          Admin Clients
+                          {t('admin.nav.users')}
                         </Link>
                       </>
                     )}
@@ -254,16 +254,16 @@ function Navigation() {
               {isAdmin && (
                 <>
                   <Link to="/admin/spaces" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
-                    Admin Spaces
+                    {t('admin.nav.spaces')}
                   </Link>
                   <Link to="/admin/reservations" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
-                    Admin Reservations
+                    {t('admin.nav.reservations')}
                   </Link>
                   <Link to="/admin/services" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
-                    Admin Services
+                    {t('admin.nav.services')}
                   </Link>
                   <Link to="/admin/users" className="text-stone-800 text-lg py-2 pl-4 border-b border-stone-50" onClick={closeMenus}>
-                    Admin Clients
+                    {t('admin.nav.users')}
                   </Link>
                 </>
               )}

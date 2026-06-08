@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function AdminServices() {
+  const { t } = useTranslation();
   const [services, setServices] = useState([]);
   const [msg, setMsg] = useState(null);
-  const [activeService, setActiveService] = useState(null); // null (closed) or service object
+  const [activeService, setActiveService] = useState(null);
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,8 +20,15 @@ function AdminServices() {
   }, [API_URL]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchData();
+    let active = true;
+    if (active) {
+      setTimeout(() => {
+        fetchData();
+      }, 0);
+    }
+    return () => {
+      active = false;
+    };
   }, [fetchData]);
 
   const onChange = (e) => {
@@ -51,7 +60,7 @@ function AdminServices() {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || 'Operation failed');
       }
-      setMsg({ text: isEdit ? 'Service updated!' : 'Service created!', isError: false });
+      setMsg({ text: isEdit ? t('admin.services.msg_updated') : t('admin.services.msg_created'), isError: false });
       setActiveService(null);
       fetchData();
     } catch (err) {
@@ -60,7 +69,7 @@ function AdminServices() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this service?')) return;
+    if (!window.confirm(t('admin.services.confirm_delete'))) return;
     setMsg(null);
     try {
       const res = await fetch(`${API_URL}/extraservices/${id}`, { method: 'DELETE', credentials: 'include' });
@@ -68,7 +77,7 @@ function AdminServices() {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || 'Delete failed');
       }
-      setMsg({ text: 'Service deleted!', isError: false });
+      setMsg({ text: t('admin.services.msg_deleted'), isError: false });
       fetchData();
     } catch (err) {
       setMsg({ text: err.message, isError: true });
@@ -76,21 +85,21 @@ function AdminServices() {
   };
 
   const fields = [
-    { name: 'name', label: 'Service Name', type: 'text', required: true },
-    { name: 'price', label: 'Price (€)', type: 'number', required: true, min: 0 },
-    { name: 'description', label: 'Description', type: 'textarea', colSpan: 2, rows: 2 },
-    { name: 'available', label: 'Available', type: 'checkbox', colSpan: 2 }
+    { name: 'name', label: t('admin.services.field_name'), type: 'text', required: true },
+    { name: 'price', label: t('admin.services.field_price'), type: 'number', required: true, min: 0 },
+    { name: 'description', label: t('admin.services.field_desc'), type: 'textarea', colSpan: 2, rows: 2 },
+    { name: 'available', label: t('admin.services.field_available'), type: 'checkbox', colSpan: 2 }
   ];
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-4 animate-fade-in-up">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-stone-900">Services Admin</h1>
+        <h1 className="text-2xl font-bold text-stone-900">{t('admin.services.title')}</h1>
         <button
           onClick={() => activeService ? setActiveService(null) : handleCreateNew()}
           className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer"
         >
-          {activeService ? 'Cancel' : 'New Service'}
+          {activeService ? t('admin.common.cancel') : t('admin.services.new_btn')}
         </button>
       </div>
 
@@ -102,7 +111,7 @@ function AdminServices() {
 
       {activeService && (
         <form onSubmit={handleSubmit} className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm mb-4 space-y-3">
-          <h3 className="text-base font-bold text-stone-855">{activeService._id ? 'Edit Service' : 'New Service'}</h3>
+          <h3 className="text-base font-bold text-stone-855">{activeService._id ? t('admin.services.edit_title') : t('admin.services.new_btn')}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fields.map(f => {
               const span = f.colSpan === 2 ? 'md:col-span-2' : '';
@@ -128,8 +137,8 @@ function AdminServices() {
             })}
           </div>
           <div className="flex justify-end gap-2 pt-1">
-            <button type="button" onClick={() => setActiveService(null)} className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all cursor-pointer">Discard</button>
-            <button type="submit" className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer">{activeService._id ? 'Save Changes' : 'Create Service'}</button>
+            <button type="button" onClick={() => setActiveService(null)} className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all cursor-pointer">{t('admin.common.discard')}</button>
+            <button type="submit" className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer">{activeService._id ? t('admin.common.save_changes') : t('admin.services.create_btn')}</button>
           </div>
         </form>
       )}
@@ -138,7 +147,7 @@ function AdminServices() {
         <table className="w-full border-collapse text-left text-xs text-stone-700">
           <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase tracking-wider">
             <tr>
-              {['Service', 'Description', 'Price', 'Status', 'Actions'].map((h, i) => (
+              {[t('admin.services.table_service'), t('admin.services.table_desc'), t('admin.services.table_price'), t('admin.services.table_status'), t('admin.services.table_actions')].map((h, i) => (
                 <th key={h} className={`px-4 py-2 font-semibold text-[10px] ${i === 4 ? 'text-right' : ''}`}>{h}</th>
               ))}
             </tr>
@@ -153,17 +162,17 @@ function AdminServices() {
                     ? 'text-green-700'
                     : 'text-stone-600'
                   }`}>
-                  {s.available ? 'Active' : 'Inactive'}
+                  {s.available ? t('admin.services.status_active') : t('admin.services.status_inactive')}
                 </td>
                 <td className="px-4 py-2 text-right">
-                  <button onClick={() => handleEdit(s)} className="text-stone-700 hover:underline mr-3 cursor-pointer">Edit</button>
-                  <button onClick={() => handleDelete(s._id)} className="text-red-600 hover:underline cursor-pointer">Delete</button>
+                  <button onClick={() => handleEdit(s)} className="text-stone-700 hover:underline mr-3 cursor-pointer">{t('admin.users.action_edit')}</button>
+                  <button onClick={() => handleDelete(s._id)} className="text-red-600 hover:underline cursor-pointer">{t('admin.users.action_delete')}</button>
                 </td>
               </tr>
             ))}
             {services.length === 0 && (
               <tr>
-                <td colSpan="5" className="px-4 py-6 text-center text-stone-400">No extra services found.</td>
+                <td colSpan="5" className="px-4 py-6 text-center text-stone-400">{t('admin.services.no_services')}</td>
               </tr>
             )}
           </tbody>

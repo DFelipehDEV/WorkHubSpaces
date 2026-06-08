@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 function AdminUsers() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [userHistory, setUserHistory] = useState([]);
@@ -64,7 +66,7 @@ function AdminUsers() {
         throw new Error(errData.message || "Failed to update client.");
       }
 
-      setMsg({ text: "Client updated successfully.", isError: false });
+      setMsg({ text: t("admin.users.msg_updated"), isError: false });
       setActiveUser(null);
       fetchUsers();
     } catch (err) {
@@ -73,7 +75,7 @@ function AdminUsers() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this client?")) return;
+    if (!window.confirm(t("admin.users.confirm_delete"))) return;
     setMsg(null);
     try {
       const res = await fetch(`${API_URL}/users/${id}`, {
@@ -86,7 +88,7 @@ function AdminUsers() {
         throw new Error(errData.message || "Failed to delete client.");
       }
 
-      setMsg({ text: "Client deleted successfully.", isError: false });
+      setMsg({ text: t("admin.users.msg_deleted"), isError: false });
       fetchUsers();
     } catch (err) {
       setMsg({ text: err.message, isError: true });
@@ -121,21 +123,21 @@ function AdminUsers() {
   };
 
   const statusLabel = {
-    0: "Pending",
-    1: "Cancelled",
-    2: "Confirmed",
-    3: "Finished",
+    0: t("reservations.status.pending"),
+    1: t("reservations.status.cancelled"),
+    2: t("reservations.status.confirmed"),
+    3: t("reservations.status.finished"),
   };
 
   const fields = [
-    { name: "name", label: "Name", type: "text", required: true },
-    { name: "email", label: "Email", type: "email", required: true },
-    { name: "contact", label: "Contact", type: "text", required: true },
-    { name: "address", label: "Address", type: "text", required: true },
-    { name: "nif", label: "NIF", type: "text", required: true },
-    { name: "activity", label: "Activity", type: "text" },
-    { name: "company", label: "Company", type: "text" },
-    { name: "suspended", label: "Suspended", type: "checkbox" },
+    { name: "name", label: t("admin.users.field_name"), type: "text", required: true },
+    { name: "email", label: t("admin.users.field_email"), type: "email", required: true },
+    { name: "contact", label: t("admin.users.field_contact"), type: "text", required: true },
+    { name: "address", label: t("admin.users.field_address"), type: "text", required: true },
+    { name: "nif", label: t("admin.users.field_nif"), type: "text", required: true },
+    { name: "activity", label: t("admin.users.field_activity"), type: "text" },
+    { name: "company", label: t("admin.users.field_company"), type: "text" },
+    { name: "suspended", label: t("admin.users.field_suspended"), type: "checkbox" },
   ];
 
   if (isLoading) {
@@ -150,14 +152,14 @@ function AdminUsers() {
     <div className="max-w-5xl mx-auto px-4 py-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-stone-900">
-          Clients Admin
+          {t("admin.users.title")}
         </h1>
         {activeUser && (
           <button
             onClick={() => setActiveUser(null)}
             className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all cursor-pointer"
           >
-            Discard
+            {t("admin.common.discard")}
           </button>
         )}
       </div>
@@ -179,8 +181,8 @@ function AdminUsers() {
           onSubmit={handleSubmit}
           className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm mb-6 space-y-3"
         >
-          <h3 className="text-base font-bold text-stone-850">
-            Edit Client
+          <h3 className="text-base font-bold text-stone-855">
+            {t("admin.users.edit_title")}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {fields.map((f) => {
@@ -229,13 +231,13 @@ function AdminUsers() {
               onClick={() => setActiveUser(null)}
               className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all cursor-pointer"
             >
-              Discard
+              {t("admin.common.discard")}
             </button>
             <button
               type="submit"
               className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer"
             >
-              Save Changes
+              {t("admin.common.save_changes")}
             </button>
           </div>
         </form>
@@ -246,22 +248,22 @@ function AdminUsers() {
           <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase tracking-wider">
             <tr>
               <th className="px-4 py-2 font-semibold text-[10px]">
-                Name
+                {t("admin.users.table_name")}
               </th>
               <th className="px-4 py-2 font-semibold text-[10px]">
-                Email
+                {t("admin.users.table_email")}
               </th>
               <th className="px-4 py-2 font-semibold text-[10px]">
-                Contact
+                {t("admin.users.table_contact")}
               </th>
               <th className="px-4 py-2 font-semibold text-[10px]">
-                NIF
+                {t("admin.users.table_nif")}
               </th>
               <th className="px-4 py-2 font-semibold text-[10px]">
-                Status
+                {t("admin.users.table_status")}
               </th>
               <th className="px-4 py-2 font-semibold text-[10px] text-right">
-                Actions
+                {t("admin.users.table_actions")}
               </th>
             </tr>
           </thead>
@@ -280,27 +282,27 @@ function AdminUsers() {
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {u.suspended ? "Suspended" : "Active"}
+                    {u.suspended ? t("admin.users.status_suspended") : t("admin.users.status_active")}
                   </span>
                 </td>
                 <td className="px-4 py-2 text-right space-x-3">
                   <button
                     onClick={() => handleOpenHistory(u)}
-                    className="text-stone-750 hover:underline cursor-pointer font-medium"
+                    className="text-stone-755 hover:underline cursor-pointer font-medium"
                   >
-                    History
+                    {t("admin.users.action_history")}
                   </button>
                   <button
                     onClick={() => setActiveUser({ ...u })}
                     className="text-stone-900 hover:underline font-bold cursor-pointer"
                   >
-                    Edit
+                    {t("admin.users.action_edit")}
                   </button>
                   <button
                     onClick={() => handleDelete(u._id)}
                     className="text-red-600 hover:underline cursor-pointer"
                   >
-                    Delete
+                    {t("admin.users.action_delete")}
                   </button>
                 </td>
               </tr>
@@ -308,7 +310,7 @@ function AdminUsers() {
             {users.length === 0 && (
               <tr>
                 <td colSpan="6" className="px-4 py-6 text-center text-stone-400">
-                  No registered clients found.
+                  {t("admin.users.no_users")}
                 </td>
               </tr>
             )}
@@ -321,7 +323,7 @@ function AdminUsers() {
           <div className="bg-white rounded-3xl p-6 max-w-2xl w-full max-h-[80vh] flex flex-col justify-between shadow-xl">
             <div>
               <h3 className="text-lg font-bold text-stone-900 mb-4">
-                Booking History for {selectedUser.name}
+                {t("admin.users.history_title", { name: selectedUser.name })}
               </h3>
               <div className="overflow-y-auto max-h-[50vh] border border-stone-200 rounded-xl">
                 {historyLoading ? (
@@ -330,23 +332,23 @@ function AdminUsers() {
                   </div>
                 ) : userHistory.length === 0 ? (
                   <p className="p-4 text-xs text-stone-500 text-center">
-                    No bookings found for this client.
+                    {t("admin.users.history_no_bookings")}
                   </p>
                 ) : (
                   <table className="w-full text-left text-xs border-collapse">
                     <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase tracking-wider">
                       <tr>
                         <th className="px-3 py-2 font-semibold">
-                          Space
+                          {t("admin.users.history_table_space")}
                         </th>
                         <th className="px-3 py-2 font-semibold">
-                          Schedule
+                          {t("admin.users.history_table_schedule")}
                         </th>
                         <th className="px-3 py-2 font-semibold">
-                          Cost
+                          {t("admin.users.history_table_cost")}
                         </th>
                         <th className="px-3 py-2 font-semibold">
-                          Status
+                          {t("admin.users.history_table_status")}
                         </th>
                       </tr>
                     </thead>
@@ -380,7 +382,7 @@ function AdminUsers() {
                 onClick={() => setSelectedUser(null)}
                 className="px-4 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs cursor-pointer"
               >
-                Close
+                {t("admin.users.close_btn")}
               </button>
             </div>
           </div>
