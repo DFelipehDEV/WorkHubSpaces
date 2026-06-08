@@ -18,6 +18,7 @@ import History from './pages/History.jsx';
 import AdminSpaces from './pages/AdminSpaces.jsx';
 import AdminReservations from './pages/AdminReservations.jsx';
 import AdminServices from './pages/AdminServices.jsx';
+import AdminUsers from './pages/AdminUsers.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -104,6 +105,14 @@ createRoot(document.getElementById('root')).render(
                 element={
                   <ClientRoute>
                     <AdminServices />
+                  </ClientRoute>
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <ClientRoute>
+                    <AdminUsers />
                   </ClientRoute>
                 }
               />
