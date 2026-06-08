@@ -195,6 +195,22 @@ function Space() {
                   </p>
                 </div>
               </div>
+              <div className="md:col-span-1 border-t md:border-t-0 md:border-l border-stone-100 pt-6 md:pt-0 md:pl-8 space-y-4">
+                <h3 className="text-lg font-semibold text-stone-800">
+                  {t("space.equipments_title")}
+                </h3>
+                {space.equipments && space.equipments.length > 0 ? (
+                  <ul className="list-disc list-inside text-sm text-stone-600 space-y-1">
+                    {space.equipments.map((eq) => (
+                      <li key={eq._id}>{eq.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-stone-400">
+                    {t("space.no_equipments")}
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="mt-8 border-t border-stone-100 pt-6">

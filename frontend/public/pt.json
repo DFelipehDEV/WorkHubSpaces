@@ -43,7 +43,9 @@
         "review_label": "Comentário",
         "submit_review_btn": "Submeter Análise",
         "review_success": "Análise submetida com sucesso!",
-        "review_error": "Erro ao submeter análise."
+        "review_error": "Erro ao submeter análise.",
+        "equipments_title": "Equipamento Disponível",
+        "no_equipments": "Nenhum equipamento disponível."
     },
     "profile": {
         "title": "Gerir Perfil",

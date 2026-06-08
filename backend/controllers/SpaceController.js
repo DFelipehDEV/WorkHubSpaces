@@ -14,6 +14,7 @@ exports.get = async (req, res) => {
   try {
     const space = await Space.findById(req.params.id)
       .populate({ path: 'reviews.user', select: 'name' })
+      .populate('equipments')
       .orFail(() => {
         return res.status(404).json({ message: "Couldn't find space" });
       });

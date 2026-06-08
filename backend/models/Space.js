@@ -48,9 +48,10 @@ const spaceSchema = new mongoose.Schema({
   reviews: {
     type: [reviewSchema]
   },
-  equipments: {
-    type: [mongoose.ObjectId]
-  }
+  equipments: [{
+    type: mongoose.ObjectId,
+    ref: "Equipment"
+  }]
 });
 
 module.exports = mongoose.model('Space', spaceSchema);

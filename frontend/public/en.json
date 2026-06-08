@@ -43,7 +43,9 @@
         "review_label": "Comment",
         "submit_review_btn": "Submit Review",
         "review_success": "Review submitted successfully!",
-        "review_error": "Error submitting review."
+        "review_error": "Error submitting review.",
+        "equipments_title": "Available Equipment",
+        "no_equipments": "No equipment available."
     },
     "profile": {
         "title": "Manage Profile",
