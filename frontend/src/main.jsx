@@ -8,6 +8,8 @@ import Space from './pages/Space.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import SignUp from './pages/SignUp.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Reservations from './pages/Reservations.jsx';
 import Profile from './pages/Profile.jsx';
@@ -47,6 +49,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
               <Route
                 path="/dashboard"
                 element={

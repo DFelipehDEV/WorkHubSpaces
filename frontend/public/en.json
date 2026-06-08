@@ -56,7 +56,24 @@
         "nif": "NIF",
         "activity": "Activity",
         "company": "Company",
-        "optional": "optional"
+        "optional": "optional",
+        "forgot_password_link": "Forgot your password?",
+        "forgot_title": "Recover Password",
+        "email_placeholder": "Enter your email",
+        "send_recovery_btn": "Send Recovery Email",
+        "sending_btn": "Sending...",
+        "back_to_login": "Back to Login",
+        "recovery_success": "Recovery email sent successfully.",
+        "recovery_error": "Error requesting recovery.",
+        "network_error": "Network error. Please try again.",
+        "reset_title": "Reset Password",
+        "new_password_placeholder": "New password",
+        "confirm_password_placeholder": "Confirm password",
+        "save_password_btn": "Save Password",
+        "saving_btn": "Saving...",
+        "password_mismatch": "Passwords do not match.",
+        "reset_success": "Password reset successfully. Redirecting...",
+        "reset_error": "Error resetting password."
     },
     "reservations": {
         "status": {

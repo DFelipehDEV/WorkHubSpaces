@@ -54,9 +54,14 @@ function Login() {
                 <input name="password" type="password" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder={t('auth.password')} />
                 <button type="submit" className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">{t('auth.login')}</button>
               </div>
-              <Link to="/signup" className="cursor-pointer text-blue-500">
-                {t('auth.create_account')}
-              </Link>
+              <div className="flex flex-col sm:flex-row justify-between gap-2 mt-4 text-sm">
+                <Link to="/signup" className="cursor-pointer text-blue-500 hover:underline">
+                  {t('auth.create_account')}
+                </Link>
+                <Link to="/forgot-password" className="cursor-pointer text-stone-550 hover:underline">
+                  {t('auth.forgot_password_link')}
+                </Link>
+              </div>
               {error != "" &&
                 <div className="bg-red-500 text-black px-4 py-2 rounded-xl">{error}</div>
               }

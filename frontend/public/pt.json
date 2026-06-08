@@ -56,7 +56,24 @@
         "nif": "NIF",
         "activity": "Atividade",
         "company": "Empresa",
-        "optional": "opcional"
+        "optional": "opcional",
+        "forgot_password_link": "Esqueceu-se da palavra-passe?",
+        "forgot_title": "Recuperar Palavra-passe",
+        "email_placeholder": "Introduza o seu email",
+        "send_recovery_btn": "Enviar Email de Recuperação",
+        "sending_btn": "A enviar...",
+        "back_to_login": "Voltar ao Login",
+        "recovery_success": "Email de recuperação enviado com sucesso.",
+        "recovery_error": "Erro ao solicitar recuperação.",
+        "network_error": "Erro de rede. Tente novamente.",
+        "reset_title": "Repor Palavra-passe",
+        "new_password_placeholder": "Nova palavra-passe",
+        "confirm_password_placeholder": "Confirmar palavra-passe",
+        "save_password_btn": "Guardar Palavra-passe",
+        "saving_btn": "A guardar...",
+        "password_mismatch": "As palavras-passe não coincidem.",
+        "reset_success": "Palavra-passe alterada com sucesso. A redirecionar...",
+        "reset_error": "Erro ao repor a palavra-passe."
     },
     "reservations": {
         "status": {

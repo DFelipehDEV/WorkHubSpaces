@@ -1,8 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Nodemailer = require("nodemailer");
-const { MailtrapTransport } = require("mailtrap");
+const { MailtrapClient } = require("mailtrap");
 
 exports.signUp = async (req, res) => {
     try {
@@ -65,29 +64,27 @@ exports.forgotPassword = async (req, res) => {
     }).exec();
 
     try {
-        const transport = Nodemailer.createTransport(
-            MailtrapTransport({
-                token: process.env.MAILTRAP_TOKEN,
-            })
-        );
+        const client = new MailtrapClient({
+            token: process.env.MAILTRAP_TOKEN,
+        });
 
         const sender = {
-            address: "workhubspaces@demomailtrap.co",
+            email: "workhubspaces@demomailtrap.co",
             name: "WorkHub Spaces",
         };
 
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '10m' });
 
-        transport.sendMail({
+        await client.send({
             from: sender,
-            to: user.email,
+            to: [{ email: user.email }],
             subject: "Password Reset",
             text:
                 `
             Olá ${user.name}, 
             foi pedido para repor a palavra-passe para o email ${user.email}. 
             Clique no link para repor a palavra-passe. 
-            ${process.env.BASE_URL}:${process.env.PORT}/reset/${token} 
+            ${process.env.FRONTEND_URL}/reset-password/${token} 
             Após 10 minutos, o link deixara de ser valido.
             `,
             category: "Password Reset",
