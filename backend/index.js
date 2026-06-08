@@ -53,6 +53,7 @@ app.get('/reservations', userMiddleware, ReservationController.getAll);
 app.post('/reservations/:id/cancel', userMiddleware, ReservationController.cancel);
 app.get('/confirmed-dates', userMiddleware, ReservationController.getConfirmedDates);
 app.get('/users/:id/reservations', adminMiddleware, ReservationController.getClientHistory);
+app.get('/admin/reports-stats', adminMiddleware, ReservationController.getReportsStats);
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);

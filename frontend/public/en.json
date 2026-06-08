@@ -161,7 +161,8 @@
             "spaces": "Spaces Admin",
             "reservations": "Reservations Admin",
             "services": "Services Admin",
-            "users": "Clients Admin"
+            "users": "Clients Admin",
+            "reports": "Reports Admin"
         },
         "spaces": {
             "title": "Spaces Admin",
@@ -272,6 +273,23 @@
             "history_table_cost": "Cost",
             "history_table_status": "Status",
             "close_btn": "Close"
+        },
+        "reports": {
+            "title": "Reports & Analytics",
+            "total_bookings": "Total Bookings",
+            "total_revenue": "Total Revenue",
+            "active_clients": "Active Clients",
+            "suspended_clients": "Suspended Clients",
+            "popular_spaces": "Top 5 Popular Spaces",
+            "bookings_by_status": "Bookings by Status",
+            "pending": "Pending",
+            "confirmed": "Confirmed",
+            "finished": "Finished",
+            "cancelled": "Cancelled",
+            "space_name": "Space Name",
+            "bookings_count": "Bookings Count",
+            "total_users": "Total Registered Users",
+            "stats_failed": "Failed to load reports statistics."
         },
         "common": {
             "discard": "Discard",

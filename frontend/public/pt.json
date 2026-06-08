@@ -161,7 +161,8 @@
             "spaces": "Admin Espaços",
             "reservations": "Admin Reservas",
             "services": "Admin Serviços",
-            "users": "Admin Clientes"
+            "users": "Admin Clientes",
+            "reports": "Admin Relatórios"
         },
         "spaces": {
             "title": "Gestão de Espaços",
@@ -272,6 +273,23 @@
             "history_table_cost": "Custo",
             "history_table_status": "Estado",
             "close_btn": "Fechar"
+        },
+        "reports": {
+            "title": "Relatórios e Estatísticas",
+            "total_bookings": "Total de Reservas",
+            "total_revenue": "Receita Total",
+            "active_clients": "Clientes Ativos",
+            "suspended_clients": "Clientes Suspensos",
+            "popular_spaces": "Top 5 Espaços Populares",
+            "bookings_by_status": "Reservas por Estado",
+            "pending": "Pendente",
+            "confirmed": "Confirmada",
+            "finished": "Concluída",
+            "cancelled": "Cancelada",
+            "space_name": "Nome do Espaço",
+            "bookings_count": "Número de Reservas",
+            "total_users": "Total de Utilizadores Registados",
+            "stats_failed": "Erro ao carregar estatísticas do relatório."
         },
         "common": {
             "discard": "Descartar",

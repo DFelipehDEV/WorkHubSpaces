@@ -1,5 +1,6 @@
 const Reservation = require('../models/Reservation');
 const Notification = require('../models/Notification');
+const User = require('../models/User');
 
 exports.create = async (req, res) => {
   try {
@@ -148,4 +149,64 @@ exports.getClientHistory = async (req, res) => {
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-}
+};
+
+exports.getReportsStats = async (req, res) => {
+  try {
+    const totalReservations = await Reservation.countDocuments({});
+    const reservations = await Reservation.find({}).populate('spaceId').exec();
+
+    let totalRevenue = 0;
+    let pendingBookings = 0;
+    let cancelledBookings = 0;
+    let confirmedBookings = 0;
+    let finishedBookings = 0;
+
+    const spacePopularity = {};
+
+    reservations.forEach(r => {
+      if (r.status === 2 || r.status === 3) {
+        totalRevenue += (r.cost || 0);
+      }
+      if (r.status === 0) pendingBookings++;
+      if (r.status === 1) cancelledBookings++;
+      if (r.status === 2) confirmedBookings++;
+      if (r.status === 3) finishedBookings++;
+
+      if (r.spaceId && r.spaceId.name) {
+        const key = r.spaceId._id.toString();
+        if (!spacePopularity[key]) {
+          spacePopularity[key] = {
+            id: r.spaceId._id,
+            name: r.spaceId.name,
+            count: 0
+          };
+        }
+        spacePopularity[key].count++;
+      }
+    });
+
+    const totalUsers = await User.countDocuments({ role: { $ne: process.env.DB_ADMIN_ROLE_ID } });
+    const activeUsers = await User.countDocuments({ role: { $ne: process.env.DB_ADMIN_ROLE_ID }, suspended: false });
+    const suspendedUsers = await User.countDocuments({ role: { $ne: process.env.DB_ADMIN_ROLE_ID }, suspended: true });
+
+    const popularSpaces = Object.values(spacePopularity)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    return res.status(200).json({
+      totalReservations,
+      pendingBookings,
+      cancelledBookings,
+      confirmedBookings,
+      finishedBookings,
+      totalRevenue,
+      totalUsers,
+      activeUsers,
+      suspendedUsers,
+      popularSpaces
+    });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+};

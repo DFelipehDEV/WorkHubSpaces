@@ -2,15 +2,26 @@ import { useState, useEffect, useCallback } from "react";
 import { SquarePen } from "lucide-react";
 import { DateRange } from "react-date-range";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 function AdminReservations() {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const [reservations, setReservations] = useState([]);
   const [users, setUsers] = useState([]);
   const [msg, setMsg] = useState(null);
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus, setFilterStatus] = useState(searchParams.get("status") || "all");
+
+  useEffect(() => {
+    const statusFromUrl = searchParams.get("status");
+    if (statusFromUrl) {
+      setTimeout(() => {
+        setFilterStatus(statusFromUrl);
+      }, 0);
+    }
+  }, [searchParams]);
   const [editingNotesId, setEditingNotesId] = useState(null);
   const [notesTemp, setNotesTemp] = useState("");
   const [rescheduleReservation, setRescheduleReservation] = useState(null);
