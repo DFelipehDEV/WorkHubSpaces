@@ -1,9 +1,24 @@
 const Reservation = require('../models/Reservation');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
+const Space = require('../models/Space');
+const SpaceType = require('../models/SpaceType');
 
 exports.create = async (req, res) => {
   try {
+    const { spaceId, startDate, endDate } = req.body;
+
+    const overlappingReservations = await Reservation.find({
+      spaceId: spaceId,
+      status: { $ne: Reservation.ReservationStatuses.Cancelled },
+      startDate: { $lt: endDate },
+      endDate: { $gt: startDate }
+    });
+
+    if (overlappingReservations.length > 0) {
+      return res.status(409).json({ message: "This space is already booked for the selected dates." });
+    }
+
     const reservation = await Reservation.create({
       reservedBy: req.user.id,
       spaceId: req.body.spaceId,
