@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function AdminServices() {
   const { t } = useTranslation();
+  const { isAdmin } = useAuth();
   const [services, setServices] = useState([]);
   const [msg, setMsg] = useState(null);
   const [activeService, setActiveService] = useState(null);
@@ -90,6 +93,10 @@ function AdminServices() {
     { name: 'description', label: t('admin.services.field_desc'), type: 'textarea', colSpan: 2, rows: 2 },
     { name: 'available', label: t('admin.services.field_available'), type: 'checkbox', colSpan: 2 }
   ];
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-4 animate-fade-in-up">

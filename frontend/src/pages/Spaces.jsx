@@ -123,7 +123,7 @@ function Spaces() {
             </span>
             <input
               type="text"
-              placeholder={t('search.placeholder', 'Search spaces...')}
+              placeholder={t('search.placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white rounded-md pl-9 pr-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 placeholder-stone-400 focus:outline-none focus:border-primary-2 focus:ring-1 focus:ring-primary-2 h-fit"
@@ -144,7 +144,7 @@ function Spaces() {
                 }`}
               >
                 <Star className={`w-4 h-4 ${showFavoritesOnly ? 'fill-white text-white' : 'text-stone-400'}`} />
-                {showFavoritesOnly ? t('space.all_spaces', 'All Spaces') : t('space.favorites_only', 'Favorites Only')}
+                {showFavoritesOnly ? t('space.all_spaces') : t('space.favorites_only')}
               </button>
             )}
 
@@ -185,11 +185,11 @@ function Spaces() {
               onChange={(e) => setSortBy(e.target.value)}
               aria-label="Order by"
             >
-              <option value="-popularity">{t('sort.popularity_desc', 'Popularity')}</option>
-              <option value="pricePerHour">{t('sort.price_asc', 'Price: Low to High')}</option>
-              <option value="-pricePerHour">{t('sort.price_desc', 'Price: High to Low')}</option>
-              <option value="capacity">{t('sort.capacity_asc', 'Capacity: Low to High')}</option>
-              <option value="-capacity">{t('sort.capacity_desc', 'Capacity: High to Low')}</option>
+              <option value="-popularity">{t('sort.popularity_desc')}</option>
+              <option value="pricePerHour">{t('sort.price_asc')}</option>
+              <option value="-pricePerHour">{t('sort.price_desc')}</option>
+              <option value="capacity">{t('sort.capacity_asc')}</option>
+              <option value="-capacity">{t('sort.capacity_desc')}</option>
             </select>
           </div>
         </div>

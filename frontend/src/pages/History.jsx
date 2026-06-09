@@ -36,7 +36,7 @@ function History() {
         setReservations(pastBookings);
       } catch (err) {
         console.error(err);
-        setError(t('reservations.error_fetching', 'Could not load booking history.'));
+        setError(t('reservations.error_fetching'));
       } finally {
         setIsLoading(false);
       }
@@ -47,7 +47,7 @@ function History() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">{t('nav.history', 'Booking History')}</h1>
+      <h1 className="text-3xl font-bold text-stone-900 mb-6">{t('nav.history')}</h1>
 
       {isLoading ? (
         <div className="flex justify-center items-center py-20">
@@ -61,8 +61,8 @@ function History() {
       ) : reservations.length === 0 ? (
         <div className="bg-white p-8 rounded-2xl border border-stone-200 text-center shadow-sm max-w-2xl mx-auto">
           <Calendar className="mx-auto text-stone-300 mb-4" size={48} />
-          <h3 className="text-lg font-bold text-stone-800">{t('reservations.no_history', 'No past bookings found')}</h3>
-          <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_history_desc', 'Your completed and cancelled reservations will appear here.')}</p>
+          <h3 className="text-lg font-bold text-stone-800">{t('reservations.no_history')}</h3>
+          <p className="text-stone-500 mt-1.5 text-sm">{t('reservations.no_history_desc')}</p>
         </div>
       ) : (
         <>

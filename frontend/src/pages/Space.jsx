@@ -182,7 +182,7 @@ function Space() {
                   to={`/spaces/${space._id}/book`}
                   className="bg-primary-2 text-white font-bold py-2.5 px-5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all shadow-sm text-sm"
                 >
-                  {t('space.book_this_space', 'Book Space')}
+                  {t('space.book_this_space')}
                 </Link>
               </div>
             </div>

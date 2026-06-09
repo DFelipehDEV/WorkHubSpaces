@@ -25,7 +25,7 @@ function Profile() {
       credentials: 'include'
     })
       .then((res) => {
-        if (!res.ok) throw new Error(t('profile.session_expired', 'Unauthorized or session expired'));
+        if (!res.ok) throw new Error(t('profile.session_expired'));
         return res.json();
       })
       .then((data) => {
@@ -42,7 +42,7 @@ function Profile() {
       })
       .catch((err) => {
         console.error(err);
-        setError(t('profile.session_expired', 'Unauthorized or session expired'));
+        setError(t('profile.session_expired'));
         setLoading(false);
         navigate('/login');
       });
@@ -69,9 +69,9 @@ function Profile() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || t('profile.failed', 'Failed to update profile'));
+      if (!res.ok) throw new Error(data.message || t('profile.failed'));
 
-      setMessage(t('profile.success', 'Profile updated successfully!'));
+      setMessage(t('profile.success'));
     } catch (err) {
       setError(err.message);
     }
@@ -88,7 +88,7 @@ function Profile() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <h1 className="text-3xl font-bold text-stone-900 mb-6">
-        {t('profile.title', 'Manage Profile')}
+        {t('profile.title')}
       </h1>
 
       {message && (
@@ -107,7 +107,7 @@ function Profile() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.name', 'Name')}
+              {t('auth.name')}
             </label>
             <input
               type="text"
@@ -121,7 +121,7 @@ function Profile() {
 
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.nif', 'NIF')}
+              {t('auth.nif')}
             </label>
             <input
               type="text"
@@ -138,7 +138,7 @@ function Profile() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.contact', 'Contact')}
+              {t('auth.contact')}
             </label>
             <input
               type="text"
@@ -151,7 +151,7 @@ function Profile() {
           </div>
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.address', 'Address')}
+              {t('auth.address')}
             </label>
             <input
               type="text"
@@ -167,7 +167,7 @@ function Profile() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.activity', 'Activity')}
+              {t('auth.activity')}
             </label>
             <input
               type="text"
@@ -180,7 +180,7 @@ function Profile() {
 
           <div className="space-y-1.5">
             <label className="flex items-center gap-1.5 text-xs font-semibold text-stone-500 uppercase tracking-wider">
-              {t('auth.company', 'Company')}
+              {t('auth.company')}
             </label>
             <input
               type="text"
@@ -197,7 +197,7 @@ function Profile() {
             type="submit"
             className="w-full py-3 px-6 bg-primary-2 text-white font-bold rounded-xl text-sm shadow-sm hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex justify-center items-center gap-2"
           >
-            {t('profile.save_btn', 'Save Profile')}
+            {t('profile.save_btn')}
           </button>
         </div>
       </form>

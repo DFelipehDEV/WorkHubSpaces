@@ -85,7 +85,7 @@ function Dashboard() {
       <div>
         <div className="bg-white border border-stone-200 rounded-3xl p-8 shadow-sm flex flex-col justify-between gap-6">
           <div>
-            <h3 className="text-base font-bold text-stone-850 mb-3">{t('dashboard.upcoming_title', 'Next Upcoming Reservation')}</h3>
+            <h3 className="text-base font-bold text-stone-850 mb-3">{t('dashboard.upcoming_title')}</h3>
             {nextBooking ? (
               <div className="bg-stone-50/75 p-5 rounded-2xl border border-stone-100 space-y-3">
                 <div className="flex justify-between items-start gap-2">
@@ -99,7 +99,7 @@ function Dashboard() {
                   )}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{t('reservations.start', 'Start')}</p>
+                  <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{t('reservations.start')}</p>
                   <p className="text-xs text-stone-700 font-mono">
                     {new Date(nextBooking.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                   </p>
@@ -107,9 +107,9 @@ function Dashboard() {
               </div>
             ) : (
               <div className="py-6 text-center space-y-4">
-                <p className="text-xs text-stone-450">{t('dashboard.no_upcoming', 'No upcoming reservations found.')}</p>
+                <p className="text-xs text-stone-450">{t('dashboard.no_upcoming')}</p>
                 <Link to="/spaces" className="inline-block px-5 py-2.5 bg-primary-2 text-white font-bold rounded-xl text-xs hover:opacity-90 active:scale-[0.98] transition-all shadow-sm cursor-pointer">
-                  {t('home.hero.cta', 'See Spaces')}
+                  {t('home.hero.cta')}
                 </Link>
               </div>
             )}
@@ -117,7 +117,7 @@ function Dashboard() {
 
           <div className="flex justify-between items-center pt-4 border-t border-stone-100 text-xs">
             <Link to="/reservations" className="text-primary-2 font-bold hover:underline">
-              {t('dashboard.view_details', 'View all reservations')}
+              {t('dashboard.view_details')}
             </Link>
           </div>
         </div>
@@ -125,10 +125,10 @@ function Dashboard() {
 
       <div className="bg-white border border-stone-200 rounded-3xl p-8 shadow-sm">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-bold text-stone-850">{t('dashboard.notifications_title', 'Notifications')}</h3>
+          <h3 className="text-lg font-bold text-stone-850">{t('dashboard.notifications_title')}</h3>
           {notifications.length > 0 && (
             <span className="text-xs bg-primary/10 text-primary-2 px-2.5 py-0.5 rounded-full font-bold">
-              {notifications.length} {t('dashboard.unread', 'Unread')}
+              {notifications.length} {t('dashboard.unread')}
             </span>
           )}
         </div>

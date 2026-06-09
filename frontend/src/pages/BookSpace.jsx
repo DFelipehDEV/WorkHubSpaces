@@ -113,7 +113,7 @@ function BookSpace() {
     const end = dateRange[0].endDate;
     const diffTime = Math.abs(end - start);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return Math.max(1, diffDays);
+    return diffDays + 1;
   };
 
   const calculateHours = () => {
@@ -127,7 +127,7 @@ function BookSpace() {
   const hours = calculateHours();
   const days = calculateDays();
   const hourlyRate = space ? space.pricePerHour : 0;
-  const dailyPrice = hourlyRate * 24;
+  const dailyPrice = hourlyRate * 8;
 
   const spaceCost = bookingMode === 'hourly'
     ? hours * hourlyRate
@@ -139,7 +139,7 @@ function BookSpace() {
 
   const equipmentsCost = allEquipments
     .filter(eq => selectedEquipments.includes(eq._id))
-    .reduce((sum, eq) => sum + eq.price, 0);
+    .reduce((sum, eq) => sum + (eq.price || 0), 0);
 
   const totalCost = spaceCost + extraServicesCost + equipmentsCost;
 
@@ -220,9 +220,9 @@ function BookSpace() {
   if (error || !space) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-4">
-        <h2 className="text-2xl font-bold text-stone-800 mb-4">{t('space.notfound', 'Space Not Found')}</h2>
-        <p className="text-stone-500 mb-6">{error || t('space.notfound_desc', 'The requested space does not exist.')}</p>
-        <Link to="/spaces" className="px-5 py-2.5 bg-stone-900 text-white rounded-lg font-semibold hover:bg-stone-800">{t('goback', 'Go Back')}</Link>
+        <h2 className="text-2xl font-bold text-stone-800 mb-4">{t('space.notfound')}</h2>
+        <p className="text-stone-500 mb-6">{error || t('space.notfound_desc')}</p>
+        <Link to="/spaces" className="px-5 py-2.5 bg-stone-900 text-white rounded-lg font-semibold hover:bg-stone-800">{t('goback')}</Link>
       </div>
     );
   }
@@ -231,15 +231,15 @@ function BookSpace() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <Link to={`/spaces/${space._id}`} className="flex items-center gap-1.5 mb-6 text-stone-500 hover:text-primary-2 w-fit">
         <ChevronLeft size={16} />
-        <span className="text-sm font-medium">{t('booking.goback_to_space', 'Go Back to Space details')}</span>
+        <span className="text-sm font-medium">{t('booking.goback_to_space')}</span>
       </Link>
 
       {bookingSuccess && (
         <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
           <CheckCircle2 size={24} className="text-green-600 shrink-0" />
           <div>
-            <p className="font-bold">{t('booking.success_title', 'Booking Successful!')}</p>
-            <p className="text-sm">{t('booking.success_desc', 'Your reservation was created. Redirecting to your bookings page...')}</p>
+            <p className="font-bold">{t('booking.success_title')}</p>
+            <p className="text-sm">{t('booking.success_desc')}</p>
           </div>
         </div>
       )}
@@ -248,7 +248,7 @@ function BookSpace() {
         <div className="mb-8 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
           <AlertCircle size={24} className="text-red-600 shrink-0" />
           <div>
-            <p className="font-bold">{t('booking.error_title', 'Booking Failed')}</p>
+            <p className="font-bold">{t('booking.error_title')}</p>
             <p className="text-sm">{bookingError}</p>
           </div>
         </div>
@@ -260,7 +260,7 @@ function BookSpace() {
           <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
             <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
               <span className="flex items-center justify-center bg-primary/20 text-primary-2 w-7 h-7 rounded-full text-sm font-sans font-bold">1</span>
-              {t('booking.step_dates', 'Select Booking Dates')}
+              {t('booking.step_dates')}
             </h2>
 
             {/* Segmented Booking Mode Selector */}
@@ -277,7 +277,7 @@ function BookSpace() {
                     : 'text-stone-500 hover:text-stone-800'
                 }`}
               >
-                {t('booking.mode_hourly', 'Hourly Booking')}
+                {t('booking.mode_hourly')}
               </button>
               <button
                 type="button"
@@ -291,7 +291,7 @@ function BookSpace() {
                     : 'text-stone-500 hover:text-stone-800'
                 }`}
               >
-                {t('booking.mode_daily', 'Daily Booking')}
+                {t('booking.mode_daily')}
               </button>
             </div>
 
@@ -302,7 +302,7 @@ function BookSpace() {
                   <div className="flex items-center gap-3">
                     <CalendarIcon size={18} className="text-stone-450" />
                     <div>
-                      <p className="text-xs font-semibold text-stone-450 uppercase tracking-wider">{t('booking.select_date', 'Select Date')}</p>
+                      <p className="text-xs font-semibold text-stone-450 uppercase tracking-wider">{t('booking.select_date')}</p>
                       <p className="text-sm font-semibold text-stone-800">
                         {formatDate(dateRange[0].startDate)}
                       </p>
@@ -312,7 +312,7 @@ function BookSpace() {
                     onClick={() => setShowCalendar(!showCalendar)}
                     className="px-4 py-2 bg-primary-2 text-white rounded-lg text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer"
                   >
-                    {showCalendar ? t('booking.hide_calendar', 'Done') : t('booking.change_dates', 'Choose Date')}
+                    {showCalendar ? t('booking.hide_calendar') : t('booking.change_dates')}
                   </button>
                 </div>
 
@@ -339,7 +339,7 @@ function BookSpace() {
                 {/* Hourly Time Selectors */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5">{t('booking.start_time', 'Start Time')}</label>
+                    <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5">{t('booking.start_time')}</label>
                     <select
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
@@ -352,7 +352,7 @@ function BookSpace() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5">{t('booking.end_time', 'End Time')}</label>
+                    <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5">{t('booking.end_time')}</label>
                     <select
                       value={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
@@ -367,7 +367,7 @@ function BookSpace() {
 
                 {hours <= 0 && (
                   <p className="text-xs text-red-500 font-semibold mt-1">
-                    {t('booking.error_time_relation', 'End time must be after start time.')}
+                    {t('booking.error_time_relation')}
                   </p>
                 )}
               </div>
@@ -378,7 +378,7 @@ function BookSpace() {
                   <div className="flex items-center gap-3">
                     <CalendarIcon size={18} className="text-stone-450" />
                     <div>
-                      <p className="text-xs font-semibold text-stone-450 uppercase tracking-wider">{t('booking.dates_selected', 'Dates Selected')}</p>
+                      <p className="text-xs font-semibold text-stone-450 uppercase tracking-wider">{t('booking.dates_selected')}</p>
                       <p className="text-sm font-semibold text-stone-800">
                         {formatDate(dateRange[0].startDate)} — {formatDate(dateRange[0].endDate)}
                       </p>
@@ -388,7 +388,7 @@ function BookSpace() {
                     onClick={() => setShowCalendar(!showCalendar)}
                     className="px-4 py-2 bg-primary-2 text-white rounded-lg text-xs font-bold hover:opacity-90 transition-opacity cursor-pointer"
                   >
-                    {showCalendar ? t('booking.hide_calendar', 'Done') : t('booking.change_dates', 'Choose Dates')}
+                    {showCalendar ? t('booking.hide_calendar') : t('booking.change_dates')}
                   </button>
                 </div>
 
@@ -411,7 +411,7 @@ function BookSpace() {
             <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
               <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
                 <span className="flex items-center justify-center bg-primary/20 text-primary-2 w-7 h-7 rounded-full text-sm font-sans font-bold">2</span>
-                {t('booking.step_services', 'Extra Services (Optional)')}
+                {t('booking.step_services')}
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -447,7 +447,7 @@ function BookSpace() {
             <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
               <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
                 <span className="flex items-center justify-center bg-primary/20 text-primary-2 w-7 h-7 rounded-full text-sm font-sans font-bold">3</span>
-                {t('booking.step_equipment', 'Select Equipment (Optional)')}
+                {t('booking.step_equipment')}
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -470,7 +470,7 @@ function BookSpace() {
                         )}
                       </div>
                       <span className="text-xs font-mono font-bold text-primary-2 shrink-0 bg-primary/10 px-2 py-0.5 rounded">
-                        +{eq.price}€
+                        +{(eq.price || 0)}€
                       </span>
                     </button>
                   );
@@ -482,7 +482,7 @@ function BookSpace() {
           <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
             <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
               <span className="flex items-center justify-center bg-primary/20 text-primary-2 w-7 h-7 rounded-full text-sm font-sans font-bold">4</span>
-              {t('booking.step_observations', 'Special Requests (Optional)')}
+              {t('booking.step_observations')}
             </h2>
             <div className="flex items-start gap-3 border border-stone-200 rounded-xl p-3 bg-stone-50">
               <FileText size={20} className="text-stone-400 mt-1 shrink-0" />
@@ -490,7 +490,7 @@ function BookSpace() {
                 value={obs}
                 onChange={(e) => setObs(e.target.value)}
                 rows={3}
-                placeholder={t('space.observations_placeholder', 'Do you need specific seating, visual presentation gear, or specific layout configurations? Let us know.')}
+                placeholder={t('space.observations_placeholder')}
                 className="w-full text-sm text-stone-850 placeholder-stone-400 bg-transparent outline-none resize-none"
               />
             </div>
@@ -499,7 +499,7 @@ function BookSpace() {
 
         <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm sticky top-24 space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-stone-900 mb-3">{t('booking.summary_title', 'Booking Summary')}</h3>
+            <h3 className="text-lg font-bold text-stone-900 mb-3">{t('booking.summary_title')}</h3>
             <div className="bg-stone-50 rounded-xl overflow-hidden border border-stone-100 p-3">
               {space.images && space.images.length > 0 && (
                 <img
@@ -515,37 +515,37 @@ function BookSpace() {
 
           <div className="space-y-3 pt-3 border-t border-stone-100">
             <div className="flex justify-between text-sm text-stone-600">
-              <span>{t('booking.duration', 'Duration')}</span>
+              <span>{t('booking.duration')}</span>
               <span className="font-semibold text-stone-900 text-right">
                 {bookingMode === 'hourly' ? (
-                  `${hours} ${hours === 1 ? t('space.hour', 'hour') : t('space.hours', 'hours')}`
+                  `${hours} ${hours === 1 ? t('space.hour') : t('space.hours')}`
                 ) : (
-                  `${days} ${days === 1 ? t('space.day', 'day') : t('space.days', 'days')}`
+                  `${days} ${days === 1 ? t('space.day') : t('space.days')}`
                 )}
               </span>
             </div>
 
             <div className="flex justify-between text-sm text-stone-600">
-              <span>{t('booking.space_cost', 'Space Rental')}</span>
+              <span>{t('booking.space_cost')}</span>
               <span className="font-mono">{spaceCost.toFixed(2)}€</span>
             </div>
 
             {selectedExtraServices.length > 0 && (
               <div className="flex justify-between text-sm text-stone-600">
-                <span>{t('booking.services_total', 'Extra Services')}</span>
+                <span>{t('booking.services_total')}</span>
                 <span className="font-mono">+{extraServicesCost.toFixed(2)}€</span>
               </div>
             )}
 
             {selectedEquipments.length > 0 && (
               <div className="flex justify-between text-sm text-stone-600">
-                <span>{t('booking.equipments_total', 'Equipment Rental')}</span>
+                <span>{t('booking.equipments_total')}</span>
                 <span className="font-mono">+{equipmentsCost.toFixed(2)}€</span>
               </div>
             )}
 
             <div className="flex justify-between text-base font-bold text-stone-900 pt-3 border-t border-stone-150">
-              <span>{t('booking.total_cost', 'Total Price')}</span>
+              <span>{t('booking.total_cost')}</span>
               <span className="font-mono text-stone-950 text-lg">{totalCost.toFixed(2)}€</span>
             </div>
           </div>
@@ -562,7 +562,7 @@ function BookSpace() {
             {bookingLoading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
             ) : (
-              t('booking.confirm_btn', 'Confirm and Book')
+              t('booking.confirm_btn')
             )}
           </button>
         </div>

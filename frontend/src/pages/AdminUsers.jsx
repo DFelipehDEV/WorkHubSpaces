@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 function AdminUsers() {
   const { t } = useTranslation();
+  const { isAdmin } = useAuth();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [userHistory, setUserHistory] = useState([]);
@@ -139,6 +142,10 @@ function AdminUsers() {
     { name: "company", label: t("admin.users.field_company"), type: "text" },
     { name: "suspended", label: t("admin.users.field_suspended"), type: "checkbox" },
   ];
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   if (isLoading) {
     return (

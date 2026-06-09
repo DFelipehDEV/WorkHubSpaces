@@ -5,10 +5,10 @@ function ReservationCard({ reservation, onCancel }) {
   const { t } = useTranslation();
 
   const statusConfig = {
-    0: { label: t('reservations.status.pending', 'Pending'), color: 'bg-yellow-100 text-yellow-800' },
-    1: { label: t('reservations.status.cancelled', 'Cancelled'), color: 'bg-red-50 text-red-700 border border-red-100' },
-    2: { label: t('reservations.status.confirmed', 'Confirmed'), color: 'bg-green-100 text-green-800' },
-    3: { label: t('reservations.status.finished', 'Finished'), color: 'bg-stone-100 text-stone-700 border border-stone-200/60' }
+    0: { label: t('reservations.status.pending'), color: 'bg-yellow-100 text-yellow-800' },
+    1: { label: t('reservations.status.cancelled'), color: 'bg-red-50 text-red-700 border border-red-100' },
+    2: { label: t('reservations.status.confirmed'), color: 'bg-green-100 text-green-800' },
+    3: { label: t('reservations.status.finished'), color: 'bg-stone-100 text-stone-700 border border-stone-200/60' }
   };
 
   const { label, color } = statusConfig[reservation.status] || {
@@ -52,17 +52,17 @@ function ReservationCard({ reservation, onCancel }) {
 
         <div className="text-xs text-stone-600 space-y-2 font-mono bg-stone-50/75 p-3 rounded-xl border border-stone-100">
           <div>
-            <strong className="text-stone-400 uppercase text-[9px] tracking-wider block mb-0.5">{t('reservations.start', 'Start')}</strong> 
+            <strong className="text-stone-400 uppercase text-[9px] tracking-wider block mb-0.5">{t('reservations.start')}</strong> 
             <span>{formatDate(reservation.startDate)}</span>
           </div>
           <div>
-            <strong className="text-stone-400 uppercase text-[9px] tracking-wider block mb-0.5">{t('reservations.end', 'End')}</strong> 
+            <strong className="text-stone-400 uppercase text-[9px] tracking-wider block mb-0.5">{t('reservations.end')}</strong> 
             <span>{formatDate(reservation.endDate)}</span>
           </div>
         </div>
 
         <div className="flex justify-between items-center text-xs font-mono pt-1">
-          <span className="text-stone-400 uppercase text-[9px] tracking-wider">{t('reservations.cost', 'Cost')}</span>
+          <span className="text-stone-400 uppercase text-[9px] tracking-wider">{t('reservations.cost')}</span>
           <span className="font-bold text-stone-900 text-sm">{(reservation.cost ?? 0).toFixed(2)}€</span>
         </div>
 
@@ -78,7 +78,7 @@ function ReservationCard({ reservation, onCancel }) {
           onClick={() => onCancel(reservation._id)}
           className="w-full py-2.5 border border-red-200 text-red-650 hover:bg-red-50 text-xs font-bold rounded-xl active:scale-[0.98] transition-all cursor-pointer text-center outline-none shrink-0"
         >
-          {t('reservations.cancel_btn', 'Cancel Booking')}
+          {t('reservations.cancel_btn')}
         </button>
       )}
     </div>

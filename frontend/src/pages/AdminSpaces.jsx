@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function AdminSpaces() {
   const { t } = useTranslation();
+  const { isAdmin } = useAuth();
   const [spaces, setSpaces] = useState([]);
   const [spaceTypes, setSpaceTypes] = useState([]);
   const [msg, setMsg] = useState(null);
@@ -101,6 +104,10 @@ function AdminSpaces() {
     { name: 'description', label: t('admin.spaces.field_desc'), type: 'textarea', colSpan: 2, rows: 2 },
     { name: 'available', label: t('admin.spaces.field_available'), type: 'checkbox', colSpan: 2 }
   ];
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">

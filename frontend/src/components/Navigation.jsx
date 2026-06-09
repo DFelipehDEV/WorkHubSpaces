@@ -43,8 +43,8 @@ function Navigation() {
 
     fetchNotifications();
     
-    // Poll every 20 seconds to keep fresh
-    const interval = setInterval(fetchNotifications, 20000);
+    // Poll every 60 seconds to keep fresh
+    const interval = setInterval(fetchNotifications, 60000);
     return () => {
       clearInterval(interval);
     };

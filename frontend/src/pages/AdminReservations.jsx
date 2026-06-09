@@ -2,12 +2,14 @@ import { useState, useEffect, useCallback } from "react";
 import { SquarePen } from "lucide-react";
 import { DateRange } from "react-date-range";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { useAuth } from "../context/AuthContext";
 
 function AdminReservations() {
   const { t } = useTranslation();
+  const { isAdmin } = useAuth();
   const [searchParams] = useSearchParams();
   const [reservations, setReservations] = useState([]);
   const [users, setUsers] = useState([]);
@@ -176,6 +178,10 @@ function AdminReservations() {
       minute: "2-digit",
     });
   };
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">

@@ -12,7 +12,7 @@ i18n
       escapeValue: false
     },
     backend: {
-      loadPath: '{{lng}}.json', 
+      loadPath: '/{{lng}}.json', 
     }
   });
 
