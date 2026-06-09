@@ -176,7 +176,7 @@ function Space() {
               <div className="text-right flex flex-col items-end gap-3">
                 <div>
                   <p className="text-xl font-mono font-bold text-stone-850">{space.pricePerHour}€/{t('space.hour')}</p>
-                  <p className='text-xs font-mono text-stone-400 mt-0.5'>{space.pricePerHour * 24}€/{t('space.day')}</p>
+                  <p className='text-xs font-mono text-stone-400 mt-0.5'>{space.pricePerHour * 8}€/{t('space.day')}</p>
                 </div>
                 <Link
                   to={`/spaces/${space._id}/book`}

@@ -217,7 +217,7 @@ function Spaces() {
                   <h3 className='font-semibold text-base text-stone-800 mb-1 truncate group-hover:text-primary-2'>{space.name}</h3>
                   <div className='flex justify-between items-center mt-auto'>
                     <span className='text-sm text-stone-600'>
-                      {space.pricePerHour}€/h <span className="text-stone-400">|</span> {space.pricePerHour * 24}€/d
+                      {space.pricePerHour}€/h <span className="text-stone-400">|</span> {space.pricePerHour * 8}€/d
                     </span>
                     {space.reviews.length > 0 && 
                       <div className='flex items-center gap-1 bg-stone-100 px-2 py-0.5 rounded-full'>
