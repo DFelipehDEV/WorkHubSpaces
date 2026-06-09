@@ -53,15 +53,10 @@ function BookSpace() {
   }
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
-
-    // Fetch space details
+    // Fetch space
     fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch space details");
+        if (!res.ok) throw new Error("Failed to fetch space");
         return res.json();
       })
       .then((json) => {
