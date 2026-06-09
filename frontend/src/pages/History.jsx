@@ -10,30 +10,32 @@ function History() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
-
-  const totalPages = Math.ceil(reservations.length / itemsPerPage);
-
-  const displayedReservations = reservations.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   useEffect(() => {
     const fetchReservations = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations`, {
+        const params = new URLSearchParams({
+          page: currentPage,
+          limit: itemsPerPage,
+          paginated: 'true',
+        });
+        params.append('status', 1); // Cancelled
+        params.append('status', 3); // Finished
+
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations?${params.toString()}`, {
           method: 'GET',
           credentials: 'include'
         });
 
         if (!response.ok) throw new Error('Failed to fetch reservations');
 
-        const data = await response.json();
+        const result = await response.json();
         
-        // Filter only Cancelled (1) and Finished (3) bookings
-        const pastBookings = data.filter(res => res.status === 1 || res.status === 3);
-        setReservations(pastBookings);
+        setReservations(result.data || []);
+        setTotalPages(result.totalPages || 1);
       } catch (err) {
         console.error(err);
         setError(t('reservations.error_fetching'));
@@ -43,7 +45,7 @@ function History() {
     };
 
     fetchReservations();
-  }, [t]);
+  }, [currentPage, t]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
@@ -67,7 +69,7 @@ function History() {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedReservations.map((reservation) => (
+            {reservations.map((reservation) => (
               <ReservationCard key={reservation._id} reservation={reservation} />
             ))}
           </div>

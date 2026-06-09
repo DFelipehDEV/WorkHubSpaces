@@ -88,28 +88,40 @@ exports.delete = async (req, res) => {
 exports.getAll = async (req, res) => {
   const page = req.query.page;
   const limit = req.query.limit;
+  const paginated = req.query.paginated === 'true';
+  const statusParam = req.query.status;
+
   try {
+    let findQuery = {};
+
+    if (req.user.role != process.env.DB_ADMIN_ROLE_ID) {
+      findQuery.reservedBy = req.user.id;
+    }
+
+    if (statusParam) {
+      const statuses = Array.isArray(statusParam) ? statusParam.map(Number) : [Number(statusParam)];
+      findQuery.status = { $in: statuses };
+    }
+
     let reservations;
     if (page > 0 && limit > 0) {
-      if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
-        reservations = await Reservation.find({})
-          .limit(limit)
-          .skip((page - 1) * limit)
-          .populate('spaceId')
-          .exec();
-      } else {
-        reservations = await Reservation.find({ reservedBy: req.user.id })
-          .limit(limit)
-          .skip((page - 1) * limit)
-          .populate('spaceId')
-          .exec();
-      }
+      reservations = await Reservation.find(findQuery)
+        .limit(limit)
+        .skip((page - 1) * limit)
+        .populate('spaceId')
+        .exec();
     } else {
-      if (req.user.role == process.env.DB_ADMIN_ROLE_ID) {
-        reservations = await Reservation.find({}).populate('spaceId').exec();
-      } else {
-        reservations = await Reservation.find({ reservedBy: req.user.id }).populate('spaceId').exec();
-      }
+      reservations = await Reservation.find(findQuery)
+        .populate('spaceId')
+        .exec();
+    }
+
+    if (paginated) {
+      const totalItems = await Reservation.countDocuments(findQuery);
+      return res.status(200).json({
+        data: reservations,
+        totalPages: limit > 0 ? Math.ceil(totalItems / limit) : 1
+      });
     }
 
     return res.status(200).json(reservations);

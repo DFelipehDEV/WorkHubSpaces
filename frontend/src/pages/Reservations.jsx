@@ -10,30 +10,32 @@ function Reservations() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
-
-  const totalPages = Math.ceil(reservations.length / itemsPerPage);
-  const safeCurrentPage = Math.min(currentPage, totalPages > 0 ? totalPages : 1);
-
-  const displayedReservations = reservations.slice(
-    (safeCurrentPage - 1) * itemsPerPage,
-    safeCurrentPage * itemsPerPage
-  );
 
   useEffect(() => {
     const fetchReservations = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations`, {
+        const params = new URLSearchParams({
+          page: currentPage,
+          limit: itemsPerPage,
+          paginated: 'true',
+        });
+        params.append('status', 0); // Pending
+        params.append('status', 2); // Confirmed
+
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations?${params.toString()}`, {
           method: 'GET',
           credentials: 'include'
         });
 
         if (!response.ok) throw new Error('Failed to fetch reservations');
 
-        const data = await response.json();
+        const result = await response.json();
 
-        const activeBookings = data.filter(res => res.status == 0 || res.status == 2);
-        setReservations(activeBookings);
+        setReservations(result.data || []);
+        setTotalPages(result.totalPages || 1);
       } catch (err) {
         console.error(err);
         setError(t('reservations.error_fetching'));
@@ -43,7 +45,7 @@ function Reservations() {
     };
 
     fetchReservations();
-  }, [t]);
+  }, [currentPage, t]);
 
   const handleCancel = async (id) => {
     if (!window.confirm(t('reservations.confirm_cancel'))) return;
@@ -87,7 +89,7 @@ function Reservations() {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayedReservations.map((reservation) => (
+            {reservations.map((reservation) => (
               <ReservationCard
                 key={reservation._id}
                 reservation={reservation}
@@ -97,7 +99,7 @@ function Reservations() {
           </div>
 
           <Pagination
-            currentPage={safeCurrentPage}
+            currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />
