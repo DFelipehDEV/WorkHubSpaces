@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css'; 
+import { enUS, pt } from 'date-fns/locale';
 import { Star, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Pagination from '../components/Pagination';
@@ -22,7 +23,10 @@ function Spaces() {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const currentLang = i18n.language || i18n.resolvedLanguage || 'en';
+  const calendarLocale = currentLang.startsWith('pt') ? pt : enUS;
   
   const today = new Date();
   const futureDate = new Date();
@@ -97,7 +101,9 @@ function Spaces() {
   }; 
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('pt-PT');
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${day}/${month}/${date.getFullYear()}`;
   };
 
   const filteredSpaces = spaces.filter(space => {
@@ -163,6 +169,8 @@ function Spaces() {
                     onChange={handleSelect}
                     months={1}
                     direction="horizontal"
+                    locale={calendarLocale}
+                    key={calendarLocale.code}
                   />
                 </div>
               )}

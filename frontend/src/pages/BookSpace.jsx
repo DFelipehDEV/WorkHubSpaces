@@ -7,14 +7,18 @@ import Button from '../components/Button';
 import GoTo from '../components/GoTo';
 import Spinner from '../components/Spinner';
 import { DateRange } from 'react-date-range';
+import { enUS, pt } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css';
 
 function BookSpace() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isAuthenticated } = useAuth();
+
+  const currentLang = i18n.language || i18n.resolvedLanguage || 'en';
+  const calendarLocale = currentLang.startsWith('pt') ? pt : enUS;
 
   const [space, setSpace] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -41,11 +45,10 @@ function BookSpace() {
   }]);
   const [showCalendar, setShowCalendar] = useState(false);
 
-  const [bookingMode, setBookingMode] = useState('hourly'); // 'hourly' or 'daily'
+  const [bookingMode, setBookingMode] = useState('hourly');
   const [startTime, setStartTime] = useState('09:00');
   const [endTime, setEndTime] = useState('17:00');
 
-  // Time slots for hourly booking
   const timeSlots = [];
   for (let h = 0; h <= 24; h++) {
     const hh = String(h).padStart(2, '0');
@@ -56,7 +59,6 @@ function BookSpace() {
   }
 
   useEffect(() => {
-    // Fetch space
     fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch space");
@@ -71,7 +73,6 @@ function BookSpace() {
         setLoading(false);
       });
 
-    // Fetch extra services
     fetch(`${import.meta.env.VITE_BACKEND_URL}/extraservices`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch extra services");
@@ -84,7 +85,6 @@ function BookSpace() {
         console.error("Error fetching extra services:", err);
       });
 
-    // Fetch equipment
     fetch(`${import.meta.env.VITE_BACKEND_URL}/equipments`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch equipments");
@@ -103,7 +103,7 @@ function BookSpace() {
   };
 
   const formatDate = (date) => {
-    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    return date.toLocaleDateString(currentLang, { year: 'numeric', month: 'short', day: 'numeric' });
   };
 
   const calculateDays = () => {
@@ -248,7 +248,6 @@ function BookSpace() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* Reservation Options (Left side / Column 1 & 2) */}
         <div className="lg:col-span-2 space-y-8">
           <div className="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
             <h2 className="text-xl font-bold text-stone-900 mb-4 flex items-center gap-2">
@@ -256,7 +255,6 @@ function BookSpace() {
               {t('booking.step_dates')}
             </h2>
 
-            {/* Segmented Booking Mode Selector */}
             <div className="flex border border-stone-200 mb-6 bg-stone-50 p-1 rounded-xl">
               <button
                 type="button"
@@ -290,7 +288,6 @@ function BookSpace() {
 
             {bookingMode === 'hourly' ? (
               <div className="flex flex-col gap-4">
-                {/* Date Picker for Hourly */}
                 <div className="flex items-center justify-between p-3 border border-stone-200 rounded-xl bg-stone-50">
                   <div className="flex items-center gap-3">
                     <CalendarIcon size={18} className="text-stone-450" />
@@ -314,7 +311,6 @@ function BookSpace() {
                     <DateRange
                       ranges={dateRange}
                       onChange={(item) => {
-                        // Make start and end dates equal for hourly booking
                         const selectedDate = item.selection.startDate;
                         setDateRange([{
                           startDate: selectedDate,
@@ -325,11 +321,12 @@ function BookSpace() {
                       minDate={today}
                       months={1}
                       direction="horizontal"
+                      locale={calendarLocale}
+                      key={calendarLocale.code}
                     />
                   </div>
                 )}
 
-                {/* Hourly Time Selectors */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5">{t('booking.start_time')}</label>
@@ -366,7 +363,6 @@ function BookSpace() {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                {/* Date Picker for Daily */}
                 <div className="flex items-center justify-between p-3 border border-stone-200 rounded-xl bg-stone-50">
                   <div className="flex items-center gap-3">
                     <CalendarIcon size={18} className="text-stone-450" />
@@ -393,6 +389,8 @@ function BookSpace() {
                       minDate={today}
                       months={1}
                       direction="horizontal"
+                      locale={calendarLocale}
+                      key={calendarLocale.code}
                     />
                   </div>
                 )}
