@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, User, Bell, BellOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext'; 
+import logo from '../assets/logo.svg';
 
 const mainLinks = [
   { to: '/', label: 'nav.home' },
@@ -117,8 +118,8 @@ function Navigation() {
   return (
     <div className="px-4 md:px-8 lg:px-16 pt-6 sticky top-0 z-50 pointer-events-none">
       <div className="flex justify-between items-center w-full">
-        <Link to="/" className="text-primary-2 text-shadow-sm text-xl md:text-2xl font-bold hover:-translate-y-0.5 hover:opacity-90 transition-all duration-300 pointer-events-auto drop-shadow-sm" onClick={closeMenus}>
-          Workhub Spaces
+        <Link to="/" className="hover:-translate-y-0.5 hover:opacity-90 transition-all duration-300 pointer-events-auto drop-shadow-sm flex items-center" onClick={closeMenus}>
+          <img src={logo} alt="Workhub Spaces Logo" className="h-9 md:h-11 w-auto" />
         </Link>
 
         <div className={`group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-lg border transition-all duration-500 ease-out relative ${isDropdownOpen ? 'bg-white/60 border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)]' : 'bg-white/10 border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/60 hover:border-white/60 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]'}`}>
