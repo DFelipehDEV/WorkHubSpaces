@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node esbuild-dev.js",
     "build": "esbuild index.js --bundle --platform=node --packages=external --outfile=dist/index.js",
-    "start": "node --env-file=.env dist/index.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1031.0",
