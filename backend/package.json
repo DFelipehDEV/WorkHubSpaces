@@ -22,11 +22,11 @@
     "jsonwebtoken": "^9.0.3",
     "mailtrap": "^3.1.1",
     "mongoose": "^9.2.4",
-    "nodemailer": "^8.0.4"
+    "nodemailer": "^8.0.4",
+    "esbuild": "^0.28.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "esbuild": "^0.28.1",
     "eslint": "^10.1.0",
     "globals": "^17.4.0"
   }
