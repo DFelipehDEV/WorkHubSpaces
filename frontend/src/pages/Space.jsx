@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import GoTo from '../components/GoTo';
+import Spinner from '../components/Spinner';
 
 function Space() {
   const { id } = useParams();
@@ -106,9 +107,7 @@ function Space() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 

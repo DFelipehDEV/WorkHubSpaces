@@ -4,6 +4,7 @@ import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 import Pagination from '../components/Pagination';
 import PageTitle from '../components/PageTitle';
+import Spinner from '../components/Spinner';
 
 function History() {
   const { t } = useTranslation();
@@ -53,9 +54,7 @@ function History() {
       <PageTitle className="mb-6">{t('nav.history')}</PageTitle>
 
       {isLoading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-        </div>
+        <Spinner fullPage />
       ) : error ? (
         <div className="bg-red-50 text-red-700 p-4 rounded-xl flex items-center gap-3">
           <AlertCircle size={20} />

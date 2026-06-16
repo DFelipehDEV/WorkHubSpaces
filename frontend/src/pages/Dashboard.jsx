@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import PageTitle from '../components/PageTitle';
+import Spinner from '../components/Spinner';
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -69,9 +70,7 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 

@@ -103,7 +103,7 @@ function AdminServices() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4 animate-fade-in-up">
       <div className="flex justify-between items-center mb-4">
-        <PageTitle className="!text-2xl !mb-0">{t('admin.services.title')}</PageTitle>
+        <PageTitle className="text-2xl! mb-0!">{t('admin.services.title')}</PageTitle>
         <Button
           onClick={() => activeService ? setActiveService(null) : handleCreateNew()}
           size="medium"
@@ -165,7 +165,7 @@ function AdminServices() {
             {services.map(s => (
               <tr key={s._id} className="hover:bg-stone-50/50 transition-colors">
                 <td className="px-4 py-2 font-medium">{s.name}</td>
-                <td className="px-4 py-2 text-stone-500 max-w-[240px] truncate">{s.description || '—'}</td>
+                <td className="px-4 py-2 text-stone-500 max-w-60 truncate">{s.description || '—'}</td>
                 <td className="px-4 py-2 font-mono font-medium">{s.price?.toFixed(2)}€</td>
                 <td className={`px-4 py-2 font-semibold ${s.available
                     ? 'text-green-700'

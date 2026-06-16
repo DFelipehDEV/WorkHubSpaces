@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import PageTitle from '../components/PageTitle';
+import Spinner from '../components/Spinner';
 
 function Profile() {
   const navigate = useNavigate();
@@ -82,9 +82,7 @@ function Profile() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 

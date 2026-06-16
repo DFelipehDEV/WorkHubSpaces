@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import PageTitle from '../components/PageTitle';
+import Spinner from '../components/Spinner';
 import ReportsOverview from '../components/ReportsOverview';
 import AdminCalendar from '../components/AdminCalendar';
 
@@ -70,9 +71,7 @@ function AdminReports() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 
@@ -89,7 +88,7 @@ function AdminReports() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
-      <PageTitle className="!text-2xl mb-6">{t('admin.reports.title')}</PageTitle>
+      <PageTitle className="text-2xl! mb-6">{t('admin.reports.title')}</PageTitle>
 
       <ReportsOverview stats={stats} />
       

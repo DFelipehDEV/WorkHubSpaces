@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
+import Spinner from "../components/Spinner";
 
 function AdminUsers() {
   const { t } = useTranslation();
@@ -150,9 +151,7 @@ function AdminUsers() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 
@@ -334,7 +333,7 @@ function AdminUsers() {
               <div className="overflow-y-auto max-h-[50vh] border border-stone-200 rounded-xl">
                 {historyLoading ? (
                   <div className="flex justify-center py-10">
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-stone-800"></div>
+                    <Spinner className="h-6 w-6 border-stone-800" />
                   </div>
                 ) : userHistory.length === 0 ? (
                   <p className="p-4 text-xs text-stone-500 text-center">

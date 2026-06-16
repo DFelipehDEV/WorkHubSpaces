@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Calendar as CalendarIcon, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Calendar as CalendarIcon, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import GoTo from '../components/GoTo';
+import Spinner from '../components/Spinner';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css';
@@ -208,9 +209,7 @@ function BookSpace() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-stone-800"></div>
-      </div>
+      <Spinner fullPage />
     );
   }
 
@@ -554,7 +553,7 @@ function BookSpace() {
             }`}
           >
             {bookingLoading ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              <Spinner className="h-5 w-5 border-white" />
             ) : (
               t('booking.confirm_btn')
             )}
