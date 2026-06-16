@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next";
 import SpaceCard from '../components/SpaceCard';
 import Button from '../components/Button';
+import GoTo from '../components/GoTo';
 
 function Home() {
   const { t } = useTranslation();
@@ -46,9 +46,13 @@ function Home() {
             <h2 className="text-3xl font-bold text-stone-900 tracking-tight">{t('home.featured.title', 'Featured Spaces')}</h2>
             <p className="text-stone-500 mt-2">{t('home.featured.desc', 'Discover our most popular workspaces')}</p>
           </div>
-          <Link to="/spaces" className="text-primary-2 hover:text-primary-2/80 font-medium transition-colors">
-            {t('home.featured.view_all', 'View all')} &rarr;
-          </Link>
+          <GoTo 
+            to="/spaces" 
+            text={t('home.featured.view_all', 'View all')} 
+            direction="right" 
+            align="right" 
+            linkClassName="text-primary-2 hover:text-primary-2/80 font-medium" 
+          />
         </div>
 
         {loading ? (

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, ChevronLeft, User, Check } from 'lucide-react';
+import { Star, User, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import GoTo from '../components/GoTo';
 
 function Space() {
   const { id } = useParams();
@@ -122,9 +123,7 @@ function Space() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        <Link to="/spaces" className="flex mb-6 text-stone-600 hover:text-primary-2 items-center gap-1">
-          <ChevronLeft /> {t('goback')}
-        </Link>
+        <GoTo to="/spaces" text={t('goback')} direction="left" align="left" className="mb-6" />
 
         <div className="bg-white border border-stone-200 rounded-lg shadow-sm overflow-hidden">
           {space.images && space.images.length > 0 ? (

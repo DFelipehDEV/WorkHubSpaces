@@ -4,6 +4,7 @@ import { ChevronLeft, Calendar as CalendarIcon, FileText, AlertCircle, CheckCirc
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import GoTo from '../components/GoTo';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css';
@@ -225,10 +226,7 @@ function BookSpace() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <Link to={`/spaces/${space._id}`} className="flex items-center gap-1.5 mb-6 text-stone-500 hover:text-primary-2 w-fit">
-        <ChevronLeft size={16} />
-        <span className="text-sm font-medium">{t('booking.goback_to_space')}</span>
-      </Link>
+      <GoTo to={`/spaces/${space._id}`} text={t('booking.goback_to_space')} direction="left" align="left" className="mb-6" />
 
       {bookingSuccess && (
         <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
