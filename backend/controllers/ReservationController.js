@@ -62,8 +62,7 @@ exports.update = async (req, res) => {
         to: reservation.reservedBy,
         level: Notification.NotificationLevels.Info,
         message: `Estado da reserva ${reservation.id} foi alterada`,
-        //TODO: use frontend url
-        link: `${process.env.BASE_URL}/reservations/${reservation.id}`
+        link: `${process.env.FRONTEND_URL}/reservations`
       });
     }
 
