@@ -1,47 +1,33 @@
-import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import PageTitle from '../components/PageTitle';
 import Spinner from '../components/Spinner';
+import useSWR from 'swr';
+import { fetcherWithAuth } from '../utils/fetcher';
 
 function Dashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [nextBooking, setNextBooking] = useState(null);
-  const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: reservationsData, isLoading: loadingRes } = useSWR('/reservations', fetcherWithAuth);
+  const { data: notificationsData, mutate: mutateNotif, isLoading: loadingNotif } = useSWR('/notifications', fetcherWithAuth);
 
-  useEffect(() => {
-    Promise.all([
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations`, { credentials: 'include' }).then(res => res.json()),
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/notifications`, { credentials: 'include' }).then(res => {
-        if (!res.ok) return [];
-        return res.json();
-      })
-    ])
-      .then(([reservationsData, notificationsData]) => {
-        setNotifications(Array.isArray(notificationsData) ? notificationsData : []);
-        
-        const active = reservationsData.filter(res => res.status === 0 || res.status === 2);
-        
-        // Find next upcoming booking (sorted by closest startDate)
-        const now = new Date();
-        const futureBookings = active
-          .filter(res => new Date(res.startDate) >= now)
-          .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-          
-        if (futureBookings.length > 0) {
-          setNextBooking(futureBookings[0]);
-        }
-        
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Dashboard load failed:", err);
-        setLoading(false);
-      });
-  }, []);
+  const loading = loadingRes || loadingNotif;
+  
+  const notifications = Array.isArray(notificationsData) ? notificationsData : [];
+  
+  let nextBooking = null;
+  if (Array.isArray(reservationsData)) {
+    const active = reservationsData.filter(res => res.status === 0 || res.status === 2);
+    const now = new Date();
+    const futureBookings = active
+      .filter(res => new Date(res.startDate) >= now)
+      .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+      
+    if (futureBookings.length > 0) {
+      nextBooking = futureBookings[0];
+    }
+  }
 
   const handleDismissNotification = async (id, e) => {
     e.stopPropagation();
@@ -51,7 +37,7 @@ function Dashboard() {
         credentials: 'include'
       });
       if (res.ok) {
-        setNotifications(prev => prev.filter(item => item._id !== id));
+        mutateNotif(prev => prev.filter(item => item._id !== id), false);
       }
     } catch (err) {
       console.error("Dismiss failed:", err);

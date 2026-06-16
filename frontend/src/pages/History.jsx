@@ -1,53 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 import Pagination from '../components/Pagination';
 import PageTitle from '../components/PageTitle';
 import Spinner from '../components/Spinner';
+import useSWR from 'swr';
+import { fetcherWithAuth } from '../utils/fetcher';
 
 function History() {
   const { t } = useTranslation();
-  const [reservations, setReservations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
 
-  useEffect(() => {
-    const fetchReservations = async () => {
-      setIsLoading(true);
-      try {
-        const params = new URLSearchParams({
-          page: currentPage,
-          limit: itemsPerPage,
-          paginated: 'true',
-        });
-        params.append('status', 1); // Cancelled
-        params.append('status', 3); // Finished
+  const params = new URLSearchParams({
+    page: currentPage,
+    limit: itemsPerPage,
+    paginated: 'true',
+  });
+  params.append('status', 1); // Cancelled
+  params.append('status', 3); // Finished
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations?${params.toString()}`, {
-          method: 'GET',
-          credentials: 'include'
-        });
+  const { data: result, error, isLoading } = useSWR(`/reservations?${params.toString()}`, fetcherWithAuth);
 
-        if (!response.ok) throw new Error('Failed to fetch reservations');
-
-        const result = await response.json();
-        
-        setReservations(result.data || []);
-        setTotalPages(result.totalPages || 1);
-      } catch (err) {
-        console.error(err);
-        setError(t('reservations.error_fetching'));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchReservations();
-  }, [currentPage, t]);
+  const reservations = result?.data || [];
+  const totalPages = result?.totalPages || 1;
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">

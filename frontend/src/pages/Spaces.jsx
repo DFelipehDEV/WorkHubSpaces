@@ -8,12 +8,10 @@ import { Star, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Pagination from '../components/Pagination';
 import SpaceCard from '../components/SpaceCard';
+import useSWR from 'swr';
 
 function Spaces() {
   const { isAuthenticated, user } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [spaces, setSpaces] = useState([]);
-  const [spaceTypes, setSpaceTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,46 +53,21 @@ function Spaces() {
     setCurrentPage(1);
   }, [selectedType, dateRange, sortBy, debouncedSearchQuery]);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLoading(true);
-    const params = new URLSearchParams();
-    if (selectedType) {
-      params.append('type', selectedType);
-    }
-    if (sortBy) {
-      params.append('sort', sortBy);
-    }
-    if (debouncedSearchQuery) {
-      params.append('name', debouncedSearchQuery);
-    }
-    if (dateRange[0]?.startDate && dateRange[0]?.endDate) {
-      params.append('startDate', dateRange[0].startDate.toISOString());
-      params.append('endDate', dateRange[0].endDate.toISOString());
-    }
+  const params = new URLSearchParams();
+  if (selectedType) params.append('type', selectedType);
+  if (sortBy) params.append('sort', sortBy);
+  if (debouncedSearchQuery) params.append('name', debouncedSearchQuery);
+  if (dateRange[0]?.startDate && dateRange[0]?.endDate) {
+    params.append('startDate', dateRange[0].startDate.toISOString());
+    params.append('endDate', dateRange[0].endDate.toISOString());
+  }
 
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces?${params.toString()}`)
-      .then((res) => res.json())
-      .then((json) => {
-        setSpaces(Array.isArray(json) ? json : []);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, [selectedType, sortBy, dateRange, debouncedSearchQuery]);
+  const fetcher = (url) => fetch(`${import.meta.env.VITE_BACKEND_URL}${url}`).then(res => res.json());
+  const { data: spacesData, isLoading: loading } = useSWR(`/spaces?${params.toString()}`, fetcher);
+  const { data: spaceTypesData } = useSWR('/spacetypes', fetcher);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spacetypes`)
-      .then((res) => res.json())
-      .then((json) => {
-        setSpaceTypes(json);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  const spaces = Array.isArray(spacesData) ? spacesData : [];
+  const spaceTypes = Array.isArray(spaceTypesData) ? spaceTypesData : [];
 
   const handleSelect = (item) => {
     setDateRange([item.selection]);

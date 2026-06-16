@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, User, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +6,14 @@ import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import GoTo from '../components/GoTo';
 import Spinner from '../components/Spinner';
+import useSWR from 'swr';
+import { fetcher } from '../utils/fetcher';
 
 function Space() {
   const { id } = useParams();
   const { isAuthenticated, user } = useAuth();
-  const [space, setSpace] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  
+  const { data: space, error, isLoading: loading, mutate } = useSWR(`/spaces/${id}`, fetcher);
   const [rating, setRating] = useState(10);
   const [reviewText, setReviewText] = useState("");
   const [reviewMsg, setReviewMsg] = useState(null);
@@ -31,13 +32,11 @@ function Space() {
         credentials: 'include'
       });
       if (res.ok) {
-        setSpace(prev => {
-          const list = prev.favoritedBy || [];
-          const updatedList = isFavorited
-            ? list.filter(uid => uid !== user._id)
-            : [...list, user._id];
-          return { ...prev, favoritedBy: updatedList };
-        });
+        const list = space.favoritedBy || [];
+        const updatedList = isFavorited
+          ? list.filter(uid => uid !== user._id)
+          : [...list, user._id];
+        mutate({ ...space, favoritedBy: updatedList }, false);
       }
     } catch (err) {
       console.error(err);
@@ -70,17 +69,17 @@ function Space() {
       setReviewText("");
       setRating(10);
 
-      setSpace((prev) => ({
-        ...prev,
+      mutate({
+        ...space,
         reviews: [
-          ...prev.reviews,
+          ...(space.reviews || []),
           {
             user: { name: user?.name || "Tu" },
             review: reviewText,
             rating: Number(rating),
           },
         ],
-      }));
+      }, false);
     } catch (err) {
       setReviewMsg({ text: err.message, isError: true });
     } finally {
@@ -88,22 +87,7 @@ function Space() {
     }
   };
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch space");
-        return res.json();
-      })
-      .then((json) => {
-        setSpace(json);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError(true);
-        setLoading(false);
-      });
-  }, [id]);
+
 
   if (loading) {
     return (

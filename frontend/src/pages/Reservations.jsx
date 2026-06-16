@@ -1,53 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 import Pagination from '../components/Pagination';
 import PageTitle from '../components/PageTitle';
 import Spinner from '../components/Spinner';
+import useSWR from 'swr';
+import { fetcherWithAuth } from '../utils/fetcher';
 
 function Reservations() {
   const { t } = useTranslation();
-  const [reservations, setReservations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 6;
 
-  useEffect(() => {
-    const fetchReservations = async () => {
-      setIsLoading(true);
-      try {
-        const params = new URLSearchParams({
-          page: currentPage,
-          limit: itemsPerPage,
-          paginated: 'true',
-        });
-        params.append('status', 0); // Pending
-        params.append('status', 2); // Confirmed
+  const params = new URLSearchParams({
+    page: currentPage,
+    limit: itemsPerPage,
+    paginated: 'true',
+  });
+  params.append('status', 0); // Pending
+  params.append('status', 2); // Confirmed
 
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations?${params.toString()}`, {
-          method: 'GET',
-          credentials: 'include'
-        });
+  const { data: result, error, isLoading, mutate } = useSWR(`/reservations?${params.toString()}`, fetcherWithAuth);
 
-        if (!response.ok) throw new Error('Failed to fetch reservations');
-
-        const result = await response.json();
-
-        setReservations(result.data || []);
-        setTotalPages(result.totalPages || 1);
-      } catch (err) {
-        console.error(err);
-        setError(t('reservations.error_fetching'));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchReservations();
-  }, [currentPage, t]);
+  const reservations = result?.data || [];
+  const totalPages = result?.totalPages || 1;
 
   const handleCancel = async (id) => {
     if (!window.confirm(t('reservations.confirm_cancel'))) return;
@@ -63,7 +40,10 @@ function Reservations() {
         throw new Error(result.message || 'Failed to cancel');
       }
 
-      setReservations(prev => prev.filter(res => res._id !== id));
+      mutate({
+        ...result,
+        data: reservations.filter(res => res._id !== id)
+      }, false);
     } catch (err) {
       alert(err.message);
     }

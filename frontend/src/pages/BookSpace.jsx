@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Calendar as CalendarIcon, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import GoTo from '../components/GoTo';
 import Spinner from '../components/Spinner';
+import useSWR from 'swr';
+import { fetcher } from '../utils/fetcher';
 import { DateRange } from 'react-date-range';
 import { enUS, pt } from 'date-fns/locale';
 import 'react-date-range/dist/styles.css'; 
@@ -15,18 +16,22 @@ function BookSpace() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const { isAuthenticated } = useAuth();
 
   const currentLang = i18n.language || i18n.resolvedLanguage || 'en';
   const calendarLocale = currentLang.startsWith('pt') ? pt : enUS;
 
-  const [space, setSpace] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { data: spaceData, error: spaceError, isLoading: loadingSpace } = useSWR(`/spaces/${id}`, fetcher);
+  const { data: extraServicesData } = useSWR('/extraservices', fetcher);
+  const { data: allEquipmentsData } = useSWR('/equipments', fetcher);
 
-  const [extraServices, setExtraServices] = useState([]);
+  const space = spaceData;
+  const loading = loadingSpace;
+  const error = spaceError?.message || '';
+
+  const extraServices = Array.isArray(extraServicesData) ? extraServicesData.filter(s => s.available) : [];
+  const allEquipments = Array.isArray(allEquipmentsData) ? allEquipmentsData : [];
+  
   const [selectedExtraServices, setSelectedExtraServices] = useState([]);
-  const [allEquipments, setAllEquipments] = useState([]);
   const [selectedEquipments, setSelectedEquipments] = useState([]);
   const [obs, setObs] = useState('');
 
@@ -58,45 +63,7 @@ function BookSpace() {
     }
   }
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch space");
-        return res.json();
-      })
-      .then((json) => {
-        setSpace(json);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
 
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/extraservices`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch extra services");
-        return res.json();
-      })
-      .then((json) => {
-        setExtraServices(json.filter(service => service.available));
-      })
-      .catch((err) => {
-        console.error("Error fetching extra services:", err);
-      });
-
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/equipments`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch equipments");
-        return res.json();
-      })
-      .then((json) => {
-        setAllEquipments(json);
-      })
-      .catch((err) => {
-        console.error("Error fetching equipments:", err);
-      });
-  }, [id, isAuthenticated, navigate]);
 
   const handleSelect = (item) => {
     setDateRange([item.selection]);

@@ -1,5 +1,6 @@
 
-import { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import { fetcher } from '../utils/fetcher';
 import { useTranslation } from "react-i18next";
 import SpaceCard from '../components/SpaceCard';
 import Button from '../components/Button';
@@ -7,22 +8,8 @@ import GoTo from '../components/GoTo';
 
 function Home() {
   const { t } = useTranslation();
-  const [featuredSpaces, setFeaturedSpaces] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces?sort=-popularity`)
-      .then((res) => res.json())
-      .then((json) => {
-        const spaces = Array.isArray(json) ? json : [];
-        setFeaturedSpaces(spaces.filter(s => s.available).slice(0, 4));
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, []);
+  const { data: spacesData, isLoading: loading } = useSWR('/spaces?sort=-popularity', fetcher);
+  const featuredSpaces = Array.isArray(spacesData) ? spacesData.filter(s => s.available).slice(0, 4) : [];
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-16">
