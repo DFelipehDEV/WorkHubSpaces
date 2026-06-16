@@ -298,7 +298,7 @@ function AdminReservations() {
                         </button>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1.5 max-w-[140px] truncate">
+                      <div className="flex items-center gap-1.5 max-w-35 truncate">
                         <span className="text-stone-600">
                           {r.internalObs || "—"}
                         </span>
