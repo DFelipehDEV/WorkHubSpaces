@@ -41,10 +41,12 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+        const isProd = process.env.NODE_ENV === "production";
         res.cookie("Authorization", "Bearer " + token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd,
         })
 
         res.status(200).json({
