@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import PageTitle from '../components/PageTitle';
 
 function AdminServices() {
   const { t } = useTranslation();
@@ -102,7 +103,7 @@ function AdminServices() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4 animate-fade-in-up">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-stone-900">{t('admin.services.title')}</h1>
+        <PageTitle className="!text-2xl !mb-0">{t('admin.services.title')}</PageTitle>
         <Button
           onClick={() => activeService ? setActiveService(null) : handleCreateNew()}
           size="medium"

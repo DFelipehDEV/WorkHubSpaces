@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Calendar, AlertCircle } from 'lucide-react';
 import ReservationCard from '../components/ReservationCard';
 import Pagination from '../components/Pagination';
+import PageTitle from '../components/PageTitle';
 
 function History() {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ function History() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">{t('nav.history')}</h1>
+      <PageTitle className="mb-6">{t('nav.history')}</PageTitle>
 
       {isLoading ? (
         <div className="flex justify-center items-center py-20">

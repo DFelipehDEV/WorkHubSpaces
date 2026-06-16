@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
+import PageTitle from '../components/PageTitle';
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -77,9 +78,7 @@ function Dashboard() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       <div>
-        <h1 className="text-3xl font-bold text-stone-900 mb-6">
-          Dashboard
-        </h1>
+        <PageTitle className="mb-6">{t('dashboard.title', 'Dashboard')}</PageTitle>
       </div>
 
       <div>

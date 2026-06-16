@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
 
 function AdminUsers() {
   const { t } = useTranslation();
@@ -158,9 +159,7 @@ function AdminUsers() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-stone-900">
-          {t("admin.users.title")}
-        </h1>
+        <PageTitle className="text-2xl! mb-0!">{t("admin.users.title")}</PageTitle>
         {activeUser && (
           <button
             onClick={() => setActiveUser(null)}

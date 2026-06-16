@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import PageTitle from '../components/PageTitle';
 import ReportsOverview from '../components/ReportsOverview';
 import AdminCalendar from '../components/AdminCalendar';
 
@@ -88,9 +89,7 @@ function AdminReports() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-stone-900 mb-6">
-        {t('admin.reports.title')}
-      </h1>
+      <PageTitle className="!text-2xl mb-6">{t('admin.reports.title')}</PageTitle>
 
       <ReportsOverview stats={stats} />
       

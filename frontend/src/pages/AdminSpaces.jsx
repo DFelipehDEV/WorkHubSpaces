@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import PageTitle from '../components/PageTitle';
 
 function AdminSpaces() {
   const { t } = useTranslation();
@@ -113,7 +114,7 @@ function AdminSpaces() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-stone-900">{t('admin.spaces.title')}</h1>
+        <PageTitle className="text-2xl! mb-0!">{t('admin.spaces.title')}</PageTitle>
         <Button
           onClick={() => activeSpace ? setActiveSpace(null) : handleCreateNew()}
           size="medium"

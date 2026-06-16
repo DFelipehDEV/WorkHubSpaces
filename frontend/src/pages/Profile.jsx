@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
+import PageTitle from '../components/PageTitle';
 
 function Profile() {
   const navigate = useNavigate();
@@ -88,9 +90,9 @@ function Profile() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-3xl font-bold text-stone-900 mb-6">
+      <PageTitle className="mb-6">
         {t('profile.title')}
-      </h1>
+      </PageTitle>
 
       {message && (
         <div className="p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300 mb-6">

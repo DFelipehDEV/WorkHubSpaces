@@ -6,6 +6,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useAuth } from "../context/AuthContext";
+import PageTitle from "../components/PageTitle";
 
 function AdminReservations() {
   const { t } = useTranslation();
@@ -186,7 +187,7 @@ function AdminReservations() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-stone-900">{t("admin.reservations.title")}</h1>
+        <PageTitle className="text-2xl! mb-0!">{t("admin.reservations.title")}</PageTitle>
 
         <select
           value={filterStatus}
