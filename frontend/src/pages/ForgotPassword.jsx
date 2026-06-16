@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Button from "../components/Button";
 
 function ForgotPassword() {
   const { t } = useTranslation();
@@ -53,13 +54,13 @@ function ForgotPassword() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-gray-500"
               />
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer disabled:opacity-50"
+                className="w-full mt-4 disabled:opacity-50"
               >
                 {isLoading ? t("auth.sending_btn") : t("auth.send_recovery_btn")}
-              </button>
+              </Button>
             </form>
             <div className="mt-4 flex justify-between text-sm">
               <Link to="/login" className="text-blue-500 hover:underline">

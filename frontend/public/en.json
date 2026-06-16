@@ -14,6 +14,11 @@
             "title": "Book a Space!",
             "desc": "Book the best spaces in Portugal.",
             "cta": "See Spaces"
+        },
+        "featured": {
+            "title": "Featured Spaces",
+            "desc": "Discover our most popular workspaces",
+            "view_all": "View all"
         }
     },
     "noimg": "No Image",

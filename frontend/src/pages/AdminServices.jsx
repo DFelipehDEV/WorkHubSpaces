@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Button from '../components/Button';
 
 function AdminServices() {
   const { t } = useTranslation();
@@ -102,12 +103,12 @@ function AdminServices() {
     <div className="max-w-5xl mx-auto px-4 py-4 animate-fade-in-up">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-stone-900">{t('admin.services.title')}</h1>
-        <button
+        <Button
           onClick={() => activeService ? setActiveService(null) : handleCreateNew()}
-          className="px-3 py-1.5 bg-primary-2 text-white font-bold rounded-lg text-xs hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer"
+          size="medium"
         >
           {activeService ? t('admin.common.cancel') : t('admin.services.new_btn')}
-        </button>
+        </Button>
       </div>
 
       {msg && (

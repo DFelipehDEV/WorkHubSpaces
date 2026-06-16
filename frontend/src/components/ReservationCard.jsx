@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import Button from './Button';
 
 function ReservationCard({ reservation, onCancel }) {
   const { t } = useTranslation();
@@ -74,12 +75,14 @@ function ReservationCard({ reservation, onCancel }) {
       </div>
 
       {isCancelable && (
-        <button
+        <Button
           onClick={() => onCancel(reservation._id)}
-          className="w-full py-2.5 border border-red-200 text-red-650 hover:bg-red-50 text-xs font-bold rounded-xl active:scale-[0.98] transition-all cursor-pointer text-center outline-none shrink-0"
+          variant="danger-outline"
+          size="small"
+          className="w-full"
         >
           {t('reservations.cancel_btn')}
-        </button>
+        </Button>
       )}
     </div>
   );

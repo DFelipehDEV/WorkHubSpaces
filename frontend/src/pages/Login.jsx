@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import Button from "../components/Button";
 
 function Login() {
   const [error, setError] = useState("");
@@ -52,7 +53,7 @@ function Login() {
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <input name="email" type="text" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder={t('auth.email')} />
                 <input name="password" type="password" className="h-10 w-full border-b-2 border-gray-300 text-gray-900" placeholder={t('auth.password')} />
-                <button type="submit" className="bg-primary-2 text-white rounded-md px-3 py-2 cursor-pointer">{t('auth.login')}</button>
+                <Button type="submit" className="w-full mt-4">{t('auth.login')}</Button>
               </div>
               <div className="flex flex-col sm:flex-row justify-between gap-2 mt-4 text-sm">
                 <Link to="/signup" className="cursor-pointer text-blue-500 hover:underline">

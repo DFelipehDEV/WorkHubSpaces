@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Star, ChevronLeft, User, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
+import Button from '../components/Button';
 
 function Space() {
   const { id } = useParams();
@@ -178,12 +179,9 @@ function Space() {
                   <p className="text-xl font-mono font-bold text-stone-850">{space.pricePerHour}€/{t('space.hour')}</p>
                   <p className='text-xs font-mono text-stone-400 mt-0.5'>{space.pricePerHour * 8}€/{t('space.day')}</p>
                 </div>
-                <Link
-                  to={`/spaces/${space._id}/book`}
-                  className="bg-primary-2 text-white font-bold py-2.5 px-5 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all shadow-sm text-sm"
-                >
+                <Button to={`/spaces/${space._id}/book`}>
                   {t('space.book_this_space')}
-                </Link>
+                </Button>
               </div>
             </div>
 
@@ -290,13 +288,14 @@ function Space() {
                       </div>
                     </div>
 
-                    <button
+                    <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="bg-primary-2 text-white font-bold h-10 px-6 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all shadow-sm text-xs cursor-pointer disabled:opacity-50"
+                      size="small"
+                      className="disabled:opacity-50"
                     >
                       {isSubmitting ? "..." : t("space.submit_review_btn")}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </form>

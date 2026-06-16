@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Calendar as CalendarIcon, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
+import Button from '../components/Button';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
 import 'react-date-range/dist/theme/default.css';
@@ -545,13 +546,13 @@ function BookSpace() {
             </div>
           </div>
 
-          <button
+          <Button
             onClick={handleBook}
             disabled={bookingLoading || bookingSuccess || (bookingMode === 'hourly' && hours <= 0)}
-            className={`w-full py-3.5 rounded-xl font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
+            className={`w-full flex items-center justify-center gap-2 ${
               bookingLoading || bookingSuccess || (bookingMode === 'hourly' && hours <= 0)
-                ? 'bg-stone-300 text-stone-500 cursor-not-allowed'
-                : 'bg-primary-2 text-white hover:opacity-90 transition-opacity active:scale-[0.98]'
+                ? 'bg-stone-300 text-stone-500 cursor-not-allowed hover:-translate-y-0 shadow-none'
+                : ''
             }`}
           >
             {bookingLoading ? (
@@ -559,7 +560,7 @@ function BookSpace() {
             ) : (
               t('booking.confirm_btn')
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

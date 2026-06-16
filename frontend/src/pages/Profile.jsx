@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Button from '../components/Button';
 
 function Profile() {
   const navigate = useNavigate();
@@ -193,12 +194,12 @@ function Profile() {
         </div>
 
         <div className="pt-4 max-w-xs">
-          <button
+          <Button
             type="submit"
-            className="w-full py-3 px-6 bg-primary-2 text-white font-bold rounded-xl text-sm shadow-sm hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex justify-center items-center gap-2"
+            className="w-full flex justify-center items-center gap-2"
           >
             {t('profile.save_btn')}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; 
@@ -7,6 +6,7 @@ import 'react-date-range/dist/theme/default.css';
 import { Star, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Pagination from '../components/Pagination';
+import SpaceCard from '../components/SpaceCard';
 
 function Spaces() {
   const { isAuthenticated, user } = useAuth();
@@ -196,38 +196,7 @@ function Spaces() {
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
           {!loading && displayedSpaces.map((space) => (
-              <Link 
-                to={`/spaces/${space._id}`} 
-                key={space._id} 
-                className='border border-stone-200 rounded-lg shadow-md overflow-hidden bg-white hover:shadow-lg transition-shadow flex flex-col group'
-              >
-                {space.images && space.images.length > 0 ? (
-                  <img
-                    src={space.images[0]}
-                    alt={space.name}
-                    className='w-full h-40 object-cover'
-                  />
-                ) : (
-                  <div className="w-full h-40 bg-stone-200 flex items-center justify-center text-sm text-stone-500">
-                    {t('noimg')}
-                  </div>
-                )}
-                
-                <div className='flex flex-col justify-between p-3 grow'>
-                  <h3 className='font-semibold text-base text-stone-800 mb-1 truncate group-hover:text-primary-2'>{space.name}</h3>
-                  <div className='flex justify-between items-center mt-auto'>
-                    <span className='text-sm text-stone-600'>
-                      {space.pricePerHour}€/h <span className="text-stone-400">|</span> {space.pricePerHour * 8}€/d
-                    </span>
-                    {space.reviews.length > 0 && 
-                      <div className='flex items-center gap-1 bg-stone-100 px-2 py-0.5 rounded-full'>
-                        <Star className='w-3 h-3 text-stone-700 fill-stone-700'/>
-                        <span className='text-xs font-medium text-stone-700'>{space.reviews.length}</span>
-                      </div>
-                    }
-                  </div>
-                </div>
-              </Link>
+              <SpaceCard key={space._id} space={space} />
             ))}
         </div>
 

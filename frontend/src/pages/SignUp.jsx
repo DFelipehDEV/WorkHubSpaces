@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Button from "../components/Button";
 
 function SignUp() {
   const [error, setError] = useState("");
@@ -74,13 +75,13 @@ function SignUp() {
                 placeholder={`${t('auth.company')} (${t('auth.optional')})`}
               />
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-primary-2 text-white rounded-md px-3 py-2 mt-6 cursor-pointer disabled:opacity-50 transition-opacity"
+                className="w-full mt-6 disabled:opacity-50 transition-opacity"
               >
                 {isLoading ? '...' : t('auth.create_account')}
-              </button>
+              </Button>
             </div>
 
             {error && (
