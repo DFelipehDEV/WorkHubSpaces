@@ -23,6 +23,11 @@ const spaceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   type: {
     type: mongoose.ObjectId,
     required: true,

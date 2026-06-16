@@ -31,7 +31,6 @@ function ReservationCard({ reservation, onCancel }) {
 
   const isCancelable = reservation.status == 0 || reservation.status == 2;
 
-  const spaceId = reservation.spaceId?._id;
   const spaceName = reservation.spaceId?.name || "?";
 
   return (
@@ -40,7 +39,7 @@ function ReservationCard({ reservation, onCancel }) {
         <div className="flex justify-between items-start gap-2">
           <span className="font-bold text-stone-850 line-clamp-1 text-base">
             <Link
-              to={`/spaces/${spaceId}`}
+              to={`/spaces/${reservation.spaceId.slug}`}
               className="hover:text-primary-2 underline hover:decoration-primary-2"
             >
               {spaceName}

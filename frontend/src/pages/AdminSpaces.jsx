@@ -47,7 +47,7 @@ function AdminSpaces() {
 
   const handleEdit = (space) => setActiveSpace({ ...space, images: space.images ? space.images.join(', ') : '' });
 
-  const handleCreateNew = () => setActiveSpace({ name: '', type: spaceTypes[0]?._id || '', available: true, description: '', capacity: 10, pricePerHour: 10, images: '' });
+  const handleCreateNew = () => setActiveSpace({ name: '', slug: '', type: spaceTypes[0]?._id || '', available: true, description: '', capacity: 10, pricePerHour: 10, images: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,6 +99,7 @@ function AdminSpaces() {
 
   const fields = [
     { name: 'name', label: t('admin.spaces.field_name'), type: 'text', required: true },
+    { name: 'slug', label: t('admin.spaces.field_slug', 'Slug'), type: 'text', required: true },
     { name: 'type', label: t('admin.spaces.field_type'), type: 'select', required: true, options: spaceTypes },
     { name: 'capacity', label: t('admin.spaces.field_capacity'), type: 'number', required: true, min: 1 },
     { name: 'pricePerHour', label: t('admin.spaces.field_price'), type: 'number', required: true, min: 0 },
@@ -172,8 +173,8 @@ function AdminSpaces() {
         <table className="w-full border-collapse text-left text-xs text-stone-700">
           <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase tracking-wider">
             <tr>
-              {[t('admin.spaces.table_space'), t('admin.spaces.table_type'), t('admin.spaces.table_capacity'), t('admin.spaces.table_price'), t('admin.spaces.table_status'), t('admin.spaces.table_actions')].map((h, i) => (
-                <th key={h} className={`px-4 py-2 font-semibold text-[10px] ${i === 5 ? 'text-right' : ''}`}>{h}</th>
+              {[t('admin.spaces.table_space'), t('admin.spaces.field_slug', 'Slug'), t('admin.spaces.table_type'), t('admin.spaces.table_capacity'), t('admin.spaces.table_price'), t('admin.spaces.table_status'), t('admin.spaces.table_actions')].map((h, i) => (
+                <th key={h} className={`px-4 py-2 font-semibold text-[10px] ${i === 6 ? 'text-right' : ''}`}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -181,6 +182,7 @@ function AdminSpaces() {
             {spaces.map(s => (
               <tr key={s._id} className="hover:bg-stone-50/50 transition-colors">
                 <td className="px-4 py-2 font-medium">{s.name}</td>
+                <td className="px-4 py-2">{s.slug}</td>
                 <td className="px-4 py-2">{spaceTypes.find(t => t._id === s.type)?.name}</td>
                 <td className="px-4 py-2">{s.capacity} pax</td>
                 <td className="px-4 py-2">{s.pricePerHour}€/hr</td>

@@ -39,9 +39,9 @@ createRoot(document.getElementById('root')).render(
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/spaces" element={<Spaces />} />
-              <Route path="/spaces/:id" element={<Space />} />
+              <Route path="/spaces/:slug" element={<Space />} />
               <Route
-                path="/spaces/:id/book"
+                path="/spaces/:slug/book"
                 element={
                   <ClientRoute>
                     <BookSpace />

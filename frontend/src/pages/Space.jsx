@@ -10,10 +10,10 @@ import useSWR from 'swr';
 import { fetcher } from '../utils/fetcher';
 
 function Space() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { isAuthenticated, user } = useAuth();
   
-  const { data: space, error, isLoading: loading, mutate } = useSWR(`/spaces/${id}`, fetcher);
+  const { data: space, error, isLoading: loading, mutate } = useSWR(`/spaces/slug/${slug}`, fetcher);
   const [rating, setRating] = useState(10);
   const [reviewText, setReviewText] = useState("");
   const [reviewMsg, setReviewMsg] = useState(null);
@@ -27,7 +27,7 @@ function Space() {
     if (!isAuthenticated) return;
     const endpoint = isFavorited ? 'defavorite' : 'favorite';
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}/${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${space._id}/${endpoint}`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -48,7 +48,7 @@ function Space() {
     setReviewMsg(null);
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${id}/review`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/spaces/${space._id}/review`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -161,7 +161,7 @@ function Space() {
                   <p className="text-xl font-mono font-bold text-stone-850">{space.pricePerHour}€/{t('space.hour')}</p>
                   <p className='text-xs font-mono text-stone-400 mt-0.5'>{space.pricePerHour * 8}€/{t('space.day')}</p>
                 </div>
-                <Button to={`/spaces/${space._id}/book`}>
+                <Button to={`/spaces/${space.slug || space._id}/book`}>
                   {t('space.book_this_space')}
                 </Button>
               </div>

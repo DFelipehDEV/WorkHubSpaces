@@ -1,5 +1,7 @@
 const Space = require('../models/Space');
 const Reservation = require('../models/Reservation');
+const mongoose = require('mongoose');
+
 exports.create = async (req, res) => {
   try {
     const space = await Space.create(req.body);
@@ -13,6 +15,21 @@ exports.create = async (req, res) => {
 exports.get = async (req, res) => {
   try {
     const space = await Space.findById(req.params.id)
+      .populate({ path: 'reviews.user', select: 'name' })
+      .populate('equipments')
+      .orFail(() => {
+        return res.status(404).json({ message: "Couldn't find space" });
+      });
+
+    return res.status(200).json(space);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+}
+
+exports.getBySlug = async (req, res) => {
+  try {
+    const space = await Space.findOne({ slug: req.params.slug })
       .populate({ path: 'reviews.user', select: 'name' })
       .populate('equipments')
       .orFail(() => {

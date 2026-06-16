@@ -13,14 +13,14 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 function BookSpace() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   const currentLang = i18n.language || i18n.resolvedLanguage || 'en';
   const calendarLocale = currentLang.startsWith('pt') ? pt : enUS;
 
-  const { data: spaceData, error: spaceError, isLoading: loadingSpace } = useSWR(`/spaces/${id}`, fetcher);
+  const { data: spaceData, error: spaceError, isLoading: loadingSpace } = useSWR(`/spaces/slug/${slug}`, fetcher);
   const { data: extraServicesData } = useSWR('/extraservices', fetcher);
   const { data: allEquipmentsData } = useSWR('/equipments', fetcher);
 
@@ -62,8 +62,6 @@ function BookSpace() {
       timeSlots.push(`${hh}:30`);
     }
   }
-
-
 
   const handleSelect = (item) => {
     setDateRange([item.selection]);
@@ -192,7 +190,7 @@ function BookSpace() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <GoTo to={`/spaces/${space._id}`} text={t('booking.goback_to_space')} direction="left" align="left" className="mb-6" />
+      <GoTo to={`/spaces/${space.slug}`} text={t('booking.goback_to_space')} direction="left" align="left" className="mb-6" />
 
       {bookingSuccess && (
         <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">

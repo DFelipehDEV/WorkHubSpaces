@@ -7,7 +7,7 @@ function SpaceCard({ space }) {
 
   return (
     <Link 
-      to={`/spaces/${space._id}`} 
+      to={`/spaces/${space.slug}`} 
       className='p-0 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col group border border-white/60'
     >
       {space.images && space.images.length > 0 ? (

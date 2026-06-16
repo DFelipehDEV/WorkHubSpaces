@@ -57,6 +57,7 @@ app.get('/admin/reports-stats', adminMiddleware, ReservationController.getReport
 
 const SpaceController = require("./controllers/SpaceController");
 app.post('/spaces', express.json(), adminMiddleware, SpaceController.create);
+app.get('/spaces/slug/:slug', SpaceController.getBySlug);
 app.get('/spaces/:id', SpaceController.get);
 app.put('/spaces/:id', express.json(), adminMiddleware, SpaceController.update);
 app.delete('/spaces/:id', adminMiddleware, SpaceController.delete);
