@@ -8,11 +8,13 @@ import { Star, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Pagination from '../components/Pagination';
 import SpaceCard from '../components/SpaceCard';
+import Spinner from '../components/Spinner';
 import useSWR from 'swr';
 
 function Spaces() {
   const { isAuthenticated, user } = useAuth();
   const [selectedType, setSelectedType] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -51,10 +53,11 @@ function Spaces() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(1);
-  }, [selectedType, dateRange, sortBy, debouncedSearchQuery]);
+  }, [selectedType, selectedCity, dateRange, sortBy, debouncedSearchQuery]);
 
   const params = new URLSearchParams();
   if (selectedType) params.append('type', selectedType);
+  if (selectedCity) params.append('city', selectedCity);
   if (sortBy) params.append('sort', sortBy);
   if (debouncedSearchQuery) params.append('name', debouncedSearchQuery);
   if (dateRange[0]?.startDate && dateRange[0]?.endDate) {
@@ -63,11 +66,13 @@ function Spaces() {
   }
 
   const fetcher = (url) => fetch(`${import.meta.env.VITE_BACKEND_URL}${url}`).then(res => res.json());
-  const { data: spacesData, isLoading: loading } = useSWR(`/spaces?${params.toString()}`, fetcher);
+  const { data: spacesData, isValidating } = useSWR(`/spaces?${params.toString()}`, fetcher, { keepPreviousData: true, revalidateOnFocus: false });
   const { data: spaceTypesData } = useSWR('/spacetypes', fetcher);
+  const { data: citiesData } = useSWR('/cities', fetcher);
 
   const spaces = Array.isArray(spacesData) ? spacesData : [];
   const spaceTypes = Array.isArray(spaceTypesData) ? spaceTypesData : [];
+  const cities = citiesData;
 
   const handleSelect = (item) => {
     setDateRange([item.selection]);
@@ -94,9 +99,10 @@ function Spaces() {
   );
 
   return (
-    <div className='max-w-6xl mx-auto w-full px-4 sm:px-6 py-6'>
-        <div className='flex flex-col md:flex-row justify-between gap-3 mb-6 items-center'>
-          <div className="relative w-full md:max-w-3xs">
+    <div className="w-full">
+      <div className='max-w-350 mx-auto w-full px-4 sm:px-6 pt-6 pb-2'>
+        <div className='flex flex-col xl:flex-row justify-between gap-4 mb-4 items-start xl:items-center bg-white p-3 rounded-2xl border border-stone-200 shadow-sm'>
+          <div className="relative w-full xl:w-64 shrink-0">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-stone-400">
               <Search className="w-4 h-4" />
             </span>
@@ -105,21 +111,21 @@ function Spaces() {
               placeholder={t('search.placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white rounded-md pl-9 pr-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 placeholder-stone-400 focus:outline-none focus:border-primary-2 focus:ring-1 focus:ring-primary-2 h-fit"
+              className="w-full bg-stone-50 rounded-xl pl-9 pr-3 py-2 border border-transparent focus:bg-white focus:border-primary-2 focus:ring-2 focus:ring-primary-2/20 text-sm text-stone-700 placeholder-stone-400 outline-none transition-all duration-300 h-10.5"
             />
           </div>
 
-          <div className='flex flex-col sm:flex-row w-full md:w-auto justify-end gap-3 items-center'>
+          <div className='flex flex-wrap xl:flex-nowrap w-full xl:w-auto justify-start xl:justify-end gap-3 items-center'>
             {isAuthenticated && (
               <button
                 onClick={() => {
                   setShowFavoritesOnly(!showFavoritesOnly);
                   setCurrentPage(1);
                 }}
-                className={`w-full sm:w-auto px-3 py-2 border rounded-md shadow-sm text-sm font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+                className={`w-full sm:w-auto px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 h-10.5 ${
                   showFavoritesOnly
-                    ? 'bg-primary-2 text-white border-primary-2 hover:opacity-90'
-                    : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+                    ? 'bg-primary-2 text-white shadow-md shadow-primary-2/20 hover:bg-primary-2/90'
+                    : 'bg-stone-50 text-stone-700 border border-stone-200 hover:bg-white hover:border-stone-300'
                 }`}
               >
                 <Star className={`w-4 h-4 ${showFavoritesOnly ? 'fill-white text-white' : 'text-stone-400'}`} />
@@ -130,7 +136,7 @@ function Spaces() {
             <div className="relative w-full sm:w-auto">
               <button 
                 onClick={() => setShowCalendar(!showCalendar)}
-                className="cursor-pointer w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 hover:bg-stone-50 hover:text-primary-2"
+                className="cursor-pointer w-full sm:w-auto bg-stone-50 rounded-xl px-4 py-2 border border-stone-200 text-sm font-medium text-stone-700 hover:bg-white hover:border-primary-2 hover:text-primary-2 transition-all duration-200 h-10.5"
               >
                 {formatDate(dateRange[0].startDate)} - {formatDate(dateRange[0].endDate)}
               </button>
@@ -150,7 +156,18 @@ function Spaces() {
             </div>
 
             <select 
-              className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
+              className='w-full sm:w-auto bg-stone-50 rounded-xl px-3 py-2 border border-stone-200 text-sm font-medium text-stone-700 hover:bg-white hover:border-primary-2 outline-none focus:border-primary-2 focus:ring-2 focus:ring-primary-2/20 transition-all duration-200 h-10.5 cursor-pointer'
+              value={selectedCity} 
+              onChange={(e) => setSelectedCity(e.target.value)}
+            >
+              <option value="">{t('admin.spaces.field_city', 'City')} ({t('space.all')})</option>
+              {cities.map((city, index) => (
+                <option key={index} value={city._id}>{city.name}</option>
+              ))}
+            </select>
+
+            <select 
+              className='w-full sm:w-auto bg-stone-50 rounded-xl px-3 py-2 border border-stone-200 text-sm font-medium text-stone-700 hover:bg-white hover:border-primary-2 outline-none focus:border-primary-2 focus:ring-2 focus:ring-primary-2/20 transition-all duration-200 h-10.5 cursor-pointer'
               value={selectedType} 
               onChange={(e) => setSelectedType(e.target.value)}
             >
@@ -161,12 +178,12 @@ function Spaces() {
             </select>
 
             <select 
-              className='w-full sm:w-auto bg-white rounded-md px-3 py-2 border border-stone-200 shadow-sm text-sm text-stone-700 h-fit'
+              className='w-full sm:w-auto bg-stone-50 rounded-xl px-3 py-2 border border-stone-200 text-sm font-medium text-stone-700 hover:bg-white hover:border-primary-2 outline-none focus:border-primary-2 focus:ring-2 focus:ring-primary-2/20 transition-all duration-200 h-10.5 cursor-pointer'
               value={sortBy} 
               onChange={(e) => setSortBy(e.target.value)}
               aria-label="Order by"
             >
-              <option value="-popularity">{t('sort.popularity_desc')}</option>
+              <option value="-popularity">{t('sort.title')} ({t('sort.popularity_desc')})</option>
               <option value="pricePerHour">{t('sort.price_asc')}</option>
               <option value="-pricePerHour">{t('sort.price_desc')}</option>
               <option value="capacity">{t('sort.capacity_asc')}</option>
@@ -174,27 +191,38 @@ function Spaces() {
             </select>
           </div>
         </div>
+      </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-          {!loading && displayedSpaces.map((space) => (
-              <SpaceCard key={space._id} space={space} />
-          ))}
-          {!loading && displayedSpaces.length > 0 && Array.from({ length: itemsPerPage - displayedSpaces.length }).map((_, i) => (
-            <div key={`placeholder-${i}`} className="invisible pointer-events-none" aria-hidden="true">
-              <SpaceCard space={displayedSpaces[0]} />
-            </div>
-          ))}
-        </div>
-
-        {!loading && filteredSpaces.length > 0 && (
-          <div className="pt-8">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
+      <div className='max-w-6xl mx-auto w-full px-4 sm:px-6 pb-6'>
+        {isValidating ? (
+          <div className="flex justify-center items-center py-32">
+            <Spinner />
           </div>
+        ) : (
+          <>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+              {displayedSpaces.map((space) => (
+                  <SpaceCard key={space._id} space={space} />
+              ))}
+              {displayedSpaces.length > 0 && Array.from({ length: itemsPerPage - displayedSpaces.length }).map((_, i) => (
+                <div key={`placeholder-${i}`} className="invisible pointer-events-none" aria-hidden="true">
+                  <SpaceCard space={displayedSpaces[0]} />
+                </div>
+              ))}
+            </div>
+
+            {filteredSpaces.length > 0 && (
+              <div className="pt-8">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
+          </>
         )}
+      </div>
     </div>
   );
 }

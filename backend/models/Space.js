@@ -42,6 +42,11 @@ const spaceSchema = new mongoose.Schema({
     required: true,
   },
   pricePerHour: Number,
+  city: {
+    type: mongoose.ObjectId,
+    ref: 'City'
+  },
+  address: String,
   images: [String],
   favoritedBy: {
     type: [mongoose.ObjectId],

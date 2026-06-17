@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, User, Check } from 'lucide-react';
+import { Star, User, Check, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
@@ -159,6 +159,12 @@ function Space() {
                     </button>
                   )}
                 </div>
+                {(space.city || space.address) && (
+                  <div className="flex items-center gap-1.5 text-stone-500 text-sm font-medium mb-4">
+                    <MapPin size={16} />
+                    <p>{space.address}{space.address && space.city?.name ? ', ' : ''}{space.city?.name || space.city}</p>
+                  </div>
+                )}
                 <div className='flex gap-2 md:gap-8'>
                     <div className='flex md:gap-2'>
                       <Check className={space.available ? "text-green-600" : "text-red-600"}/>

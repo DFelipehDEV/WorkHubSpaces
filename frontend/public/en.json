@@ -151,6 +151,7 @@
         "results": "results"
     },
     "sort": {
+        "title": "Sort By",
         "popularity_desc": "Popularity",
         "price_asc": "Price: Low to High",
         "price_desc": "Price: High to Low",
@@ -180,6 +181,8 @@
             "msg_deleted": "Space deleted!",
             "no_spaces": "No workspaces found.",
             "field_name": "Name",
+            "field_city": "City",
+            "field_address": "Address",
             "field_type": "Type",
             "field_capacity": "Capacity (pax)",
             "field_price": "Price per Hour (€)",
@@ -188,6 +191,7 @@
             "field_available": "Available for bookings",
             "select_type_placeholder": "Select type",
             "table_space": "Space",
+            "table_city": "City",
             "table_type": "Type",
             "table_capacity": "Capacity",
             "table_price": "Price",

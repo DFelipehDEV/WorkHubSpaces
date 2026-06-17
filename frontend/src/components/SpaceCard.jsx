@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Star, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 function SpaceCard({ space }) {
@@ -26,7 +26,15 @@ function SpaceCard({ space }) {
       )}
       
       <div className='flex flex-col justify-between p-4 grow bg-white/40 backdrop-blur-md'>
-        <h3 className='font-semibold text-lg text-stone-800 mb-1 truncate group-hover:text-primary-2 transition-colors'>{space.name}</h3>
+        <div>
+          <h3 className='font-semibold text-lg text-stone-800 mb-0.5 truncate group-hover:text-primary-2 transition-colors'>{space.name}</h3>
+          {space.city && (
+            <div className="flex items-center gap-1 text-stone-500 text-xs font-medium mb-2">
+              <MapPin size={12} />
+              <span>{space.city.name || space.city}</span>
+            </div>
+          )}
+        </div>
         <div className='flex justify-between items-center mt-auto pt-2'>
           <span className='text-[14px] font-medium text-stone-600'>
             {space.pricePerHour}€<span className="text-stone-400 font-normal">/h</span> <span className="text-stone-300 font-normal mx-1">|</span> {space.pricePerHour * 8}€<span className="text-stone-400 font-normal">/d</span>

@@ -73,6 +73,13 @@ app.put('/spacetypes/:id', express.json(), adminMiddleware, SpaceTypeController.
 app.delete('/spacetypes/:id', adminMiddleware, SpaceTypeController.delete);
 app.get('/spacetypes', SpaceTypeController.getAll);
 
+const CityController = require("./controllers/CityController");
+app.post('/cities', express.json(), adminMiddleware, CityController.create);
+app.get('/cities/:id', CityController.get);
+app.put('/cities/:id', express.json(), adminMiddleware, CityController.update);
+app.delete('/cities/:id', adminMiddleware, CityController.delete);
+app.get('/cities', CityController.getAll);
+
 const ExtraServiceController = require("./controllers/ExtraServiceController");
 app.post('/extraservices', express.json(), adminMiddleware, ExtraServiceController.create);
 app.get('/extraservices/:id', userMiddleware, ExtraServiceController.get);

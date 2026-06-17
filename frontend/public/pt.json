@@ -151,6 +151,7 @@
         "results": "resultados"
     },
     "sort": {
+        "title": "Ordenar por",
         "popularity_desc": "Popularidade",
         "price_asc": "Preço: Menor para Maior",
         "price_desc": "Preço: Maior para Menor",
@@ -180,6 +181,8 @@
             "msg_deleted": "Espaço eliminado!",
             "no_spaces": "Nenhum espaço de trabalho encontrado.",
             "field_name": "Nome",
+            "field_city": "Cidade",
+            "field_address": "Morada",
             "field_type": "Tipo",
             "field_capacity": "Capacidade",
             "field_price": "Preço por Hora",
@@ -188,6 +191,7 @@
             "field_available": "Disponível para reservas",
             "select_type_placeholder": "Selecionar tipo",
             "table_space": "Espaço",
+            "table_city": "Cidade",
             "table_type": "Tipo",
             "table_capacity": "Capacidade",
             "table_price": "Preço",

@@ -17,6 +17,7 @@ exports.get = async (req, res) => {
     const space = await Space.findById(req.params.id)
       .populate({ path: 'reviews.user', select: 'name' })
       .populate('equipments')
+      .populate('city')
       .orFail(() => {
         return res.status(404).json({ message: "Couldn't find space" });
       });
@@ -32,6 +33,7 @@ exports.getBySlug = async (req, res) => {
     const space = await Space.findOne({ slug: req.params.slug })
       .populate({ path: 'reviews.user', select: 'name' })
       .populate('equipments')
+      .populate('city')
       .orFail(() => {
         return res.status(404).json({ message: "Couldn't find space" });
       });
@@ -75,6 +77,7 @@ exports.getAll = async (req, res) => {
   const startDate = req.query.startDate;
   const endDate = req.query.endDate;
   const sort = req.query.sort;
+  const city = req.query.city;
 
   try {
     let findQuery = {};
@@ -85,6 +88,10 @@ exports.getAll = async (req, res) => {
 
     if (type) {
       findQuery.type = type;
+    }
+
+    if (city) {
+      findQuery.city = city;
     }
 
     if (capacity) {
@@ -136,6 +143,7 @@ exports.getAll = async (req, res) => {
     if (page > 0 && limit > 0) {
       return res.status(200).json(
         await Space.find(findQuery)
+          .populate('city')
           .limit(limit)
           .skip((page - 1) * limit)
           .sort(sortQuery)
@@ -144,7 +152,7 @@ exports.getAll = async (req, res) => {
     }
 
     return res.status(200).json(
-      await Space.find(findQuery).sort(sortQuery)
+      await Space.find(findQuery).populate('city').sort(sortQuery)
     );
   } catch (err) {
     return res.status(400).json({ message: err.message });
