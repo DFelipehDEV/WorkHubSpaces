@@ -18,6 +18,7 @@ function Space() {
   const [reviewText, setReviewText] = useState("");
   const [reviewMsg, setReviewMsg] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
 
   const {t} = useTranslation();
 
@@ -110,11 +111,28 @@ function Space() {
 
         <div className="bg-white border border-stone-200 rounded-lg shadow-sm overflow-hidden">
           {space.images && space.images.length > 0 ? (
-            <img
-              src={space.images[0]}
-              alt={space.name}
-              className='w-full h-96 object-cover'
-            />
+            <div className="relative w-full h-96">
+              <img
+                src={space.images[activeImageIdx] || space.images[0]}
+                alt={space.name}
+                className='w-full h-full object-cover'
+              />
+              {space.images.length > 1 && (
+                <div className="absolute bottom-2 left-0 right-0 flex justify-center items-center gap-2 px-4 py-4 overflow-x-auto overflow-y-hidden z-10">
+                  {space.images.map((imgUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIdx(idx)}
+                      className={`relative shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 cursor-pointer ${
+                        activeImageIdx === idx ? 'border-white opacity-100 shadow-md' : 'border-transparent opacity-60 hover:opacity-100 hover:border-white/70'
+                      }`}
+                    >
+                      <img src={imgUrl} alt={`${space.name} preview ${idx + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           ) : (
             <div className="w-full h-96 bg-stone-200 flex items-center justify-center text-stone-500">
               {t('noimg')}

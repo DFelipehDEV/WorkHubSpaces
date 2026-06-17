@@ -1,44 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import useSWR from 'swr';
+import { fetcher } from '../utils/fetcher';
 import Button from '../components/Button';
 import PageTitle from '../components/PageTitle';
 
 function AdminSpaces() {
   const { t } = useTranslation();
   const { isAdmin } = useAuth();
-  const [spaces, setSpaces] = useState([]);
-  const [spaceTypes, setSpaceTypes] = useState([]);
   const [msg, setMsg] = useState(null);
   const [activeSpace, setActiveSpace] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  const fetchData = useCallback(async () => {
-    try {
-      const [sRes, tRes] = await Promise.all([
-        fetch(`${API_URL}/spaces`).then(r => r.json()),
-        fetch(`${API_URL}/spacetypes`).then(r => r.json())
-      ]);
-      setSpaces(Array.isArray(sRes) ? sRes : []);
-      setSpaceTypes(Array.isArray(tRes) ? tRes : []);
-    } catch (err) {
-      setMsg({ text: err.message, isError: true });
-    }
-  }, [API_URL]);
+  const { data: spacesData, error: spacesError, mutate: mutateSpaces } = useSWR(`/spaces`, fetcher);
+  const { data: spaceTypesData, error: spaceTypesError } = useSWR(`/spacetypes`, fetcher);
 
-  useEffect(() => {
-    let active = true;
-    if (active) {
-      setTimeout(() => {
-        fetchData();
-      }, 0);
-    }
-    return () => {
-      active = false;
-    };
-  }, [fetchData]);
+  const spaces = Array.isArray(spacesData) ? spacesData : [];
+  const spaceTypes = Array.isArray(spaceTypesData) ? spaceTypesData : [];
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -75,7 +57,7 @@ function AdminSpaces() {
       }
       setMsg({ text: isEdit ? t('admin.spaces.msg_updated') : t('admin.spaces.msg_created'), isError: false });
       setActiveSpace(null);
-      fetchData();
+      mutateSpaces();
     } catch (err) {
       setMsg({ text: err.message, isError: true });
     }
@@ -91,9 +73,43 @@ function AdminSpaces() {
         throw new Error(errorData.message || 'Delete failed');
       }
       setMsg({ text: t('admin.spaces.msg_deleted'), isError: false });
-      fetchData();
+      mutateSpaces();
     } catch (err) {
       setMsg({ text: err.message, isError: true });
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setMsg(null);
+    try {
+      const res = await fetch(`${API_URL}/upload-url?contentType=${encodeURIComponent(file.type)}`, { credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to get upload URL');
+      const { uploadUrl, key, publicUrl } = await res.json();
+
+      const uploadRes = await fetch(uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      });
+
+      if (!uploadRes.ok) throw new Error('Failed to upload image');
+
+      const imageUrl = `${publicUrl}/${key}`;
+      
+      setActiveSpace(p => {
+        const currentImages = p.images ? p.images.trim() : '';
+        const newImages = currentImages ? `${currentImages}, ${imageUrl}` : imageUrl;
+        return { ...p, images: newImages };
+      });
+    } catch (err) {
+      setMsg({ text: err.message, isError: true });
+    } finally {
+      setUploadingImage(false);
+      e.target.value = '';
     }
   };
 
@@ -103,7 +119,7 @@ function AdminSpaces() {
     { name: 'type', label: t('admin.spaces.field_type'), type: 'select', required: true, options: spaceTypes },
     { name: 'capacity', label: t('admin.spaces.field_capacity'), type: 'number', required: true, min: 1 },
     { name: 'pricePerHour', label: t('admin.spaces.field_price'), type: 'number', required: true, min: 0 },
-    { name: 'images', label: t('admin.spaces.field_images'), type: 'text', colSpan: 2 },
+    { name: 'images', label: t('admin.spaces.field_images'), type: 'imageUpload', colSpan: 2 },
     { name: 'description', label: t('admin.spaces.field_desc'), type: 'textarea', colSpan: 2, rows: 2 },
     { name: 'available', label: t('admin.spaces.field_available'), type: 'checkbox', colSpan: 2 }
   ];
@@ -124,9 +140,9 @@ function AdminSpaces() {
         </Button>
       </div>
 
-      {msg && (
-        <div className={`p-3 rounded-xl border text-xs mb-4 ${msg.isError ? 'bg-red-50 text-red-700 border-red-200' : 'bg-green-50 text-green-700 border-green-200'}`}>
-          {msg.text}
+      {(msg || spacesError || spaceTypesError) && (
+        <div className={`p-3 rounded-xl border text-xs mb-4 ${(msg?.isError || spacesError || spaceTypesError) ? 'bg-red-50 text-red-700 border-red-200' : 'bg-green-50 text-green-700 border-green-200'}`}>
+          {msg?.text || (spacesError || spaceTypesError)?.message || 'Failed to fetch data'}
         </div>
       )}
 
@@ -155,6 +171,37 @@ function AdminSpaces() {
                     </select>
                   ) : f.type === 'textarea' ? (
                     <textarea name={f.name} rows={f.rows} value={activeSpace[f.name] || ''} onChange={onChange} className={inputClass} />
+                  ) : f.type === 'imageUpload' ? (
+                    <div className="flex flex-col gap-2">
+                       <div className="flex items-center gap-2">
+                         <input type="file" accept="image/*" onChange={handleImageUpload} className="text-xs file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200 cursor-pointer" disabled={uploadingImage} />
+                         {uploadingImage && <span className="text-[10px] font-bold text-stone-500 uppercase">Uploading...</span>}
+                       </div>
+                       {(() => {
+                         const imagesList = typeof activeSpace[f.name] === 'string' ? activeSpace[f.name].split(',').map(i => i.trim()).filter(Boolean) : (activeSpace[f.name] || []);
+                         if (imagesList.length === 0) return null;
+                         return (
+                           <div className="flex flex-wrap gap-2 mt-1">
+                             {imagesList.map((imgUrl, idx) => (
+                               <div key={idx} className="relative group w-16 h-16 rounded-lg border border-stone-200 overflow-hidden bg-stone-50 shadow-sm">
+                                 <img src={imgUrl} alt={`preview ${idx}`} className="w-full h-full object-cover" />
+                                 <button 
+                                   type="button" 
+                                   onClick={() => {
+                                     const newList = imagesList.filter((_, i) => i !== idx).join(', ');
+                                     setActiveSpace(p => ({ ...p, [f.name]: newList }));
+                                   }}
+                                   className="absolute top-1 right-1 bg-red-600/80 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer font-bold leading-none"
+                                   title="Remove image"
+                                 >
+                                   ×
+                                 </button>
+                               </div>
+                             ))}
+                           </div>
+                         );
+                       })()}
+                    </div>
                   ) : (
                     <input type={f.type} name={f.name} required={f.required} min={f.min} value={activeSpace[f.name] ?? (f.type === 'number' ? 10 : '')} onChange={onChange} className={inputClass} />
                   )}
