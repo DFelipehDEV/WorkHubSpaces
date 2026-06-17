@@ -20,6 +20,7 @@ import AdminReservations from './pages/AdminReservations.jsx';
 import AdminServices from './pages/AdminServices.jsx';
 import AdminUsers from './pages/AdminUsers.jsx';
 import AdminReports from './pages/AdminReports.jsx';
+import NotFound from './pages/NotFound.jsx';
 import './i18n.js';
 
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -125,6 +126,7 @@ createRoot(document.getElementById('root')).render(
                   </ClientRoute>
                 }
               />
+              <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
         </AuthProvider>
