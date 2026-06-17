@@ -72,7 +72,7 @@ function Spaces() {
 
   const spaces = Array.isArray(spacesData) ? spacesData : [];
   const spaceTypes = Array.isArray(spaceTypesData) ? spaceTypesData : [];
-  const cities = citiesData;
+  const cities = Array.isArray(citiesData) ? citiesData : [];
 
   const handleSelect = (item) => {
     setDateRange([item.selection]);
