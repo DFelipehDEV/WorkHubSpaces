@@ -178,15 +178,22 @@ function Spaces() {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
           {!loading && displayedSpaces.map((space) => (
               <SpaceCard key={space._id} space={space} />
-            ))}
+          ))}
+          {!loading && displayedSpaces.length > 0 && Array.from({ length: itemsPerPage - displayedSpaces.length }).map((_, i) => (
+            <div key={`placeholder-${i}`} className="invisible pointer-events-none" aria-hidden="true">
+              <SpaceCard space={displayedSpaces[0]} />
+            </div>
+          ))}
         </div>
 
         {!loading && filteredSpaces.length > 0 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <div className="pt-8">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         )}
     </div>
   );

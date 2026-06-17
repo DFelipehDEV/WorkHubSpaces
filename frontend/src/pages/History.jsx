@@ -49,13 +49,20 @@ function History() {
             {reservations.map((reservation) => (
               <ReservationCard key={reservation._id} reservation={reservation} />
             ))}
+            {reservations.length > 0 && Array.from({ length: itemsPerPage - reservations.length }).map((_, i) => (
+              <div key={`placeholder-${i}`} className="invisible pointer-events-none" aria-hidden="true">
+                <ReservationCard reservation={reservations[0]} />
+              </div>
+            ))}
           </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <div className="pt-8">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </>
       )}
     </div>
