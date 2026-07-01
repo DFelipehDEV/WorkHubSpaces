@@ -95,8 +95,8 @@ function Navigation() {
       to={link.to} 
       onClick={closeMenus}
       className={isMobile 
-        ? "text-stone-800 text-lg py-2 border-b border-stone-100" 
-        : "text-stone-800 px-4 py-2 text-md font-light tracking-wider rounded-full hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300"}
+        ? "text-black text-lg py-2 border-b border-stone-100" 
+        : "text-black px-4 py-2 text-md font-light tracking-wider rounded-full hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300"}
     >
       {t(link.label)}
     </Link>
@@ -108,8 +108,8 @@ function Navigation() {
       to={link.to} 
       onClick={closeMenus} 
       className={isMobile
-        ? "text-stone-800 text-lg py-2 pl-4 border-b border-stone-50"
-        : "mx-2 my-0.5 px-4 py-2 text-sm text-stone-800 rounded-xl hover:bg-white/60 hover:shadow-sm transition-all duration-300"}
+        ? "text-black text-lg py-2 pl-4 border-b border-stone-50"
+        : "mx-2 my-0.5 px-4 py-2 text-sm text-black rounded-xl hover:bg-white/60 hover:shadow-sm transition-all duration-300"}
     >
       {t(link.label)}
     </Link>
@@ -119,10 +119,12 @@ function Navigation() {
     <div className="px-4 md:px-8 lg:px-16 pt-6 sticky top-0 z-50 pointer-events-none">
       <div className="flex justify-between items-center w-full">
         <Link to="/" className="hover:-translate-y-0.5 hover:opacity-90 transition-all duration-300 pointer-events-auto drop-shadow-sm flex items-center" onClick={closeMenus}>
-          <img src={logo} alt="Workhub Spaces Logo" className="h-9 md:h-11 w-auto" />
+          <div className="group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-xl backdrop-saturate-150 border transition-all duration-500 ease-out relative bg-white/70 border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+            <img src={logo} alt="Workhub Spaces Logo" className="h-9 md:h-11 w-auto" />
+          </div>
         </Link>
 
-        <div className={`group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-lg border transition-all duration-500 ease-out relative ${isDropdownOpen ? 'bg-white/60 border-white/60 shadow-[0_12px_40px_rgba(0,0,0,0.08)]' : 'bg-white/10 border-white/30 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/60 hover:border-white/60 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]'}`}>
+        <div className={`group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-xl backdrop-saturate-150 border transition-all duration-500 ease-out relative ${isDropdownOpen ? 'bg-white/90 border-white/80 shadow-[0_12px_40px_rgba(0,0,0,0.08)]' : 'bg-white/70 border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]'}`}>
           
           <div className={`hidden md:flex items-center transition-all duration-500 ease-out ${isDropdownOpen ? 'gap-4 md:gap-6' : 'gap-2 group-hover:gap-4 md:gap-4 md:group-hover:gap-6'}`}>
             {renderNavLinks()}
@@ -135,16 +137,16 @@ function Navigation() {
                       setIsNotificationsOpen(!isNotificationsOpen);
                       setIsProfileOpen(false);
                     }}
-                    className="relative flex items-center justify-center p-2.5 rounded-full text-stone-800 cursor-pointer hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 group/btn"
+                    className="relative flex items-center justify-center p-2.5 rounded-full text-black cursor-pointer hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 group/btn"
                   >
-                    <Bell size={22} className='group-hover/btn:text-primary-2 transition-colors' /> 
+                    <Bell size={22} className='group-hover/btn:text-black transition-colors' /> 
                     {notifications.length > 0 && (
                       <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full shadow-sm shadow-red-500/50"></span>
                     )}
                   </button>
 
                   {isNotificationsOpen && (
-                    <div className="absolute right-0 mt-3 w-80 bg-white/60 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
+                    <div className="absolute right-0 mt-4 w-80 bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
                       <div className="flex flex-col min-h-50 max-h-64 overflow-y-auto px-1 gap-1">
                         {notifications.length > 0 ? (
                           notifications.map((notif) => (
@@ -180,13 +182,13 @@ function Navigation() {
                       setIsProfileOpen(!isProfileOpen);
                       setIsNotificationsOpen(false);
                     }}
-                    className="flex items-center justify-center p-2.5 rounded-full text-stone-800 cursor-pointer hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 group/btn"
+                    className="flex items-center justify-center p-2.5 rounded-full text-black cursor-pointer hover:bg-white/70 hover:shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300 group/btn"
                   >
-                    <User size={22} className='group-hover/btn:text-primary-2 transition-colors' />
+                    <User size={22} className='group-hover/btn:text-black transition-colors' />
                   </button>
 
                   {isProfileOpen && (
-                    <div className="absolute right-0 mt-3 w-56 bg-white/60 backdrop-blur-2xl border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
+                    <div className="absolute right-0 mt-4 w-56 bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
                       {renderDropdownLinks(accountLinks)}
                       {isAdmin && (
                         <>
@@ -210,7 +212,7 @@ function Navigation() {
           </div>
 
           <button
-            className="md:hidden text-stone-800 p-2 cursor-pointer hover:bg-white/80 rounded-full transition-all duration-300 shadow-sm ml-2 shrink-0"
+            className="md:hidden text-primary-2 p-2 cursor-pointer hover:bg-white/80 rounded-full transition-all duration-300 shadow-sm ml-2 shrink-0"
             onClick={() => {
               setIsOpen(!isOpen);
               setIsProfileOpen(false);
