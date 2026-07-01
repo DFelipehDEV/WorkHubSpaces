@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import SpaceCard from '../components/SpaceCard';
 import Button from '../components/Button';
 import GoTo from '../components/GoTo';
+import Spinner from '../components/Spinner';
 
 function Home() {
   const { t } = useTranslation();
@@ -43,11 +44,7 @@ function Home() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-64 rounded-2xl animate-pulse"></div>
-            ))}
-          </div>
+          <Spinner fullPage />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredSpaces.map((space) => (
