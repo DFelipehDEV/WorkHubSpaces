@@ -27,6 +27,28 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { ClientRoute } from './ClientRoute.jsx';
 import Layout from './components/Layout.jsx';
 
+let refreshPromise = null;
+const originalFetch = window.fetch;
+window.fetch = async (...args) => {
+  let response = await originalFetch(...args);
+  
+  if (response.status === 401 && !args[0]?.includes('/refresh') && !args[0]?.includes('/login')) {
+    if (!refreshPromise) {
+      refreshPromise = originalFetch(`${import.meta.env.VITE_BACKEND_URL}/refresh`, { 
+        method: 'POST', 
+        credentials: 'include' 
+      }).finally(() => refreshPromise = null);
+    }
+    
+    const refreshRes = await refreshPromise;
+    if (refreshRes.ok) {
+      response = await originalFetch(...args);
+    }
+  }
+  
+  return response;
+};
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Suspense fallback={

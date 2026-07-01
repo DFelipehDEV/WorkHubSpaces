@@ -36,6 +36,7 @@ app.post('/forgotpassword', express.json(), AuthController.forgotPassword);
 app.post('/resetpassword/:token', express.json(), AuthController.resetPassword);
 app.get('/validate-token', AuthController.validateHeaderToken);
 app.get('/logout', AuthController.logout);
+app.post('/refresh', AuthController.refresh);
 
 const EquipmentController = require("./controllers/EquipmentController");
 app.post('/equipments', express.json(), adminMiddleware, EquipmentController.create);

@@ -18,7 +18,23 @@ exports.signUp = async (req, res) => {
             suspended: false,
         });
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '30m' });
+        const refreshToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+        const isProd = process.env.NODE_ENV === "production";
+        res.cookie("Authorization", "Bearer " + token, {
+            maxAge: 30 * 60 * 1000, // 30m
+            httpOnly: true,
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd,
+        });
+        res.cookie("RefreshToken", refreshToken, {
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+            httpOnly: true,
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd,
+        });
+
         res.status(201).json({ message: "User created", token });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -39,11 +55,18 @@ exports.login = async (req, res) => {
             return res.status(403).json({ message: "User is suspended" });
         }
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '30m' });
+        const refreshToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         const isProd = process.env.NODE_ENV === "production";
         res.cookie("Authorization", "Bearer " + token, {
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 30 * 60 * 1000, // 30 minutes
+            httpOnly: true,
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd,
+        })
+        res.cookie("RefreshToken", refreshToken, {
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
             httpOnly: true,
             sameSite: isProd ? "none" : "lax",
             secure: isProd,
@@ -141,5 +164,30 @@ exports.validateHeaderToken = async (req, res) => {
 
 exports.logout = async (req, res) => {
     res.clearCookie("Authorization");
+    res.clearCookie("RefreshToken");
     return res.status(200).json({ message: "Success" });
+};
+
+exports.refresh = async (req, res) => {
+    const refreshToken = req.cookies.RefreshToken;
+    if (!refreshToken) return res.status(401).json({ message: "Refresh token missing" });
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: decoded.id, role: decoded.role }, process.env.JWT_SECRET, { expiresIn: '30m' });
+
+        const isProd = process.env.NODE_ENV === "production";
+        res.cookie("Authorization", "Bearer " + token, {
+            maxAge: 30 * 60 * 1000, // 30 minutes
+            httpOnly: true,
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd,
+        });
+
+        res.status(200).json({ message: "Success", token });
+    } catch (err) {
+        res.clearCookie("Authorization");
+        res.clearCookie("RefreshToken");
+        return res.status(500).json({ message: err.message });
+    }
 };
