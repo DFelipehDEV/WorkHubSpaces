@@ -15,3 +15,11 @@ html {
 :root {
     background-color: rgb(240, 240, 240)
 }
+
+@utility glass-panel {
+    @apply bg-white/30 backdrop-blur-md;
+}
+
+@utility glass-dropdown {
+    @apply bg-white/90 backdrop-blur-xl backdrop-saturate-150;
+}

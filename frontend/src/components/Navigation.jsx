@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, User, Bell, BellOff } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -34,12 +34,23 @@ function Navigation() {
   const { isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
   const isDropdownOpen = isProfileOpen || isNotificationsOpen;
+  const navRef = useRef(null);
 
   const closeMenus = () => {
     setIsOpen(false);
     setIsProfileOpen(false);
     setIsNotificationsOpen(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        closeMenus();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -116,15 +127,15 @@ function Navigation() {
   ));
 
   return (
-    <div className="px-4 md:px-8 lg:px-16 pt-6 sticky top-0 z-50 pointer-events-none">
+    <div ref={navRef} className="px-4 md:px-8 lg:px-16 pt-6 sticky top-0 z-50 pointer-events-none">
       <div className="flex justify-between items-center w-full">
-        <Link to="/" className="hover:-translate-y-0.5 hover:opacity-90 transition-all duration-300 pointer-events-auto drop-shadow-sm flex items-center" onClick={closeMenus}>
-          <div className="group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-xl backdrop-saturate-150 border transition-all duration-500 ease-out relative bg-white/70 border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+        <Link to="/" className="hover:-translate-y-0.5 hover:opacity-90 transition-all duration-300 pointer-events-auto flex items-center" onClick={closeMenus}>
+          <div className="group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full glass-panel border transition-all duration-500 ease-out relative border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
             <img src={logo} alt="Workhub Spaces Logo" className="h-9 md:h-11 w-auto" />
           </div>
         </Link>
 
-        <div className={`group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full backdrop-blur-xl backdrop-saturate-150 border transition-all duration-500 ease-out relative ${isDropdownOpen ? 'bg-white/90 border-white/80 shadow-[0_12px_40px_rgba(0,0,0,0.08)]' : 'bg-white/70 border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]'}`}>
+        <div className={`group pointer-events-auto flex items-center px-3 py-2 md:px-5 md:py-3 rounded-full glass-panel border transition-all duration-500 ease-out relative ${isDropdownOpen ? 'bg-white/90 border-white/80 shadow-[0_12px_40px_rgba(0,0,0,0.08)]' : 'border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:bg-white/90 hover:border-white/80 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]'}`}>
           
           <div className={`hidden md:flex items-center transition-all duration-500 ease-out ${isDropdownOpen ? 'gap-4 md:gap-6' : 'gap-2 group-hover:gap-4 md:gap-4 md:group-hover:gap-6'}`}>
             {renderNavLinks()}
@@ -146,7 +157,7 @@ function Navigation() {
                   </button>
 
                   {isNotificationsOpen && (
-                    <div className="absolute right-0 mt-4 w-80 bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
+                    <div className="absolute right-0 mt-4 w-80 glass-dropdown border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
                       <div className="flex flex-col min-h-50 max-h-64 overflow-y-auto px-1 gap-1">
                         {notifications.length > 0 ? (
                           notifications.map((notif) => (
@@ -188,7 +199,7 @@ function Navigation() {
                   </button>
 
                   {isProfileOpen && (
-                    <div className="absolute right-0 mt-4 w-56 bg-white/90 backdrop-blur-xl backdrop-saturate-150 border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
+                    <div className="absolute right-0 mt-4 w-56 glass-dropdown border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] py-3 flex flex-col z-50">
                       {renderDropdownLinks(accountLinks)}
                       {isAdmin && (
                         <>
@@ -225,7 +236,7 @@ function Navigation() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden mt-3 p-5 bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] flex flex-col gap-2 z-50 relative pointer-events-auto">
+        <div className="md:hidden mt-3 p-5 glass-dropdown border border-white/60 rounded-3xl shadow-[0_16px_40px_rgba(0,0,0,0.08)] flex flex-col gap-2 z-50 relative pointer-events-auto">
           {renderNavLinks(true)}
           
           {isAuthenticated ? (
